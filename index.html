@@ -1,291 +1,344 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Levy Tech — Private AI Operating Systems</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Outfit:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Outfit:wght@300;400;500&family=DM+Mono:wght@400;500&family=Frank+Ruhl+Libre:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg:#060606; --s1:#0c0c0c; --s2:#111; --s3:#161616;
-      --text:#ede8df; --dim:#7a7267; --faint:#252320;
+      --text:#ede8df; --dim:#7a7267; --faint:#2a2822;
       --gold:#c8a96d; --gold2:#e8d5a3;
-      --gold-bg:rgba(200,169,109,.10); --gold-bd:rgba(200,169,109,.20);
-      --line:rgba(255,255,255,.065); --line2:rgba(255,255,255,.038);
+      --gold-bg:rgba(200,169,109,.10); --gold-bd:rgba(200,169,109,.18);
+      --line:rgba(255,255,255,.065); --line2:rgba(255,255,255,.04);
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
-    body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+    body{
+      font-family:'Outfit',sans-serif;
+      background:var(--bg);color:var(--text);overflow-x:hidden;
+      transition:font-family .2s;
+    }
+    body.he{font-family:'Frank Ruhl Libre',serif}
+    body.fr{font-family:'Outfit',sans-serif}
+    body::after{
+      content:'';position:fixed;inset:0;pointer-events:none;z-index:200;opacity:.028;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 600 600' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    }
 
-    /* grain */
-    body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:200;opacity:.025;
-      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 600 600' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E")}
+    /* ── RTL support ── */
+    [dir="rtl"] .tag-dash{order:-1}
+    [dir="rtl"] .sec-label::after{margin-left:0;margin-right:auto}
+    [dir="rtl"] .hero-copy{padding-right:0;padding-left:60px}
+    [dir="rtl"] .gold-rule{margin-right:0}
+    [dir="rtl"] .ba-mid .ba-arrow{transform:scaleX(-1)}
+    [dir="rtl"] .proj-num{right:auto;left:30px}
+    [dir="rtl"] .cta-right{align-items:flex-start}
 
     /* ── NAV ── */
-    nav{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;
-      padding:20px 6vw;background:rgba(6,6,6,.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--line)}
-    .brand{display:flex;align-items:center;gap:13px;font-family:'Playfair Display',serif;
-      font-size:19px;letter-spacing:.3px;color:var(--text);text-decoration:none}
-    .logo{width:34px;height:34px;border-radius:7px;border:1px solid var(--gold-bd);
+    nav{
+      position:sticky;top:0;z-index:100;
+      display:flex;justify-content:space-between;align-items:center;
+      padding:18px 6vw;
+      background:rgba(6,6,6,.88);backdrop-filter:blur(20px);
+      border-bottom:1px solid var(--line);
+    }
+    .brand{
+      display:flex;align-items:center;gap:12px;
+      font-family:'Playfair Display',serif;font-size:18px;color:var(--text);
+      text-decoration:none;
+    }
+    .logo{
+      width:33px;height:33px;border-radius:7px;
+      border:1px solid var(--gold-bd);
       background:linear-gradient(145deg,rgba(200,169,109,.14),rgba(200,169,109,.04));
-      display:grid;place-items:center;font-family:'Playfair Display',serif;font-size:16px;color:var(--gold)}
-    .nav-links{display:flex;gap:30px}
+      display:grid;place-items:center;
+      font-family:'Playfair Display',serif;font-size:15px;color:var(--gold);
+    }
+    .nav-links{display:flex;gap:28px}
     .nav-links a{color:var(--dim);text-decoration:none;font-size:13px;letter-spacing:.3px;transition:color .2s}
     .nav-links a:hover{color:var(--text)}
-    .lang-sw{display:flex;gap:6px;margin-left:8px}
-    .lang-btn{padding:5px 10px;border-radius:3px;border:1px solid var(--line);
-      background:transparent;color:var(--dim);font-size:11px;font-family:'DM Mono',monospace;
-      cursor:pointer;transition:all .2s;letter-spacing:.5px}
-    .lang-btn:hover,.lang-btn.active{border-color:var(--gold-bd);color:var(--gold);background:var(--gold-bg)}
-    .nav-btn{padding:9px 20px;border-radius:4px;border:1px solid var(--gold-bd);
-      background:transparent;color:var(--gold);font-size:12px;letter-spacing:.5px;
-      text-decoration:none;transition:all .2s;cursor:pointer;font-family:'Outfit',sans-serif}
+    .nav-right{display:flex;align-items:center;gap:14px}
+
+    /* Language switcher */
+    .lang-switcher{
+      display:flex;border:1px solid var(--line);border-radius:4px;overflow:hidden;
+    }
+    .lang-btn{
+      padding:7px 11px;font-size:11px;letter-spacing:.5px;
+      font-family:'DM Mono',monospace;color:var(--dim);
+      background:transparent;border:none;cursor:pointer;transition:all .18s;
+    }
+    .lang-btn:not(:last-child){border-right:1px solid var(--line)}
+    .lang-btn.active,.lang-btn:hover{background:var(--gold-bg);color:var(--gold)}
+
+    .nav-btn{
+      padding:8px 18px;border-radius:4px;border:1px solid var(--gold-bd);
+      background:transparent;color:var(--gold);font-size:12px;letter-spacing:.4px;
+      font-family:'Outfit',sans-serif;text-decoration:none;transition:all .2s;white-space:nowrap;
+    }
     .nav-btn:hover{background:var(--gold-bg)}
 
     /* ── HERO ── */
-    .hero{min-height:94vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;
-      padding:90px 6vw 70px;position:relative;overflow:hidden}
-    .hero-copy{padding-right:60px;position:relative;z-index:2}
-    .tag-line{display:inline-flex;align-items:center;gap:10px;font-family:'DM Mono',monospace;
-      font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:40px}
-    .tag-dash{width:28px;height:1px;background:var(--gold);opacity:.5}
-    h1{font-family:'Playfair Display',serif;font-size:clamp(44px,5.5vw,80px);font-weight:400;
-      line-height:.98;letter-spacing:-1.5px;color:var(--text);margin-bottom:28px}
+    .hero{
+      min-height:92vh;display:grid;grid-template-columns:1fr 1fr;
+      align-items:center;padding:90px 6vw 70px;position:relative;overflow:hidden;
+    }
+    .hero::before{
+      content:'';position:absolute;width:600px;height:600px;border-radius:50%;
+      right:-120px;top:50%;transform:translateY(-50%);
+      background:radial-gradient(circle,rgba(200,169,109,.055) 0%,transparent 70%);
+      pointer-events:none;
+    }
+    .hero-copy{padding-right:60px}
+    .tag-line{
+      display:inline-flex;align-items:center;gap:10px;
+      font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2.5px;
+      text-transform:uppercase;color:var(--gold);margin-bottom:38px;
+    }
+    .tag-dash{width:26px;height:1px;background:var(--gold);opacity:.5}
+    h1{
+      font-family:'Playfair Display',serif;
+      font-size:clamp(44px,5.8vw,82px);font-weight:400;line-height:.98;
+      letter-spacing:-1.5px;color:var(--text);margin-bottom:28px;
+    }
     h1 em{font-style:italic;color:var(--gold)}
-    .hero-sub{color:var(--dim);font-size:15px;line-height:1.85;font-weight:300;max-width:440px;margin-bottom:44px}
-    .hero-cta{display:flex;align-items:center;gap:22px}
-    .btn-gold{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:4px;
-      background:var(--gold);color:#060606;font-size:13px;font-weight:500;letter-spacing:.3px;
-      text-decoration:none;transition:all .2s}
+    .hero-sub{color:var(--dim);font-size:16px;line-height:1.8;font-weight:300;max-width:460px;margin-bottom:44px}
+    .hero-cta{display:flex;align-items:center;gap:20px}
+    .btn-gold{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:13px 24px;border-radius:4px;background:var(--gold);color:#060606;
+      font-size:13px;font-weight:500;letter-spacing:.3px;text-decoration:none;transition:all .2s;
+    }
     .btn-gold:hover{background:var(--gold2)}
-    .btn-ghost{color:var(--dim);font-size:13px;letter-spacing:.3px;text-decoration:none;
-      border-bottom:1px solid var(--faint);padding-bottom:2px;transition:all .2s}
+    .btn-ghost{
+      color:var(--dim);font-size:13px;letter-spacing:.3px;text-decoration:none;
+      border-bottom:1px solid var(--faint);padding-bottom:2px;transition:all .2s;
+    }
     .btn-ghost:hover{color:var(--text);border-color:var(--dim)}
-    .hero-metrics{display:flex;gap:0;margin-top:52px;border:1px solid var(--line);border-radius:8px;overflow:hidden}
-    .metric{flex:1;padding:17px 20px;border-right:1px solid var(--line)}
+    .hero-metrics{
+      display:flex;margin-top:52px;
+      border:1px solid var(--line);border-radius:8px;overflow:hidden;
+    }
+    .metric{flex:1;padding:17px 18px;border-right:1px solid var(--line)}
     .metric:last-child{border-right:none}
     .metric-val{font-family:'Playfair Display',serif;font-size:26px;color:var(--text);line-height:1}
-    .metric-label{font-size:10px;color:var(--dim);margin-top:5px;font-family:'DM Mono',monospace;letter-spacing:.5px}
+    .metric-label{font-size:11px;color:var(--dim);margin-top:4px;font-family:'DM Mono',monospace;letter-spacing:.4px}
 
-    /* ── THREE.JS CANVAS ── */
-    #hero-canvas{position:absolute;right:0;top:0;width:50%;height:100%;z-index:1}
+    /* ── COMMAND CORE ── */
+    .hero-visual{position:relative;height:540px;display:grid;place-items:center}
+    .core-sphere{
+      width:155px;height:155px;border-radius:50%;position:relative;z-index:5;
+      background:radial-gradient(circle at 33% 33%,rgba(200,169,109,.18) 0%,transparent 55%),
+        radial-gradient(circle at 66% 70%,rgba(255,255,255,.05) 0%,transparent 45%),
+        linear-gradient(145deg,#1a1a18,#080807);
+      border:1px solid rgba(200,169,109,.22);
+      box-shadow:0 0 0 1px rgba(200,169,109,.06),0 0 70px rgba(200,169,109,.07),inset 0 1px 0 rgba(255,255,255,.07);
+      display:grid;place-items:center;
+      animation:breathe 7s ease-in-out infinite;
+    }
+    .c-lt{font-family:'Playfair Display',serif;font-size:36px;color:var(--gold);text-align:center;line-height:1}
+    .c-sub{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--dim);text-align:center;margin-top:5px;text-transform:uppercase}
+    .ring{position:absolute;border-radius:50%;border:1px solid rgba(200,169,109,.09);animation:ring-spin var(--dur,30s) linear infinite;transform-style:preserve-3d}
+    .ring1{width:250px;height:250px;--dur:32s;transform:rotateX(68deg)}
+    .ring2{width:350px;height:350px;--dur:48s;animation-direction:reverse;transform:rotateX(70deg) rotateZ(20deg);border-color:rgba(255,255,255,.05)}
+    .ring3{width:450px;height:450px;--dur:65s;transform:rotateX(66deg) rotateZ(-12deg);border-color:rgba(200,169,109,.05)}
+    @keyframes ring-spin{to{transform:rotateX(68deg) rotateZ(360deg)}}
+    @keyframes breathe{
+      0%,100%{box-shadow:0 0 0 1px rgba(200,169,109,.06),0 0 70px rgba(200,169,109,.07),inset 0 1px 0 rgba(255,255,255,.07)}
+      50%{transform:scale(1.04);box-shadow:0 0 0 1px rgba(200,169,109,.12),0 0 110px rgba(200,169,109,.13),inset 0 1px 0 rgba(255,255,255,.07)}
+    }
+    .orb-node{position:absolute;opacity:0;animation:fadeup .6s ease forwards}
+    .orb-node:nth-child(1){top:7%;left:50%;transform:translateX(-50%);animation-delay:.1s}
+    .orb-node:nth-child(2){top:22%;right:3%;animation-delay:.2s}
+    .orb-node:nth-child(3){bottom:20%;right:3%;animation-delay:.3s}
+    .orb-node:nth-child(4){bottom:7%;left:50%;transform:translateX(-50%);animation-delay:.4s}
+    .orb-node:nth-child(5){bottom:20%;left:3%;animation-delay:.5s}
+    .orb-node:nth-child(6){top:22%;left:3%;animation-delay:.6s}
+    .node-pill{background:var(--s1);border:1px solid var(--line);border-radius:6px;padding:10px 13px;white-space:nowrap;min-width:115px}
+    .np-name{font-size:12px;font-weight:500;color:var(--text)}
+    .np-tag{font-size:10px;color:var(--dim);margin-top:2px;font-family:'DM Mono',monospace}
+    .node-dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--gold);margin-right:6px;vertical-align:middle;animation:pulse 2.2s ease-in-out infinite}
+    @keyframes fadeup{to{opacity:1}}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
 
-    /* floating node pills over canvas */
-    .canvas-nodes{position:absolute;right:0;top:0;width:50%;height:100%;z-index:3;pointer-events:none}
-    .cn{position:absolute;opacity:0;animation:cn-in .5s ease forwards}
-    .cn:nth-child(1){top:12%;left:50%;transform:translateX(-50%);animation-delay:.8s}
-    .cn:nth-child(2){top:28%;right:4%;animation-delay:1s}
-    .cn:nth-child(3){bottom:26%;right:4%;animation-delay:1.2s}
-    .cn:nth-child(4){bottom:10%;left:50%;transform:translateX(-50%);animation-delay:1.4s}
-    .cn:nth-child(5){bottom:26%;left:4%;animation-delay:1.6s}
-    .cn:nth-child(6){top:28%;left:4%;animation-delay:1.8s}
-    @keyframes cn-in{to{opacity:1}}
-    .cn-pill{background:rgba(12,12,12,.82);border:1px solid rgba(200,169,109,.18);
-      border-radius:6px;padding:9px 13px;backdrop-filter:blur(12px);white-space:nowrap}
-    .cn-name{font-size:11px;font-weight:500;color:var(--text)}
-    .cn-sub{font-size:9px;color:var(--dim);margin-top:2px;font-family:'DM Mono',monospace;letter-spacing:.3px}
-    .cn-dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--gold);
-      margin-right:5px;vertical-align:middle;animation:dot-pulse 2s ease-in-out infinite}
-    @keyframes dot-pulse{0%,100%{opacity:1}50%{opacity:.2}}
-
-    /* ── SECTIONS ── */
-    section{padding:90px 6vw}
-    .sec-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;
-      color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:12px}
+    /* ── SHARED SECTION ── */
+    section{padding:88px 6vw}
+    .sec-label{
+      font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2.5px;
+      text-transform:uppercase;color:var(--gold);margin-bottom:14px;
+      display:flex;align-items:center;gap:12px;
+    }
     .sec-label::after{content:'';width:38px;height:1px;background:var(--gold-bd)}
-    h2{font-family:'Playfair Display',serif;font-size:clamp(32px,3.8vw,52px);font-weight:400;
-      line-height:1.08;letter-spacing:-.5px;color:var(--text)}
+    h2{
+      font-family:'Playfair Display',serif;
+      font-size:clamp(32px,3.8vw,52px);font-weight:400;
+      line-height:1.08;letter-spacing:-.5px;color:var(--text);
+    }
     h2 em{font-style:italic;color:var(--gold)}
 
     /* ── MANIFESTO ── */
     .manifesto{border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
     .manifesto-left h2{font-size:clamp(36px,4.2vw,58px)}
     .manifesto-right p{color:var(--dim);font-size:15px;line-height:1.85;font-weight:300;margin-bottom:18px}
-    .gold-rule{width:36px;height:1px;background:var(--gold);opacity:.4;margin-bottom:26px}
+    .gold-rule{width:34px;height:1px;background:var(--gold);opacity:.45;margin-bottom:24px}
 
     /* ── BEFORE/AFTER ── */
     .ba-section{border-top:1px solid var(--line)}
-    .ba-grid{display:grid;grid-template-columns:1fr 44px 1fr;margin-top:46px;align-items:stretch}
+    .ba-grid{display:grid;grid-template-columns:1fr 42px 1fr;margin-top:46px;align-items:stretch}
     .ba-col{border:1px solid var(--line);border-radius:10px;overflow:hidden}
     .ba-col.after{border-color:var(--gold-bd)}
-    .ba-head{padding:15px 22px;border-bottom:1px solid var(--line);
-      font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase}
+    .ba-head{padding:15px 22px;border-bottom:1px solid var(--line);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase}
     .ba-head.b{color:var(--dim);background:var(--s1)}
     .ba-head.a{color:var(--gold);background:rgba(200,169,109,.05);border-color:var(--gold-bd)}
-    .ba-row{display:flex;align-items:center;gap:12px;padding:13px 22px;
-      border-bottom:1px solid var(--line2);font-size:13px;color:var(--dim);font-weight:300}
+    .ba-row{display:flex;align-items:center;gap:12px;padding:13px 22px;border-bottom:1px solid var(--line2);font-size:13px;color:var(--dim);font-weight:300}
     .ba-row:last-child{border-bottom:none}
     .ba-row.a{color:var(--text)}
     .ba-x{color:var(--faint);font-size:11px}
     .ba-check{color:var(--gold);font-size:12px}
     .ba-mid{display:flex;align-items:center;justify-content:center}
-    .ba-arrow{width:30px;height:30px;border-radius:50%;border:1px solid var(--gold-bd);
-      display:grid;place-items:center;color:var(--gold);font-size:13px}
+    .ba-arrow{width:28px;height:28px;border-radius:50%;border:1px solid var(--gold-bd);display:grid;place-items:center;color:var(--gold);font-size:13px}
 
     /* ── SERVICES ── */
-    .svc-grid{display:grid;grid-template-columns:repeat(5,1fr);background:var(--line2);
-      border:1px solid var(--line);border-radius:10px;overflow:hidden;gap:1px;margin-top:48px}
-    .svc-cell{background:var(--bg);padding:28px 22px;transition:background .2s}
+    .services-section{border-top:1px solid var(--line)}
+    .services-head{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:end;margin-bottom:48px}
+    .services-head p{color:var(--dim);font-size:14px;line-height:1.8;font-weight:300}
+    .svc-grid{display:grid;grid-template-columns:repeat(5,1fr);background:var(--line2);border:1px solid var(--line);border-radius:10px;overflow:hidden;gap:1px}
+    .svc-cell{background:var(--bg);padding:26px 20px;transition:background .2s}
     .svc-cell:hover{background:var(--s1)}
-    .svc-n{font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);
-      letter-spacing:1.5px;margin-bottom:20px;opacity:.65}
-    .svc-title{font-family:'Playfair Display',serif;font-size:17px;color:var(--text);margin-bottom:10px;line-height:1.2}
+    .svc-n{font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:1.5px;margin-bottom:18px;opacity:.65}
+    .svc-title{font-family:'Playfair Display',serif;font-size:17px;color:var(--text);margin-bottom:9px;line-height:1.2}
     .svc-desc{font-size:12px;color:var(--dim);line-height:1.7;font-weight:300}
-    .svc-head{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;margin-bottom:0}
-    .svc-head p{color:var(--dim);font-size:14px;line-height:1.8;font-weight:300}
 
     /* ── PROJECTS ── */
-    .proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line2);
-      border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:48px}
-    .proj-card{background:var(--bg);padding:44px;position:relative;overflow:hidden;transition:background .25s}
+    .projects-section{border-top:1px solid var(--line)}
+    .proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line2);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:46px}
+    .proj-card{background:var(--bg);padding:42px;position:relative;overflow:hidden;transition:background .25s;cursor:default}
     .proj-card:hover{background:var(--s1)}
-    .proj-card.wide{grid-column:span 2;display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
-    .proj-tag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;
-      color:var(--gold);margin-bottom:14px;opacity:.8}
-    .proj-name{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;
-      color:var(--text);margin-bottom:6px;line-height:1.1}
-    .proj-subtitle{font-size:12px;color:var(--gold);letter-spacing:.3px;margin-bottom:16px}
+    .proj-card.wide{grid-column:span 2;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+    .proj-tag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;opacity:.8}
+    .proj-name{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:var(--text);margin-bottom:5px;line-height:1.1}
+    .proj-subtitle{font-size:12px;color:var(--gold);letter-spacing:.3px;margin-bottom:14px}
     .proj-desc{font-size:13px;color:var(--dim);line-height:1.8;font-weight:300;max-width:380px}
-    .proj-num{position:absolute;bottom:28px;right:28px;font-family:'Playfair Display',serif;
-      font-size:68px;color:var(--faint);line-height:1;opacity:.4;font-style:italic;pointer-events:none}
+    .proj-num{position:absolute;bottom:28px;right:30px;font-family:'Playfair Display',serif;font-size:68px;color:var(--faint);line-height:1;opacity:.5;font-style:italic;pointer-events:none}
     .proj-mockup{aspect-ratio:4/3;background:var(--s2);border:1px solid var(--line);border-radius:8px;overflow:hidden;display:flex;flex-direction:column}
-    .mock-bar{height:26px;background:var(--s3);border-bottom:1px solid var(--line);
-      display:flex;align-items:center;padding:0 12px;gap:6px;flex-shrink:0}
+    .mock-bar{height:26px;background:var(--s3);border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 11px;gap:5px;flex-shrink:0}
     .mock-dot{width:6px;height:6px;border-radius:50%;background:var(--faint)}
-    .mock-body{flex:1;padding:12px;display:flex;flex-direction:column;gap:7px}
-    .mock-row{height:7px;border-radius:3px;background:var(--line)}
-    .mock-hi{background:rgba(200,169,109,.22)}
-    .mock-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px}
-    .mock-cell{height:34px;border-radius:4px;background:var(--s3);border:1px solid var(--line)}
-
-    /* ── TESTIMONIAL ── */
-    .testimonial-section{border-top:1px solid var(--line)}
-    .testi-card{margin-top:48px;border:1px solid var(--gold-bd);border-radius:12px;
-      padding:52px;background:linear-gradient(135deg,rgba(200,169,109,.06),transparent);
-      position:relative;overflow:hidden}
-    .testi-card::before{content:'\201C';position:absolute;top:-10px;left:40px;
-      font-family:'Playfair Display',serif;font-size:140px;color:var(--gold);
-      opacity:.12;line-height:1;pointer-events:none}
-    .testi-quote{font-family:'Playfair Display',serif;font-size:clamp(20px,2.5vw,28px);
-      font-weight:400;font-style:italic;color:var(--text);line-height:1.5;
-      max-width:780px;margin-bottom:32px;position:relative;z-index:1}
-    .testi-author{display:flex;align-items:center;gap:16px}
-    .testi-avatar{width:44px;height:44px;border-radius:50%;border:1px solid var(--gold-bd);
-      background:var(--gold-bg);display:grid;place-items:center;
-      font-family:'Playfair Display',serif;font-size:18px;color:var(--gold)}
-    .testi-info .name{font-size:14px;font-weight:500;color:var(--text)}
-    .testi-info .role{font-size:12px;color:var(--dim);font-family:'DM Mono',monospace;margin-top:3px;letter-spacing:.3px}
-
-    /* ── FAQ ── */
-    .faq-section{border-top:1px solid var(--line)}
-    .faq-grid{margin-top:48px;display:flex;flex-direction:column;gap:0;
-      border:1px solid var(--line);border-radius:10px;overflow:hidden}
-    .faq-item{border-bottom:1px solid var(--line)}
-    .faq-item:last-child{border-bottom:none}
-    .faq-q{display:flex;justify-content:space-between;align-items:center;
-      padding:22px 28px;cursor:pointer;transition:background .2s}
-    .faq-q:hover{background:var(--s1)}
-    .faq-q span{font-size:15px;font-weight:400;color:var(--text);max-width:85%}
-    .faq-icon{color:var(--gold);font-size:18px;transition:transform .3s;flex-shrink:0}
-    .faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease}
-    .faq-a.open{max-height:200px}
-    .faq-a-inner{padding:0 28px 22px;color:var(--dim);font-size:14px;line-height:1.8;font-weight:300}
-    .faq-item.open .faq-icon{transform:rotate(45deg)}
-
-    /* ── CONTACT FORM ── */
-    .contact-section{border-top:1px solid var(--line)}
-    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:48px;align-items:start}
-    .contact-info p{color:var(--dim);font-size:15px;line-height:1.8;font-weight:300;margin-bottom:28px}
-    .contact-detail{display:flex;align-items:center;gap:12px;margin-bottom:16px}
-    .contact-detail-icon{width:34px;height:34px;border-radius:6px;border:1px solid var(--gold-bd);
-      background:var(--gold-bg);display:grid;place-items:center;font-size:14px;color:var(--gold);flex-shrink:0}
-    .contact-detail-text{font-size:13px;color:var(--dim)}
-    .contact-detail-text a{color:var(--gold);text-decoration:none}
-    .contact-detail-text a:hover{color:var(--gold2)}
-    .contact-form{display:flex;flex-direction:column;gap:14px}
-    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    .form-field{display:flex;flex-direction:column;gap:6px}
-    .form-label{font-size:11px;color:var(--dim);font-family:'DM Mono',monospace;letter-spacing:.5px}
-    .form-input,.form-textarea{background:var(--s1);border:1px solid var(--line);border-radius:5px;
-      padding:12px 16px;color:var(--text);font-size:14px;font-family:'Outfit',sans-serif;
-      outline:none;transition:border-color .2s;resize:none;width:100%}
-    .form-input:focus,.form-textarea:focus{border-color:var(--gold-bd)}
-    .form-textarea{height:110px}
-    .form-submit{align-self:flex-start}
+    .mock-body{flex:1;padding:13px;display:flex;flex-direction:column;gap:7px}
+    .mock-row{height:6px;border-radius:3px;background:var(--line)}
+    .mock-highlight{background:rgba(200,169,109,.2)}
+    .mock-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:3px}
+    .mock-cell{height:33px;border-radius:4px;background:var(--s3);border:1px solid var(--line)}
 
     /* ── PROCESS ── */
-    .proc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line2);
-      border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:48px}
+    .process-section{border-top:1px solid var(--line)}
+    .proc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line2);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:46px}
     .proc-step{background:var(--bg);padding:26px 20px;transition:background .2s}
     .proc-step:hover{background:var(--s1)}
     .proc-n{font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:1.5px;margin-bottom:16px;opacity:.65}
-    .proc-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:8px}
+    .proc-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:7px}
     .proc-desc{font-size:12px;color:var(--dim);line-height:1.7;font-weight:300}
+
+    /* ── FAQ ── */
+    .faq-section{border-top:1px solid var(--line)}
+    .faq-grid{margin-top:46px;display:flex;flex-direction:column;gap:1px;background:var(--line2);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+    .faq-item{background:var(--bg);border-bottom:1px solid var(--line)}
+    .faq-item:last-child{border-bottom:none}
+    .faq-q{
+      width:100%;text-align:left;padding:22px 28px;
+      display:flex;justify-content:space-between;align-items:center;
+      background:none;border:none;cursor:pointer;
+      font-size:15px;font-weight:400;color:var(--text);
+      font-family:'Outfit',sans-serif;transition:background .2s;
+    }
+    [dir="rtl"] .faq-q{text-align:right}
+    .faq-q:hover{background:var(--s1)}
+    .faq-icon{color:var(--gold);font-size:18px;font-weight:300;transition:transform .3s;flex-shrink:0;margin-left:16px}
+    [dir="rtl"] .faq-icon{margin-left:0;margin-right:16px}
+    .faq-item.open .faq-icon{transform:rotate(45deg)}
+    .faq-a{
+      max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s ease;
+      font-size:14px;color:var(--dim);line-height:1.8;font-weight:300;
+      padding:0 28px;
+    }
+    .faq-item.open .faq-a{max-height:200px;padding:0 28px 22px}
+
+    /* ── CONTACT FORM ── */
+    .contact-section{border-top:1px solid var(--line)}
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-top:46px}
+    .contact-info p{color:var(--dim);font-size:15px;line-height:1.8;font-weight:300;margin-bottom:28px}
+    .contact-detail{display:flex;align-items:center;gap:12px;margin-bottom:14px;font-size:13px;color:var(--dim)}
+    .contact-detail a{color:var(--gold);text-decoration:none}
+    .contact-detail a:hover{color:var(--gold2)}
+    .cd-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;color:var(--faint);text-transform:uppercase;width:50px;flex-shrink:0}
+
+    .contact-form{display:flex;flex-direction:column;gap:14px}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .form-field{display:flex;flex-direction:column;gap:6px}
+    .form-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim)}
+    .form-input,.form-textarea{
+      background:var(--s1);border:1px solid var(--line);border-radius:5px;
+      padding:12px 14px;font-size:13px;color:var(--text);
+      font-family:'Outfit',sans-serif;outline:none;
+      transition:border-color .2s;resize:none;
+    }
+    .form-input:focus,.form-textarea:focus{border-color:var(--gold-bd)}
+    .form-textarea{min-height:110px}
+    .form-select{
+      background:var(--s1);border:1px solid var(--line);border-radius:5px;
+      padding:12px 14px;font-size:13px;color:var(--text);
+      font-family:'Outfit',sans-serif;outline:none;cursor:pointer;
+      transition:border-color .2s;appearance:none;
+    }
+    .form-select:focus{border-color:var(--gold-bd)}
+    .form-submit{
+      padding:13px 24px;border-radius:4px;background:var(--gold);
+      color:#060606;font-size:13px;font-weight:500;letter-spacing:.3px;
+      border:none;cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif;
+      align-self:flex-start;
+    }
+    .form-submit:hover{background:var(--gold2)}
+    .form-success{
+      display:none;padding:16px 20px;border-radius:6px;
+      border:1px solid var(--gold-bd);background:var(--gold-bg);
+      color:var(--gold);font-size:13px;line-height:1.6;
+    }
 
     /* ── INFRA ── */
     .infra{padding:48px 6vw;border-top:1px solid var(--line);display:flex;align-items:center;gap:28px;flex-wrap:wrap}
     .infra-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);white-space:nowrap}
     .infra-sep{width:1px;height:26px;background:var(--line)}
-    .infra-tags{display:flex;flex-wrap:wrap;gap:8px}
-    .infra-tag{padding:5px 12px;border:1px solid var(--line);border-radius:3px;
-      font-size:11px;color:var(--dim);font-family:'DM Mono',monospace;transition:all .2s}
+    .infra-tags{display:flex;flex-wrap:wrap;gap:7px}
+    .infra-tag{padding:5px 12px;border:1px solid var(--line);border-radius:3px;font-size:11px;color:var(--dim);font-family:'DM Mono',monospace;letter-spacing:.3px;transition:all .2s}
     .infra-tag:hover{border-color:var(--gold-bd);color:var(--gold)}
 
-    /* ── CTA ── */
-    .cta-wrap{margin:0 6vw 90px;padding:68px;border:1px solid var(--line);border-radius:12px;
-      background:var(--s1);position:relative;overflow:hidden;
-      display:grid;grid-template-columns:1fr auto;gap:60px;align-items:center}
-    .cta-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
-      background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-    .cta-title{font-family:'Playfair Display',serif;font-size:clamp(28px,3.2vw,44px);
-      font-weight:400;line-height:1.1;color:var(--text)}
-    .cta-title em{font-style:italic;color:var(--gold)}
-    .cta-sub{color:var(--dim);font-size:14px;line-height:1.8;margin-top:14px;font-weight:300;max-width:480px}
-    .cta-right{display:flex;flex-direction:column;gap:12px;align-items:flex-end;z-index:1}
-    .cta-note{font-size:11px;color:var(--dim);font-family:'DM Mono',monospace;letter-spacing:.4px}
-    .btn-wa{display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:4px;
-      background:transparent;border:1px solid var(--gold-bd);color:var(--gold);
-      font-size:12px;letter-spacing:.4px;text-decoration:none;transition:all .2s}
-    .btn-wa:hover{background:var(--gold-bg)}
-
     /* ── FOOTER ── */
-    footer{padding:26px 6vw;border-top:1px solid var(--line);display:flex;
-      justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+    footer{padding:26px 6vw;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
     .foot-brand{font-family:'Playfair Display',serif;font-size:15px;color:var(--dim)}
     .foot-right{font-size:11px;color:var(--faint);font-family:'DM Mono',monospace;letter-spacing:.4px}
 
     /* ── REVEAL ── */
-    .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+    .reveal{opacity:0;transform:translateY(20px);transition:opacity .72s ease,transform .72s ease}
     .revealed{opacity:1;transform:none}
-
-    /* ── RTL ── */
-    body.rtl{direction:rtl}
-    body.rtl .hero{direction:rtl}
-    body.rtl .hero-copy{padding-right:0;padding-left:60px}
-    body.rtl .tag-line,.body.rtl .sec-label{flex-direction:row-reverse}
-    body.rtl .sec-label::after{display:none}
-    body.rtl .sec-label::before{content:'';width:38px;height:1px;background:var(--gold-bd)}
-    body.rtl .faq-q{flex-direction:row-reverse}
-    body.rtl .contact-detail{flex-direction:row}
-    body.rtl h1{letter-spacing:0}
 
     /* ── RESPONSIVE ── */
     @media(max-width:980px){
-      .hero{grid-template-columns:1fr;padding-top:52px}
-      .hero-copy{padding-right:0!important;padding-left:0!important}
-      #hero-canvas,.canvas-nodes{width:100%;position:relative;height:420px;right:auto;top:auto}
-      .manifesto{grid-template-columns:1fr;gap:36px}
+      .hero{grid-template-columns:1fr;padding-top:50px}
+      .hero-copy{padding-right:0;padding-left:0}
+      [dir="rtl"] .hero-copy{padding-left:0}
+      .hero-visual{height:400px}
+      .orb-node:nth-child(2),.orb-node:nth-child(6){display:none}
+      .manifesto{grid-template-columns:1fr;gap:32px}
+      .services-head{grid-template-columns:1fr;gap:12px}
       .svc-grid{grid-template-columns:1fr 1fr}
-      .svc-head{grid-template-columns:1fr;gap:14px}
       .proj-grid{grid-template-columns:1fr}
       .proj-card.wide{grid-column:span 1;grid-template-columns:1fr}
       .proc-grid{grid-template-columns:1fr 1fr}
-      .cta-wrap{grid-template-columns:1fr;padding:38px;gap:26px}
-      .cta-right{align-items:flex-start}
-      .nav-links{display:none}
-      .ba-grid{grid-template-columns:1fr 36px 1fr}
       .contact-grid{grid-template-columns:1fr;gap:40px}
+      .nav-links{display:none}
+      .ba-grid{grid-template-columns:1fr 34px 1fr}
     }
     @media(max-width:600px){
       .svc-grid,.proc-grid{grid-template-columns:1fr}
@@ -295,22 +348,27 @@
       .metric{border-right:none;border-bottom:1px solid var(--line)}
       .metric:last-child{border-bottom:none}
       .form-row{grid-template-columns:1fr}
+      nav{padding:14px 4vw}
+      .lang-btn{padding:6px 8px}
     }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
-  <a class="brand" href="#"><div class="logo">L</div><span data-i18n="brand">Levy Tech</span></a>
+  <a class="brand" href="#">
+    <div class="logo">L</div>
+    <span data-i18n="brand">Levy Tech</span>
+  </a>
   <div class="nav-links">
     <a href="#services" data-i18n="nav.services">Services</a>
     <a href="#projects" data-i18n="nav.projects">Systems</a>
     <a href="#process" data-i18n="nav.process">Process</a>
+    <a href="#faq" data-i18n="nav.faq">FAQ</a>
     <a href="#contact" data-i18n="nav.contact">Contact</a>
   </div>
-  <div style="display:flex;align-items:center;gap:12px">
-    <div class="lang-sw">
+  <div class="nav-right">
+    <div class="lang-switcher">
       <button class="lang-btn active" onclick="setLang('en')">EN</button>
       <button class="lang-btn" onclick="setLang('he')">HE</button>
       <button class="lang-btn" onclick="setLang('fr')">FR</button>
@@ -338,17 +396,17 @@
     </div>
   </div>
 
-  <!-- THREE.JS canvas -->
-  <div style="position:relative;height:560px;display:flex;align-items:center;justify-content:center">
-    <canvas id="hero-canvas" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
-    <div class="canvas-nodes" style="position:absolute;inset:0;pointer-events:none">
-      <div class="cn" style="top:10%;left:50%;transform:translateX(-50%)"><div class="cn-pill"><div class="cn-name"><span class="cn-dot"></span>Operations</div><div class="cn-sub">Ticket & dispatch</div></div></div>
-      <div class="cn" style="top:26%;right:2%"><div class="cn-pill"><div class="cn-name"><span class="cn-dot" style="animation-delay:.5s"></span>Finance</div><div class="cn-sub">Portfolio & reports</div></div></div>
-      <div class="cn" style="bottom:24%;right:2%"><div class="cn-pill"><div class="cn-name"><span class="cn-dot" style="animation-delay:1s"></span>Supply Chain</div><div class="cn-sub">Inventory & logistics</div></div></div>
-      <div class="cn" style="bottom:8%;left:50%;transform:translateX(-50%)"><div class="cn-pill"><div class="cn-name"><span class="cn-dot" style="animation-delay:1.5s"></span>AI Agents</div><div class="cn-sub">Automation core</div></div></div>
-      <div class="cn" style="bottom:24%;left:2%"><div class="cn-pill"><div class="cn-name"><span class="cn-dot" style="animation-delay:2s"></span>Maintenance</div><div class="cn-sub">Field & worker ops</div></div></div>
-      <div class="cn" style="top:26%;left:2%"><div class="cn-pill"><div class="cn-name"><span class="cn-dot" style="animation-delay:2.5s"></span>Client Portals</div><div class="cn-sub">Secure access layer</div></div></div>
-    </div>
+  <div class="hero-visual">
+    <div class="ring ring1"></div>
+    <div class="ring ring2"></div>
+    <div class="ring ring3"></div>
+    <div class="orb-node"><div class="node-pill"><div class="np-name"><span class="node-dot"></span><span data-i18n="core.ops">Operations</span></div><div class="np-tag" data-i18n="core.ops.sub">Ticket & dispatch</div></div></div>
+    <div class="orb-node"><div class="node-pill"><div class="np-name"><span class="node-dot" style="animation-delay:.4s"></span><span data-i18n="core.fin">Finance</span></div><div class="np-tag" data-i18n="core.fin.sub">Portfolio & reports</div></div></div>
+    <div class="orb-node"><div class="node-pill"><div class="np-name"><span class="node-dot" style="animation-delay:.8s"></span><span data-i18n="core.sup">Supply Chain</span></div><div class="np-tag" data-i18n="core.sup.sub">Inventory & logistics</div></div></div>
+    <div class="orb-node"><div class="node-pill"><div class="np-name"><span class="node-dot" style="animation-delay:1.2s"></span><span data-i18n="core.ai">AI Agents</span></div><div class="np-tag" data-i18n="core.ai.sub">Automation core</div></div></div>
+    <div class="orb-node"><div class="node-pill"><div class="np-name"><span class="node-dot" style="animation-delay:1.6s"></span><span data-i18n="core.maint">Maintenance</span></div><div class="np-tag" data-i18n="core.maint.sub">Field & worker ops</div></div></div>
+    <div class="orb-node"><div class="node-pill"><div class="np-name"><span class="node-dot" style="animation-delay:2s"></span><span data-i18n="core.portal">Client Portals</span></div><div class="np-tag" data-i18n="core.portal.sub">Secure access layer</div></div></div>
+    <div class="core-sphere"><div><div class="c-lt">LT</div><div class="c-sub" data-i18n="core.label">Command Core</div></div></div>
   </div>
 </section>
 
@@ -361,8 +419,8 @@
   <div class="manifesto-right">
     <div class="gold-rule"></div>
     <p data-i18n="manifesto.p1">Levy Tech helps companies move from operational chaos to a single source of truth — combining dashboards, databases, automations, AI agents and client portals into one working product.</p>
-    <p data-i18n="manifesto.p2">We build for founders, operators and executives who need real control — not another subscription tool that sits unused after month one.</p>
-    <p data-i18n="manifesto.p3">Every system we build replaces scattered tools with one operating layer the whole team actually uses.</p>
+    <p data-i18n="manifesto.p2">We build for founders, operators and executives who need real control over their operations — not another subscription tool that sits unused after month one.</p>
+    <p data-i18n="manifesto.p3">Every system we build replaces scattered tools with one operating layer that the whole team actually uses.</p>
   </div>
 </section>
 
@@ -391,78 +449,81 @@
 </section>
 
 <!-- SERVICES -->
-<section class="reveal" id="services">
-  <div class="svc-head" style="margin-bottom:48px">
+<section class="services-section reveal" id="services">
+  <div class="services-head">
     <div>
       <div class="sec-label" data-i18n="svc.label">What We Build</div>
       <h2 data-i18n-html="svc.h2">Five capabilities.<br>One <em>operating system.</em></h2>
     </div>
-    <p data-i18n="svc.sub">Each capability connects to the others. The result is a single operational layer across the entire business — not five separate tools.</p>
+    <p data-i18n="svc.desc">Each capability connects to the others. The result is a single operational layer across the entire business — not five separate tools.</p>
   </div>
   <div class="svc-grid">
-    <div class="svc-cell"><div class="svc-n">01</div><div class="svc-title" data-i18n="svc.t1">Private Business Systems</div><div class="svc-desc" data-i18n="svc.d1">Custom internal software built around your exact operational logic — not off-the-shelf SaaS templates.</div></div>
-    <div class="svc-cell"><div class="svc-n">02</div><div class="svc-title" data-i18n="svc.t2">AI Operations Layer</div><div class="svc-desc" data-i18n="svc.d2">An intelligent layer that connects data, triggers alerts, routes tasks and surfaces decisions automatically.</div></div>
-    <div class="svc-cell"><div class="svc-n">03</div><div class="svc-title" data-i18n="svc.t3">Executive Dashboards</div><div class="svc-desc" data-i18n="svc.d3">Real-time operational views for management — status, KPIs, reports and financial visibility in one place.</div></div>
-    <div class="svc-cell"><div class="svc-n">04</div><div class="svc-title" data-i18n="svc.t4">Client & Worker Portals</div><div class="svc-desc" data-i18n="svc.d4">Secure access portals for clients, field workers and suppliers — each with the right view and permissions.</div></div>
-    <div class="svc-cell"><div class="svc-n">05</div><div class="svc-title" data-i18n="svc.t5">WhatsApp-Based Workflows</div><div class="svc-desc" data-i18n="svc.d5">Systems that start in WhatsApp and feed into a full dashboard — where your team already communicates.</div></div>
+    <div class="svc-cell"><div class="svc-n">01</div><div class="svc-title" data-i18n="svc.1.title">Private Business Systems</div><div class="svc-desc" data-i18n="svc.1.desc">Custom internal software built around your exact operational logic — not off-the-shelf templates.</div></div>
+    <div class="svc-cell"><div class="svc-n">02</div><div class="svc-title" data-i18n="svc.2.title">AI Operations Layer</div><div class="svc-desc" data-i18n="svc.2.desc">An intelligent layer that connects data, triggers alerts, routes tasks and surfaces decisions automatically.</div></div>
+    <div class="svc-cell"><div class="svc-n">03</div><div class="svc-title" data-i18n="svc.3.title">Executive Dashboards</div><div class="svc-desc" data-i18n="svc.3.desc">Real-time operational views for management — status, KPIs, reports and financial visibility in one place.</div></div>
+    <div class="svc-cell"><div class="svc-n">04</div><div class="svc-title" data-i18n="svc.4.title">Client & Worker Portals</div><div class="svc-desc" data-i18n="svc.4.desc">Secure access portals for clients, field workers and suppliers — each with the right view and permissions.</div></div>
+    <div class="svc-cell"><div class="svc-n">05</div><div class="svc-title" data-i18n="svc.5.title">WhatsApp-Based Workflows</div><div class="svc-desc" data-i18n="svc.5.desc">Systems that start in WhatsApp and feed into a full dashboard — where your team already communicates.</div></div>
   </div>
 </section>
 
 <!-- PROJECTS -->
-<section class="reveal" id="projects">
+<section class="projects-section reveal" id="projects">
   <div class="sec-label" data-i18n="proj.label">Selected Systems</div>
   <h2 data-i18n-html="proj.h2">Built for real operations.<br><em>Deployed</em> for real clients.</h2>
   <div class="proj-grid">
     <div class="proj-card wide">
       <div>
-        <div class="proj-tag" data-i18n="proj.bamakor.tag">Maintenance Operations</div>
+        <div class="proj-tag" data-i18n="proj.1.tag">Maintenance Operations</div>
         <div class="proj-name">Bamakor</div>
-        <div class="proj-subtitle" data-i18n="proj.bamakor.sub">WhatsApp Maintenance Operations System</div>
-        <p class="proj-desc" data-i18n="proj.bamakor.desc">Residents report building issues through WhatsApp. The system opens structured tickets, assigns field workers, tracks resolution and keeps full operational history — all from a single manager dashboard. Live with paying clients.</p>
+        <div class="proj-subtitle" data-i18n="proj.1.sub">WhatsApp Maintenance Operations System</div>
+        <p class="proj-desc" data-i18n="proj.1.desc">Residents report building issues through WhatsApp. The system automatically opens structured tickets, assigns field workers, tracks resolution and keeps full operational history — all in one manager dashboard. Live with paying clients.</p>
       </div>
       <div class="proj-mockup">
         <div class="mock-bar"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div>
         <div class="mock-body">
-          <div class="mock-row mock-hi" style="width:55%"></div>
-          <div style="display:flex;gap:6px;margin:2px 0"><div class="mock-row" style="width:30%;height:7px"></div><div class="mock-row" style="width:22%;height:7px;background:rgba(200,169,109,.15)"></div></div>
-          <div class="mock-grid"><div class="mock-cell"></div><div class="mock-cell" style="border-color:rgba(200,169,109,.2)"></div><div class="mock-cell"></div><div class="mock-cell"></div></div>
-          <div class="mock-row" style="margin-top:6px;width:80%"></div><div class="mock-row" style="width:60%"></div>
+          <div class="mock-row mock-highlight" style="width:55%"></div>
+          <div style="display:flex;gap:6px;margin:3px 0"><div class="mock-row" style="width:28%;height:6px"></div><div class="mock-row" style="width:18%;height:6px;background:rgba(200,169,109,.15)"></div></div>
+          <div class="mock-grid"><div class="mock-cell"></div><div class="mock-cell" style="border-color:rgba(200,169,109,.18)"></div><div class="mock-cell"></div><div class="mock-cell"></div></div>
+          <div class="mock-row" style="margin-top:5px;width:78%"></div>
+          <div class="mock-row" style="width:58%"></div>
         </div>
       </div>
       <div class="proj-num">01</div>
     </div>
     <div class="proj-card">
-      <div class="proj-tag" data-i18n="proj.naaryo.tag">Investment Finance</div>
+      <div class="proj-tag" data-i18n="proj.2.tag">Investment Finance</div>
       <div class="proj-name">Naaryo</div>
-      <div class="proj-subtitle" data-i18n="proj.naaryo.sub">Investment Client Portal</div>
-      <p class="proj-desc" data-i18n="proj.naaryo.desc">A secure digital portal for investment clients — documents, portfolio visibility, performance reports and structured advisor-client communication in one private interface.</p>
+      <div class="proj-subtitle" data-i18n="proj.2.sub">Investment Client Portal</div>
+      <p class="proj-desc" data-i18n="proj.2.desc">A secure digital portal for investment clients — documents, portfolio visibility, performance reports and structured advisor-client communication in one private interface.</p>
       <div class="proj-num">02</div>
     </div>
     <div class="proj-card">
-      <div class="proj-tag" data-i18n="proj.meditactic.tag">Supply Chain & Inventory</div>
+      <div class="proj-tag" data-i18n="proj.3.tag">Supply Chain & Inventory</div>
       <div class="proj-name">Meditactic</div>
-      <div class="proj-subtitle" data-i18n="proj.meditactic.sub">Supply Chain & Inventory Intelligence System</div>
-      <p class="proj-desc" data-i18n="proj.meditactic.desc">A centralized operational platform for managing inventory, suppliers, purchase orders, logistics and financial visibility — reducing operational blind spots and supporting faster executive decisions.</p>
+      <div class="proj-subtitle" data-i18n="proj.3.sub">Supply Chain & Inventory Intelligence System</div>
+      <p class="proj-desc" data-i18n="proj.3.desc">A centralized platform for managing inventory, suppliers, purchase orders, logistics and financial visibility — built to reduce operational blind spots and support faster executive decisions.</p>
       <div class="proj-num">03</div>
     </div>
     <div class="proj-card wide">
       <div>
-        <div class="proj-tag" data-i18n="proj.opsbrain.tag">AI Workspace</div>
+        <div class="proj-tag" data-i18n="proj.4.tag">AI Workspace</div>
         <div class="proj-name">OpsBrain</div>
-        <div class="proj-subtitle" data-i18n="proj.opsbrain.sub">AI Business Operating System</div>
-        <p class="proj-desc" data-i18n="proj.opsbrain.desc">A unified business workspace connecting emails, files, tasks and live operational data into one AI-powered command center — giving executives a single interface to understand and control the entire business.</p>
+        <div class="proj-subtitle" data-i18n="proj.4.sub">AI Business Operating System</div>
+        <p class="proj-desc" data-i18n="proj.4.desc">A unified business workspace that connects emails, files, tasks and live operational data into one AI-powered command center — giving executives a single interface to understand and control the entire business.</p>
       </div>
       <div class="proj-mockup">
         <div class="mock-bar"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div>
         <div class="mock-body">
           <div style="display:flex;gap:8px;flex:1">
             <div style="width:28%;display:flex;flex-direction:column;gap:5px;padding-right:8px;border-right:1px solid var(--line)">
-              <div class="mock-row" style="background:rgba(200,169,109,.2)"></div>
-              <div class="mock-row"></div><div class="mock-row" style="width:85%"></div><div class="mock-row"></div>
+              <div class="mock-row" style="width:100%;background:rgba(200,169,109,.18)"></div>
+              <div class="mock-row" style="width:100%"></div>
+              <div class="mock-row" style="width:85%"></div>
+              <div class="mock-row" style="width:100%"></div>
             </div>
             <div style="flex:1;display:flex;flex-direction:column;gap:6px">
-              <div class="mock-row mock-hi" style="width:50%"></div>
-              <div class="mock-grid" style="flex:1"><div class="mock-cell"></div><div class="mock-cell" style="border-color:rgba(200,169,109,.18)"></div></div>
+              <div class="mock-row mock-highlight" style="width:48%"></div>
+              <div class="mock-grid" style="flex:1"><div class="mock-cell"></div><div class="mock-cell" style="border-color:rgba(200,169,109,.15)"></div></div>
             </div>
           </div>
         </div>
@@ -472,58 +533,97 @@
   </div>
 </section>
 
-<!-- TESTIMONIAL -->
-<section class="testimonial-section reveal">
-  <div class="sec-label" data-i18n="testi.label">Client Voice</div>
-  <div class="testi-card">
-    <div class="testi-quote" data-i18n="testi.quote">"Before Bamakor, I was managing everything through WhatsApp — messages were getting lost, workers didn't know what to do, and I had no real picture of what was happening. Now everything goes through the dashboard. It changed how I run the business."</div>
-    <div class="testi-author">
-      <div class="testi-avatar">S</div>
-      <div class="testi-info">
-        <div class="name" data-i18n="testi.name">Sara</div>
-        <div class="role" data-i18n="testi.role">Property Management · Bamakor Client</div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- PROCESS -->
-<section class="reveal" id="process">
+<section class="process-section reveal" id="process">
   <div class="sec-label" data-i18n="proc.label">How We Build</div>
   <h2 data-i18n-html="proc.h2">A clear path from<br><em>problem</em> to product.</h2>
   <div class="proc-grid">
-    <div class="proc-step"><div class="proc-n">01</div><div class="proc-title" data-i18n="proc.t1">System Audit</div><div class="proc-desc" data-i18n="proc.d1">Map the real operational pain — where time is lost, what breaks, and what the business actually needs to run better.</div></div>
-    <div class="proc-step"><div class="proc-n">02</div><div class="proc-title" data-i18n="proc.t2">Architecture</div><div class="proc-desc" data-i18n="proc.d2">Design the dashboard logic, database structure and automation flows before writing a single line of code.</div></div>
-    <div class="proc-step"><div class="proc-n">03</div><div class="proc-title" data-i18n="proc.t3">Build</div><div class="proc-desc" data-i18n="proc.d3">Build fast and precisely using Next.js, Supabase, Vercel and integrated AI — no slow agency timelines.</div></div>
-    <div class="proc-step"><div class="proc-n">04</div><div class="proc-title" data-i18n="proc.t4">Connect</div><div class="proc-desc" data-i18n="proc.d4">Integrate with WhatsApp, email, calendar, spreadsheets or any other tool the business already uses.</div></div>
-    <div class="proc-step"><div class="proc-n">05</div><div class="proc-title" data-i18n="proc.t5">Deploy & Evolve</div><div class="proc-desc" data-i18n="proc.d5">Launch with real users, gather operational feedback and evolve the system into a long-term product asset.</div></div>
+    <div class="proc-step"><div class="proc-n">01</div><div class="proc-title" data-i18n="proc.1.title">System Audit</div><div class="proc-desc" data-i18n="proc.1.desc">Map the real operational pain — where time is lost, what breaks, and what the business needs to run better.</div></div>
+    <div class="proc-step"><div class="proc-n">02</div><div class="proc-title" data-i18n="proc.2.title">Architecture</div><div class="proc-desc" data-i18n="proc.2.desc">Design the dashboard logic, database structure and automation flows before writing a single line of code.</div></div>
+    <div class="proc-step"><div class="proc-n">03</div><div class="proc-title" data-i18n="proc.3.title">Build</div><div class="proc-desc" data-i18n="proc.3.desc">Build fast and precisely using Next.js, Supabase, Vercel and integrated AI — no slow agency timelines.</div></div>
+    <div class="proc-step"><div class="proc-n">04</div><div class="proc-title" data-i18n="proc.4.title">Connect</div><div class="proc-desc" data-i18n="proc.4.desc">Integrate with WhatsApp, email, calendar, spreadsheets or any other tool the business already uses.</div></div>
+    <div class="proc-step"><div class="proc-n">05</div><div class="proc-title" data-i18n="proc.5.title">Deploy & Evolve</div><div class="proc-desc" data-i18n="proc.5.desc">Launch with real users, collect operational feedback and evolve the system into a long-term product asset.</div></div>
   </div>
 </section>
 
 <!-- FAQ -->
-<section class="faq-section reveal">
-  <div class="sec-label" data-i18n="faq.label">Common Questions</div>
-  <h2 data-i18n-html="faq.h2">Everything you need<br>to <em>know.</em></h2>
+<section class="faq-section reveal" id="faq">
+  <div class="sec-label" data-i18n="faq.label">FAQ</div>
+  <h2 data-i18n="faq.h2">Common questions.</h2>
   <div class="faq-grid">
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)"><span data-i18n="faq.q1">How long does it take to build a system?</span><span class="faq-icon">+</span></div>
-      <div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a1">Most systems are live within 2–6 weeks, depending on complexity. We build fast — no slow agency timelines. A basic WhatsApp + dashboard system can be running in under two weeks.</div></div>
+      <button class="faq-q" onclick="toggleFaq(this)"><span data-i18n="faq.q1">What kinds of businesses do you work with?</span><span class="faq-icon">+</span></button>
+      <div class="faq-a" data-i18n="faq.a1">We work with small and medium businesses that have outgrown their current tools — typically in property management, finance, logistics, retail and operations-heavy industries. If your team relies on WhatsApp, spreadsheets and manual work to run daily operations, we can help.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)"><span data-i18n="faq.q2">Do I need technical knowledge to use the system?</span><span class="faq-icon">+</span></div>
-      <div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a2">No. We build systems that non-technical teams use daily. Your workers use WhatsApp as usual. Managers get a clean dashboard. No training required beyond a short onboarding call.</div></div>
+      <button class="faq-q" onclick="toggleFaq(this)"><span data-i18n="faq.q2">How long does it take to build a system?</span><span class="faq-icon">+</span></button>
+      <div class="faq-a" data-i18n="faq.a2">A basic operational system is typically ready in 2–4 weeks. More complex systems with multiple integrations, AI layers and custom portals take 4–8 weeks. We move fast because we use modern infrastructure (Next.js, Supabase, Vercel) and AI-assisted development.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)"><span data-i18n="faq.q3">What does a System Audit involve?</span><span class="faq-icon">+</span></div>
-      <div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a3">A 45-minute session where we map your current operational pain, identify the biggest bottlenecks, and show you what a custom system would look like. No commitment required — many clients say it's valuable on its own.</div></div>
+      <button class="faq-q" onclick="toggleFaq(this)"><span data-i18n="faq.q3">What is a System Audit?</span><span class="faq-icon">+</span></button>
+      <div class="faq-a" data-i18n="faq.a3">A 45-minute session where we map your current operational workflow, identify the biggest bottlenecks and show you what a custom system would look like for your business. It's free, with no commitment required. Most clients leave with a clear picture of exactly what they need.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)"><span data-i18n="faq.q4">Can you maintain and improve the system after launch?</span><span class="faq-icon">+</span></div>
-      <div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a4">Yes. We offer ongoing maintenance and improvement retainers. Most clients keep us on a monthly basis to add features, fix issues and evolve the system as the business grows.</div></div>
+      <button class="faq-q" onclick="toggleFaq(this)"><span data-i18n="faq.q4">Do you offer ongoing support after launch?</span><span class="faq-icon">+</span></button>
+      <div class="faq-a" data-i18n="faq.a4">Yes. We offer monthly retainer plans that include maintenance, improvements, new features and technical support. Most of our clients stay on a retainer after launch because the system keeps growing with their business.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)"><span data-i18n="faq.q5">What industries do you work with?</span><span class="faq-icon">+</span></div>
-      <div class="faq-a"><div class="faq-a-inner" data-i18n="faq.a5">Property management, investment & finance, healthcare supply chain, and any business with real operational complexity. If you're managing people, inventory, clients or field work manually — we can build you a system.</div></div>
+      <button class="faq-q" onclick="toggleFaq(this)"><span data-i18n="faq.q5">Does the system replace WhatsApp entirely?</span><span class="faq-icon">+</span></button>
+      <div class="faq-a" data-i18n="faq.a5">Not necessarily. We often build systems that start in WhatsApp — because that's where your team and clients already communicate — and feed automatically into a structured dashboard. You keep the familiar channel but gain full operational visibility and control.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section reveal" id="contact">
+  <div class="sec-label" data-i18n="contact.label">Get in Touch</div>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <h2 data-i18n-html="contact.h2">Start with a<br><em>System Audit.</em></h2>
+      <p style="margin-top:16px" data-i18n="contact.desc">We map your operational pain, show you what a custom system would look like, and give you a clear path from chaos to control. No commitment required.</p>
+      <div class="contact-detail">
+        <span class="cd-label" data-i18n="contact.email.label">Email</span>
+        <a href="mailto:OpsBrain1@gmail.com">OpsBrain1@gmail.com</a>
+      </div>
+      <div class="contact-detail">
+        <span class="cd-label" data-i18n="contact.audit.label">Audit</span>
+        <span data-i18n="contact.audit.val">45-min session · Free · No commitment</span>
+      </div>
+    </div>
+    <div>
+      <form class="contact-form" onsubmit="submitForm(event)">
+        <div class="form-row">
+          <div class="form-field">
+            <label class="form-label" data-i18n="form.name">Name</label>
+            <input class="form-input" type="text" required placeholder="Your name" id="f-name">
+          </div>
+          <div class="form-field">
+            <label class="form-label" data-i18n="form.company">Company</label>
+            <input class="form-input" type="text" placeholder="Company name" id="f-company">
+          </div>
+        </div>
+        <div class="form-field">
+          <label class="form-label" data-i18n="form.email">Email</label>
+          <input class="form-input" type="email" required placeholder="your@email.com" id="f-email">
+        </div>
+        <div class="form-field">
+          <label class="form-label" data-i18n="form.interest">I'm interested in</label>
+          <select class="form-select" id="f-interest">
+            <option data-i18n="form.opt1">System Audit (Free)</option>
+            <option data-i18n="form.opt2">Custom Business System</option>
+            <option data-i18n="form.opt3">AI Operations Layer</option>
+            <option data-i18n="form.opt4">Executive Dashboard</option>
+            <option data-i18n="form.opt5">Client / Worker Portal</option>
+            <option data-i18n="form.opt6">WhatsApp Workflow</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label class="form-label" data-i18n="form.message">Tell us about your operation</label>
+          <textarea class="form-textarea" placeholder="What's the current challenge? What tools are you using today?" id="f-message"></textarea>
+        </div>
+        <button type="submit" class="form-submit" data-i18n="form.submit">Send Message →</button>
+        <div class="form-success" id="form-success" data-i18n="form.success">✓ Message sent. We'll get back to you within 24 hours.</div>
+      </form>
     </div>
   </div>
 </section>
@@ -533,63 +633,13 @@
   <span class="infra-label" data-i18n="infra.label">Built on</span>
   <div class="infra-sep"></div>
   <div class="infra-tags">
-    <span class="infra-tag">Next.js</span><span class="infra-tag">Supabase</span>
-    <span class="infra-tag">Vercel</span><span class="infra-tag">WhatsApp Cloud API</span>
-    <span class="infra-tag">OpenAI</span><span class="infra-tag">Claude AI</span>
+    <span class="infra-tag">Next.js</span>
+    <span class="infra-tag">Supabase</span>
+    <span class="infra-tag">Vercel</span>
+    <span class="infra-tag">WhatsApp Cloud API</span>
+    <span class="infra-tag">OpenAI</span>
+    <span class="infra-tag">Claude AI</span>
     <span class="infra-tag">Custom Integrations</span>
-  </div>
-</div>
-
-<!-- CONTACT -->
-<section class="contact-section reveal" id="contact">
-  <div class="sec-label" data-i18n="contact.label">Get In Touch</div>
-  <div class="contact-grid">
-    <div class="contact-info">
-      <h2 data-i18n-html="contact.h2">Ready to build your<br><em>operating system?</em></h2>
-      <p style="margin-top:16px" data-i18n="contact.p">Start with a System Audit. We map your operational pain, show you what a custom system would look like, and give you a clear path from chaos to control. No commitment required.</p>
-      <div class="contact-detail">
-        <div class="contact-detail-icon">✉</div>
-        <div class="contact-detail-text"><a href="mailto:OpsBrain1@gmail.com">OpsBrain1@gmail.com</a></div>
-      </div>
-      <div class="contact-detail">
-        <div class="contact-detail-icon">💬</div>
-        <div class="contact-detail-text" data-i18n="contact.wa">WhatsApp — <a href="https://wa.me/972XXXXXXXXX">Book a call</a></div>
-      </div>
-    </div>
-    <form class="contact-form" onsubmit="handleSubmit(event)">
-      <div class="form-row">
-        <div class="form-field">
-          <label class="form-label" data-i18n="form.name">Your Name</label>
-          <input class="form-input" type="text" required placeholder="Sara Cohen">
-        </div>
-        <div class="form-field">
-          <label class="form-label" data-i18n="form.company">Company</label>
-          <input class="form-input" type="text" placeholder="Your Business">
-        </div>
-      </div>
-      <div class="form-field">
-        <label class="form-label" data-i18n="form.email">Email</label>
-        <input class="form-input" type="email" required placeholder="you@company.com">
-      </div>
-      <div class="form-field">
-        <label class="form-label" data-i18n="form.msg">What's your operational challenge?</label>
-        <textarea class="form-textarea" placeholder="Describe your current process..."></textarea>
-      </div>
-      <button class="btn-gold form-submit" type="submit" data-i18n="form.submit">Send Message →</button>
-    </form>
-  </div>
-</section>
-
-<!-- CTA -->
-<div class="cta-wrap reveal">
-  <div>
-    <div class="cta-title" data-i18n-html="cta.title">Ready to turn your operation<br>into a <em>system?</em></div>
-    <p class="cta-sub" data-i18n="cta.sub">Start with a 45-minute System Audit. No commitment — just clarity on what your business actually needs.</p>
-  </div>
-  <div class="cta-right">
-    <a class="btn-gold" href="mailto:OpsBrain1@gmail.com" data-i18n="cta.btn1">Book via Email →</a>
-    <a class="btn-wa" href="https://wa.me/972XXXXXXXXX" data-i18n="cta.btn2">WhatsApp Us</a>
-    <span class="cta-note" data-i18n="cta.note">45-min session · No commitment</span>
   </div>
 </div>
 
@@ -597,375 +647,131 @@
 
 <footer>
   <div class="foot-brand">Levy Tech</div>
-  <div class="foot-right">© 2026 · Private AI Operating Systems · <a href="mailto:OpsBrain1@gmail.com" style="color:var(--dim);text-decoration:none">OpsBrain1@gmail.com</a></div>
+  <div class="foot-right">© 2026 · <span data-i18n="footer.tagline">Private AI Operating Systems</span></div>
 </footer>
 
-<!-- THREE.JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-// ── THREE.JS COMMAND CORE ──
-(function(){
-  const canvas = document.getElementById('hero-canvas');
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setClearColor(0x000000, 0);
-
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
-  camera.position.set(0, 0, 5);
-
-  // resize
-  function resize(){
-    const w = canvas.clientWidth, h = canvas.clientHeight;
-    renderer.setSize(w, h, false);
-    camera.aspect = w/h;
-    camera.updateProjectionMatrix();
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  // MATERIALS
-  const goldColor = new THREE.Color(0xc8a96d);
-  const darkColor = new THREE.Color(0x0c0c0c);
-
-  // ── CORE SPHERE (wireframe icosahedron) ──
-  const geoCore = new THREE.IcosahedronGeometry(1, 1);
-  const matWire = new THREE.MeshBasicMaterial({ color: 0xc8a96d, wireframe: true, transparent: true, opacity: 0.18 });
-  const wireCore = new THREE.Mesh(geoCore, matWire);
-  scene.add(wireCore);
-
-  // inner sphere — metallic
-  const geoInner = new THREE.SphereGeometry(0.96, 64, 64);
-  const matInner = new THREE.MeshStandardMaterial({
-    color: 0x111110,
-    metalness: 0.9,
-    roughness: 0.25,
-    envMapIntensity: 1.0,
-  });
-  const sphereMesh = new THREE.Mesh(geoInner, matInner);
-  scene.add(sphereMesh);
-
-  // equator ring glow
-  const geoRing = new THREE.TorusGeometry(1.02, 0.008, 8, 120);
-  const matRing = new THREE.MeshBasicMaterial({ color: 0xc8a96d, transparent: true, opacity: 0.5 });
-  const ring1 = new THREE.Mesh(geoRing, matRing);
-  scene.add(ring1);
-
-  const ring2 = new THREE.Mesh(new THREE.TorusGeometry(1.02, 0.005, 8, 120),
-    new THREE.MeshBasicMaterial({ color: 0xc8a96d, transparent: true, opacity: 0.22 }));
-  ring2.rotation.x = Math.PI / 3;
-  scene.add(ring2);
-
-  const ring3 = new THREE.Mesh(new THREE.TorusGeometry(1.55, 0.004, 8, 120),
-    new THREE.MeshBasicMaterial({ color: 0xc8a96d, transparent: true, opacity: 0.14 }));
-  ring3.rotation.x = Math.PI / 2.2;
-  ring3.rotation.z = Math.PI / 5;
-  scene.add(ring3);
-
-  const ring4 = new THREE.Mesh(new THREE.TorusGeometry(2.1, 0.003, 8, 120),
-    new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.05 }));
-  ring4.rotation.x = Math.PI / 1.8;
-  ring4.rotation.y = Math.PI / 4;
-  scene.add(ring4);
-
-  // ── PARTICLES ──
-  const pCount = 280;
-  const pPositions = new Float32Array(pCount * 3);
-  const pSizes = new Float32Array(pCount);
-  for(let i=0; i<pCount; i++){
-    const r = 1.8 + Math.random() * 1.8;
-    const theta = Math.random() * Math.PI * 2;
-    const phi = Math.acos(2 * Math.random() - 1);
-    pPositions[i*3]   = r * Math.sin(phi) * Math.cos(theta);
-    pPositions[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
-    pPositions[i*3+2] = r * Math.cos(phi);
-    pSizes[i] = Math.random() * 2.5 + 0.5;
-  }
-  const pgeo = new THREE.BufferGeometry();
-  pgeo.setAttribute('position', new THREE.BufferAttribute(pPositions, 3));
-  pgeo.setAttribute('size', new THREE.BufferAttribute(pSizes, 1));
-  const pmat = new THREE.PointsMaterial({ color: 0xc8a96d, size: 0.022, transparent: true, opacity: 0.55, sizeAttenuation: true });
-  const particles = new THREE.Points(pgeo, pmat);
-  scene.add(particles);
-
-  // ── NODE DOTS (connection points on sphere surface) ──
-  const nodePositions = [
-    new THREE.Vector3(0, 1.6, 0),
-    new THREE.Vector3(1.4, 0.7, 0),
-    new THREE.Vector3(1.4, -0.7, 0),
-    new THREE.Vector3(0, -1.6, 0),
-    new THREE.Vector3(-1.4, -0.7, 0),
-    new THREE.Vector3(-1.4, 0.7, 0),
-  ];
-  nodePositions.forEach(pos => {
-    const dot = new THREE.Mesh(
-      new THREE.SphereGeometry(0.045, 8, 8),
-      new THREE.MeshBasicMaterial({ color: 0xc8a96d, transparent: true, opacity: 0.85 })
-    );
-    dot.position.copy(pos);
-    scene.add(dot);
-
-    // line from sphere to node position
-    const points = [new THREE.Vector3(0,0,0).lerp(pos, 0.98), pos.clone().multiplyScalar(1.0)];
-    const lineGeo = new THREE.BufferGeometry().setFromPoints([
-      pos.clone().normalize().multiplyScalar(1.0),
-      pos.clone().normalize().multiplyScalar(1.55)
-    ]);
-    const line = new THREE.Line(lineGeo,
-      new THREE.LineBasicMaterial({ color: 0xc8a96d, transparent: true, opacity: 0.18 }));
-    scene.add(line);
-  });
-
-  // ── LIGHTING ──
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.15);
-  scene.add(ambientLight);
-
-  const goldLight = new THREE.PointLight(0xc8a96d, 2.5, 8);
-  goldLight.position.set(2, 2, 3);
-  scene.add(goldLight);
-
-  const rimLight = new THREE.PointLight(0x6688aa, 1.2, 8);
-  rimLight.position.set(-3, -1, -2);
-  scene.add(rimLight);
-
-  const topLight = new THREE.DirectionalLight(0xffeedd, 0.5);
-  topLight.position.set(0, 5, 2);
-  scene.add(topLight);
-
-  // ── MOUSE INTERACTION ──
-  let mouseX = 0, mouseY = 0;
-  let targetX = 0, targetY = 0;
-  document.addEventListener('mousemove', e => {
-    mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-    mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-  });
-
-  // ── ANIMATE ──
-  let t = 0;
-  function animate(){
-    requestAnimationFrame(animate);
-    t += 0.008;
-
-    targetX += (mouseX - targetX) * 0.04;
-    targetY += (mouseY - targetY) * 0.04;
-
-    // core breathe
-    const breathe = 1 + Math.sin(t * 0.8) * 0.018;
-    sphereMesh.scale.setScalar(breathe);
-    wireCore.scale.setScalar(breathe);
-
-    // slow rotation + mouse influence
-    wireCore.rotation.y = t * 0.12 + targetX * 0.4;
-    wireCore.rotation.x = t * 0.07 + targetY * 0.25;
-    sphereMesh.rotation.y = t * 0.05;
-
-    ring1.rotation.z = t * 0.3 + targetX * 0.3;
-    ring2.rotation.y = t * 0.2 + targetX * 0.2;
-    ring2.rotation.z = t * 0.15;
-    ring3.rotation.z = -t * 0.12 + targetY * 0.15;
-    ring4.rotation.x = t * 0.08 + targetY * 0.1;
-    ring4.rotation.z = -t * 0.06;
-
-    particles.rotation.y = t * 0.04 + targetX * 0.06;
-    particles.rotation.x = t * 0.025 + targetY * 0.04;
-
-    // gold light orbit
-    goldLight.position.x = Math.sin(t * 0.5) * 3;
-    goldLight.position.z = Math.cos(t * 0.5) * 3;
-
-    renderer.render(scene, camera);
-  }
-  animate();
-})();
-
-// ── FAQ TOGGLE ──
-function toggleFaq(el){
-  const item = el.parentElement;
-  const answer = item.querySelector('.faq-a');
-  const isOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item').forEach(i=>{ i.classList.remove('open'); i.querySelector('.faq-a').classList.remove('open'); });
-  if(!isOpen){ item.classList.add('open'); answer.classList.add('open'); }
-}
-
-// ── FORM ──
-function handleSubmit(e){
-  e.preventDefault();
-  const btn = e.target.querySelector('[type=submit]');
-  btn.textContent = '✓ Sent — we\'ll be in touch soon';
-  btn.style.background = '#2a2a2a';
-  btn.style.color = 'var(--gold)';
-  btn.disabled = true;
-}
-
-// ── SCROLL REVEAL ──
-const io = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('revealed'); io.unobserve(e.target); } });
-}, { threshold: 0.07 });
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-
-// ── i18n ──
-const LANGS = {
-  en:{
-    "brand":"Levy Tech","nav.services":"Services","nav.projects":"Systems","nav.process":"Process","nav.contact":"Contact","nav.cta":"Book a System Audit",
-    "hero.tag":"Private AI Operating Systems",
-    "hero.h1":"We build<br><em>operating systems,</em><br>not websites.",
-    "hero.sub":"Levy Tech designs and deploys custom AI-powered operating systems for businesses that have outgrown spreadsheets, WhatsApp chaos and manual work.",
-    "hero.cta1":"Book a System Audit →","hero.cta2":"View Systems",
-    "hero.m1":"Live Systems","hero.m2":"Powered Core","hero.m3":"Automated Ops",
-    "manifesto.label":"Our Philosophy","manifesto.h2":"The system<br>behind the<br><em>business.</em>",
-    "manifesto.p1":"Levy Tech helps companies move from operational chaos to a single source of truth — combining dashboards, databases, automations, AI agents and client portals into one working product.",
-    "manifesto.p2":"We build for founders, operators and executives who need real control — not another subscription tool that sits unused after month one.",
-    "manifesto.p3":"Every system we build replaces scattered tools with one operating layer the whole team actually uses.",
-    "ba.label":"The Transformation","ba.before":"Before Levy Tech","ba.after":"After Levy Tech",
-    "ba.b1":"WhatsApp chaos — scattered messages, no history","ba.b2":"Excel tracking with no real-time visibility","ba.b3":"Manual updates and constant follow-ups","ba.b4":"No accountability or operational log","ba.b5":"Owner holds everything in their head",
-    "ba.a1":"Structured ticket flow and automated dispatch","ba.a2":"Live dashboard with full operational visibility","ba.a3":"Automated workflows — zero manual chasing","ba.a4":"Full operational history and audit trail","ba.a5":"Team works from one clean, shared system",
-    "svc.label":"What We Build","svc.h2":"Five capabilities.<br>One <em>operating system.</em>","svc.sub":"Each capability connects to the others. The result is a single operational layer across the entire business — not five separate tools.",
-    "svc.t1":"Private Business Systems","svc.d1":"Custom internal software built around your exact operational logic — not off-the-shelf SaaS templates.",
-    "svc.t2":"AI Operations Layer","svc.d2":"An intelligent layer that connects data, triggers alerts, routes tasks and surfaces decisions automatically.",
-    "svc.t3":"Executive Dashboards","svc.d3":"Real-time operational views for management — status, KPIs, reports and financial visibility in one place.",
-    "svc.t4":"Client & Worker Portals","svc.d4":"Secure access portals for clients, field workers and suppliers — each with the right view and permissions.",
-    "svc.t5":"WhatsApp-Based Workflows","svc.d5":"Systems that start in WhatsApp and feed into a full dashboard — where your team already communicates.",
-    "proj.label":"Selected Systems","proj.h2":"Built for real operations.<br><em>Deployed</em> for real clients.",
-    "proj.bamakor.tag":"Maintenance Operations","proj.bamakor.sub":"WhatsApp Maintenance Operations System","proj.bamakor.desc":"Residents report building issues through WhatsApp. The system opens structured tickets, assigns field workers, tracks resolution and keeps full operational history — all from a single manager dashboard. Live with paying clients.",
-    "proj.naaryo.tag":"Investment Finance","proj.naaryo.sub":"Investment Client Portal","proj.naaryo.desc":"A secure digital portal for investment clients — documents, portfolio visibility, performance reports and structured advisor-client communication in one private interface.",
-    "proj.meditactic.tag":"Supply Chain & Inventory","proj.meditactic.sub":"Supply Chain & Inventory Intelligence System","proj.meditactic.desc":"A centralized operational platform for managing inventory, suppliers, purchase orders, logistics and financial visibility — reducing operational blind spots and supporting faster executive decisions.",
-    "proj.opsbrain.tag":"AI Workspace","proj.opsbrain.sub":"AI Business Operating System","proj.opsbrain.desc":"A unified business workspace connecting emails, files, tasks and live operational data into one AI-powered command center — giving executives a single interface to understand and control the entire business.",
-    "testi.label":"Client Voice","testi.quote":'"Before Bamakor, I was managing everything through WhatsApp — messages were getting lost, workers didn\'t know what to do, and I had no real picture of what was happening. Now everything goes through the dashboard. It changed how I run the business."',
-    "testi.name":"Sara","testi.role":"Property Management · Bamakor Client",
-    "proc.label":"How We Build","proc.h2":"A clear path from<br><em>problem</em> to product.",
-    "proc.t1":"System Audit","proc.d1":"Map the real operational pain — where time is lost, what breaks, and what the business actually needs.",
-    "proc.t2":"Architecture","proc.d2":"Design the dashboard logic, database structure and automation flows before writing a single line of code.",
-    "proc.t3":"Build","proc.d3":"Build fast and precisely using Next.js, Supabase, Vercel and integrated AI — no slow agency timelines.",
-    "proc.t4":"Connect","proc.d4":"Integrate with WhatsApp, email, calendar, spreadsheets or any other tool the business already uses.",
-    "proc.t5":"Deploy & Evolve","proc.d5":"Launch with real users, gather operational feedback and evolve the system into a long-term product asset.",
-    "faq.label":"Common Questions","faq.h2":"Everything you need<br>to <em>know.</em>",
-    "faq.q1":"How long does it take to build a system?","faq.a1":"Most systems are live within 2–6 weeks depending on complexity. A basic WhatsApp + dashboard system can be running in under two weeks.",
-    "faq.q2":"Do I need technical knowledge to use the system?","faq.a2":"No. We build systems that non-technical teams use daily. Your workers use WhatsApp as usual. Managers get a clean dashboard.",
-    "faq.q3":"What does a System Audit involve?","faq.a3":"A 45-minute session where we map your operational pain and show you what a custom system would look like. No commitment required.",
-    "faq.q4":"Can you maintain the system after launch?","faq.a4":"Yes. We offer ongoing maintenance and improvement retainers. Most clients keep us on a monthly basis to add features and evolve the system.",
-    "faq.q5":"What industries do you work with?","faq.a5":"Property management, investment & finance, healthcare supply chain, and any business managing people, inventory, clients or field work manually.",
-    "infra.label":"Built on",
-    "contact.label":"Get In Touch","contact.h2":"Ready to build your<br><em>operating system?</em>","contact.p":"Start with a System Audit. We map your operational pain and give you a clear path from chaos to control. No commitment required.",
-    "contact.wa":"WhatsApp — Book a call",
-    "form.name":"Your Name","form.company":"Company","form.email":"Email","form.msg":"What's your operational challenge?","form.submit":"Send Message →",
-    "cta.title":"Ready to turn your operation<br>into a <em>system?</em>","cta.sub":"Start with a 45-minute System Audit. No commitment — just clarity on what your business actually needs.",
-    "cta.btn1":"Book via Email →","cta.btn2":"WhatsApp Us","cta.note":"45-min session · No commitment"
+// ── TRANSLATIONS ──
+const T = {
+  en: {
+    "brand":"Levy Tech","nav.services":"Services","nav.projects":"Systems","nav.process":"Process","nav.faq":"FAQ","nav.contact":"Contact","nav.cta":"Book a System Audit",
+    "hero.tag":"Private AI Operating Systems","hero.h1":"We build<br><em>operating systems,</em><br>not websites.","hero.sub":"Levy Tech designs and deploys custom AI-powered operating systems for businesses that have outgrown spreadsheets, WhatsApp chaos and manual work.","hero.cta1":"Book a System Audit →","hero.cta2":"View Systems","hero.m1":"Live Systems","hero.m2":"Powered Core","hero.m3":"Automated Ops",
+    "core.ops":"Operations","core.ops.sub":"Ticket & dispatch","core.fin":"Finance","core.fin.sub":"Portfolio & reports","core.sup":"Supply Chain","core.sup.sub":"Inventory & logistics","core.ai":"AI Agents","core.ai.sub":"Automation core","core.maint":"Maintenance","core.maint.sub":"Field & worker ops","core.portal":"Client Portals","core.portal.sub":"Secure access layer","core.label":"Command Core",
+    "manifesto.label":"Our Philosophy","manifesto.h2":"The system<br>behind the<br><em>business.</em>","manifesto.p1":"Levy Tech helps companies move from operational chaos to a single source of truth — combining dashboards, databases, automations, AI agents and client portals into one working product.","manifesto.p2":"We build for founders, operators and executives who need real control over their operations — not another subscription tool that sits unused after month one.","manifesto.p3":"Every system we build replaces scattered tools with one operating layer that the whole team actually uses.",
+    "ba.label":"The Transformation","ba.before":"Before Levy Tech","ba.after":"After Levy Tech","ba.b1":"WhatsApp chaos — scattered messages, no history","ba.b2":"Excel tracking with no real-time visibility","ba.b3":"Manual updates and constant follow-ups","ba.b4":"No accountability or operational log","ba.b5":"Owner holds everything in their head","ba.a1":"Structured ticket flow and automated dispatch","ba.a2":"Live dashboard with full operational visibility","ba.a3":"Automated workflows — zero manual chasing","ba.a4":"Full operational history and audit trail","ba.a5":"Team works from one clean, shared system",
+    "svc.label":"What We Build","svc.h2":"Five capabilities.<br>One <em>operating system.</em>","svc.desc":"Each capability connects to the others. The result is a single operational layer across the entire business — not five separate tools.","svc.1.title":"Private Business Systems","svc.1.desc":"Custom internal software built around your exact operational logic — not off-the-shelf templates.","svc.2.title":"AI Operations Layer","svc.2.desc":"An intelligent layer that connects data, triggers alerts, routes tasks and surfaces decisions automatically.","svc.3.title":"Executive Dashboards","svc.3.desc":"Real-time operational views for management — status, KPIs, reports and financial visibility in one place.","svc.4.title":"Client & Worker Portals","svc.4.desc":"Secure access portals for clients, field workers and suppliers — each with the right view and permissions.","svc.5.title":"WhatsApp-Based Workflows","svc.5.desc":"Systems that start in WhatsApp and feed into a full dashboard — where your team already communicates.",
+    "proj.label":"Selected Systems","proj.h2":"Built for real operations.<br><em>Deployed</em> for real clients.","proj.1.tag":"Maintenance Operations","proj.1.sub":"WhatsApp Maintenance Operations System","proj.1.desc":"Residents report building issues through WhatsApp. The system automatically opens structured tickets, assigns field workers, tracks resolution and keeps full operational history — all in one manager dashboard. Live with paying clients.","proj.2.tag":"Investment Finance","proj.2.sub":"Investment Client Portal","proj.2.desc":"A secure digital portal for investment clients — documents, portfolio visibility, performance reports and structured advisor-client communication in one private interface.","proj.3.tag":"Supply Chain & Inventory","proj.3.sub":"Supply Chain & Inventory Intelligence System","proj.3.desc":"A centralized platform for managing inventory, suppliers, purchase orders, logistics and financial visibility — built to reduce operational blind spots and support faster executive decisions.","proj.4.tag":"AI Workspace","proj.4.sub":"AI Business Operating System","proj.4.desc":"A unified business workspace that connects emails, files, tasks and live operational data into one AI-powered command center — giving executives a single interface to understand and control the entire business.",
+    "proc.label":"How We Build","proc.h2":"A clear path from<br><em>problem</em> to product.","proc.1.title":"System Audit","proc.1.desc":"Map the real operational pain — where time is lost, what breaks, and what the business needs to run better.","proc.2.title":"Architecture","proc.2.desc":"Design the dashboard logic, database structure and automation flows before writing a single line of code.","proc.3.title":"Build","proc.3.desc":"Build fast and precisely using Next.js, Supabase, Vercel and integrated AI — no slow agency timelines.","proc.4.title":"Connect","proc.4.desc":"Integrate with WhatsApp, email, calendar, spreadsheets or any other tool the business already uses.","proc.5.title":"Deploy & Evolve","proc.5.desc":"Launch with real users, collect operational feedback and evolve the system into a long-term product asset.",
+    "faq.label":"FAQ","faq.h2":"Common questions.","faq.q1":"What kinds of businesses do you work with?","faq.a1":"We work with small and medium businesses that have outgrown their current tools — typically in property management, finance, logistics, retail and operations-heavy industries. If your team relies on WhatsApp, spreadsheets and manual work to run daily operations, we can help.","faq.q2":"How long does it take to build a system?","faq.a2":"A basic operational system is typically ready in 2–4 weeks. More complex systems with multiple integrations, AI layers and custom portals take 4–8 weeks. We move fast because we use modern infrastructure (Next.js, Supabase, Vercel) and AI-assisted development.","faq.q3":"What is a System Audit?","faq.a3":"A 45-minute session where we map your current operational workflow, identify the biggest bottlenecks and show you what a custom system would look like for your business. It's free, with no commitment required. Most clients leave with a clear picture of exactly what they need.","faq.q4":"Do you offer ongoing support after launch?","faq.a4":"Yes. We offer monthly retainer plans that include maintenance, improvements, new features and technical support. Most of our clients stay on a retainer after launch because the system keeps growing with their business.","faq.q5":"Does the system replace WhatsApp entirely?","faq.a5":"Not necessarily. We often build systems that start in WhatsApp — because that's where your team and clients already communicate — and feed automatically into a structured dashboard. You keep the familiar channel but gain full operational visibility and control.",
+    "contact.label":"Get in Touch","contact.h2":"Start with a<br><em>System Audit.</em>","contact.desc":"We map your operational pain, show you what a custom system would look like, and give you a clear path from chaos to control. No commitment required.","contact.email.label":"Email","contact.audit.label":"Audit","contact.audit.val":"45-min session · Free · No commitment",
+    "form.name":"Name","form.company":"Company","form.email":"Email","form.interest":"I'm interested in","form.opt1":"System Audit (Free)","form.opt2":"Custom Business System","form.opt3":"AI Operations Layer","form.opt4":"Executive Dashboard","form.opt5":"Client / Worker Portal","form.opt6":"WhatsApp Workflow","form.message":"Tell us about your operation","form.submit":"Send Message →","form.success":"✓ Message sent. We'll get back to you within 24 hours.",
+    "infra.label":"Built on","footer.tagline":"Private AI Operating Systems"
   },
-  he:{
-    "brand":"Levy Tech","nav.services":"שירותים","nav.projects":"מערכות","nav.process":"תהליך","nav.contact":"צור קשר","nav.cta":"קביעת אבחון מערכת",
-    "hero.tag":"מערכות הפעלה AI פרטיות לעסקים",
-    "hero.h1">זה ייבנה כהטמל ישירות: "אנחנו בונים<br><em>מערכות הפעלה,</em><br>לא אתרים.",
-    "hero.h1":"אנחנו בונים<br><em>מערכות הפעלה,</em><br>לא אתרים.",
-    "hero.sub":"Levy Tech מתכננת ומפתחת מערכות הפעלה מבוססות AI מותאמות אישית לעסקים שגדלו מעבר לאקסל, וואטסאפ ועבודה ידנית.",
-    "hero.cta1":"קבע אבחון מערכת ←","hero.cta2":"צפה במערכות",
-    "hero.m1":"מערכות פעילות","hero.m2":"מנוע AI","hero.m3":"אוטומציה 24/7",
-    "manifesto.label":"הפילוסופיה שלנו","manifesto.h2":"המערכת<br>שמאחורי<br><em>העסק.</em>",
-    "manifesto.p1":"Levy Tech עוזרת לחברות לעבור מכאוס תפעולי למקור אמת אחד — שילוב של דשבורדים, מסדי נתונים, אוטומציות, סוכני AI ופורטלים ללקוחות במוצר אחד עובד.",
-    "manifesto.p2":"אנחנו בונים עבור מייסדים, מנהלים ובעלי עסקים שרוצים שליטה אמיתית על התפעול — לא עוד כלי מנוי שלא נגעים בו אחרי החודש הראשון.",
-    "manifesto.p3":"כל מערכת שאנחנו בונים מחליפה כלים מפוזרים בשכבת הפעלה אחת שכל הצוות באמת משתמש בה.",
-    "ba.label":"השינוי","ba.before":"לפני Levy Tech","ba.after":"אחרי Levy Tech",
-    "ba.b1":"כאוס וואטסאפ — הודעות אבודות, אין היסטוריה","ba.b2":"מעקב באקסל ללא ראייה בזמן אמת","ba.b3":"עדכונים ידניים ומעקב בלתי פוסק","ba.b4":"אין אחריות או יומן תפעולי","ba.b5":"הבעלים מחזיק הכל בראש",
-    "ba.a1":"זרימת טיקטים מסודרת ושיגור אוטומטי","ba.a2":"דשבורד חי עם ראייה תפעולית מלאה","ba.a3":"תהליכי עבודה אוטומטיים — אפס מעקב ידני","ba.a4":"היסטוריה תפעולית מלאה ויומן ביקורת","ba.a5":"הצוות עובד ממערכת אחת נקייה ומשותפת",
-    "svc.label":"מה אנחנו בונים","svc.h2":"חמש יכולות.<br>מערכת הפעלה <em>אחת.</em>","svc.sub":"כל יכולת מתחברת לאחרות. התוצאה היא שכבת הפעלה אחת על כל העסק — לא חמישה כלים נפרדים.",
-    "svc.t1":"מערכות עסקיות פרטיות","svc.d1":"תוכנה פנימית מותאמת אישית לפי הלוגיקה התפעולית המדויקת שלך — לא תבניות SaaS מדף.",
-    "svc.t2":"שכבת AI תפעולית","svc.d2":"שכבה חכמה שמחברת נתונים, מפעילה התראות, מנתבת משימות ומציפה החלטות אוטומטית.",
-    "svc.t3":"דשבורדים להנהלה","svc.d3":"תצוגות תפעוליות בזמן אמת למנהלים — סטטוס, KPI, דוחות וראייה פיננסית במקום אחד.",
-    "svc.t4":"פורטלים ללקוחות ועובדים","svc.d4":"פורטלים מאובטחים ללקוחות, עובדי שטח וספקים — לכל אחד את התצוגה וההרשאות הנכונות.",
-    "svc.t5":"תהליכי עבודה מבוססי וואטסאפ","svc.d5":"מערכות שמתחילות בוואטסאפ ומזינות דשבורד מלא — שם הצוות שלך כבר מתקשר.",
-    "proj.label":"מערכות נבחרות","proj.h2":"נבנה לתפעול אמיתי.<br><em>פרוס</em> ללקוחות אמיתיים.",
-    "proj.bamakor.tag":"ניהול תחזוקה","proj.bamakor.sub":"מערכת ניהול תחזוקה מבוססת וואטסאפ","proj.bamakor.desc":"דיירים מדווחים על תקלות דרך וואטסאפ. המערכת פותחת טיקטים מסודרים, מקצה עובדי שטח, עוקבת אחר פתרון ושומרת היסטוריה תפעולית מלאה — הכל מדשבורד אחד. פעיל עם לקוחות משלמים.",
-    "proj.naaryo.tag":"פיננסים והשקעות","proj.naaryo.sub":"פורטל לקוחות השקעות","proj.naaryo.desc":"פורטל דיגיטלי מאובטח ללקוחות השקעות — מסמכים, ראייה בתיק, דוחות ביצועים ותקשורת מובנית בין יועץ ללקוח בממשק פרטי אחד.",
-    "proj.meditactic.tag":"שרשרת אספקה ומלאי","proj.meditactic.sub":"מערכת אינטליגנציה לשרשרת אספקה ומלאי","proj.meditactic.desc":"פלטפורמה תפעולית מרכזית לניהול מלאי, ספקים, הזמנות רכש, לוגיסטיקה וראייה פיננסית — להפחתת נקודות עיוורות ותמיכה בהחלטות הנהלה מהירות יותר.",
-    "proj.opsbrain.tag":"סביבת עבודה AI","proj.opsbrain.sub":"מערכת הפעלה עסקית AI","proj.opsbrain.desc":"סביבת עבודה עסקית מאוחדת שמחברת מיילים, קבצים, משימות ונתוני תפעול חיים למרכז פיקוד אחד מבוסס AI — נותנת למנהלים ממשק אחד להבין ולשלוט בכל העסק.",
-    "testi.label":"קול הלקוח",
-    "testi.quote":'"לפני במקור, ניהלתי הכל דרך וואטסאפ — הודעות אבדו, העובדים לא ידעו מה לעשות, ולא היה לי תמונה אמיתית של מה שקורה. עכשיו הכל עובר דרך הדשבורד. זה שינה את האופן שבו אני מנהלת את העסק."',
-    "testi.name":"שרה","testi.role":"ניהול נכסים · לקוחת במקור",
-    "proc.label":"איך אנחנו בונים","proc.h2":"מסלול ברור<br>מ<em>בעיה</em> למוצר.",
-    "proc.t1":"אבחון מערכת","proc.d1":"ממפים את הכאב התפעולי האמיתי — איפה הזמן אובד, מה נשבר, ומה העסק באמת צריך.",
-    "proc.t2":"ארכיטקטורה","proc.d2":"מתכננים לוגיקת דשבורד, מבנה מסד נתונים ותהליכי אוטומציה לפני כתיבת שורת קוד אחת.",
-    "proc.t3":"בנייה","proc.d3":"בונים מהר ובדיוק עם Next.js, Supabase, Vercel ו-AI — ללא לוחות זמנים ארוכים של ספקים.",
-    "proc.t4":"חיבור","proc.d4":"מתחברים לוואטסאפ, מייל, לוח שנה, גיליונות אלקטרוניים או כל כלי שהעסק כבר משתמש בו.",
-    "proc.t5":"פריסה ואבולוציה","proc.d5":"משיקים עם משתמשים אמיתיים, אוספים משוב תפעולי ומפתחים את המערכת לנכס מוצר לטווח ארוך.",
-    "faq.label":"שאלות נפוצות","faq.h2":"כל מה שצריך<br><em>לדעת.</em>",
-    "faq.q1":"כמה זמן לוקח לבנות מערכת?","faq.a1":"רוב המערכות פעילות תוך 2–6 שבועות בהתאם למורכבות. מערכת וואטסאפ + דשבורד בסיסית יכולה לעבוד תוך פחות משבועיים.",
-    "faq.q2":"האם צריך ידע טכני כדי להשתמש במערכת?","faq.a2":"לא. אנחנו בונים מערכות שצוותים לא טכניים משתמשים בהם מדי יום. העובדים ממשיכים עם וואטסאפ. המנהלים מקבלים דשבורד נקי.",
-    "faq.q3":"מה כולל אבחון מערכת?","faq.a3":"פגישה של 45 דקות שבה ממפים את הכאב התפעולי ומציגים איך מערכת מותאמת אישית תיראה. ללא התחייבות.",
-    "faq.q4":"האם תוכלו לתחזק את המערכת לאחר ההשקה?","faq.a4":"כן. אנחנו מציעים ריטיינרים לתחזוקה ושיפורים. רוב הלקוחות ממשיכים איתנו על בסיס חודשי להוספת פיצ'רים ופיתוח המערכת.",
-    "faq.q5":"עם אילו תעשיות אתם עובדים?","faq.a5":"ניהול נכסים, השקעות ופיננסים, שרשרת אספקה בתחום הרפואה, וכל עסק שמנהל אנשים, מלאי, לקוחות או עבודת שטח ידנית.",
-    "infra.label":"בנוי על",
-    "contact.label":"צור קשר","contact.h2":"מוכן לבנות את<br><em>מערכת ההפעלה</em> שלך?","contact.p":"התחל עם אבחון מערכת. ממפים את הכאב התפעולי שלך ומציגים לך מסלול ברור מכאוס לשליטה. ללא התחייבות.",
-    "contact.wa":"וואטסאפ — קבע שיחה",
-    "form.name":"שמך","form.company":"חברה","form.email":"אימייל","form.msg":"מה הא挑הצבה התפעולית שלך?","form.submit":"שלח הודעה ←",
-    "cta.title":"מוכן להפוך את התפעול שלך<br>ל<em>מערכת?</em>","cta.sub":"התחל עם אבחון מערכת של 45 דקות. ללא התחייבות — רק בהירות על מה שהעסק שלך באמת צריך.",
-    "cta.btn1":"קבע דרך מייל ←","cta.btn2":"וואטסאפ","cta.note":"פגישה של 45 דקות · ללא התחייבות"
+  he: {
+    "brand":"Levy Tech","nav.services":"שירותים","nav.projects":"מערכות","nav.process":"תהליך","nav.faq":"שאלות","nav.contact":"צור קשר","nav.cta":"קבע אבחון מערכת",
+    "hero.tag":"מערכות הפעלה עסקיות מבוססות AI","hero.h1":"אנחנו בונים<br><em>מערכות הפעלה,</em><br>לא אתרים.","hero.sub":"Levy Tech מעצבת ומפרסת מערכות הפעלה עסקיות מותאמות אישית, לעסקים שגדלו מעבר לגיליונות אקסל, וואטסאפ ועבודה ידנית.","hero.cta1":"קבע אבחון מערכת ←","hero.cta2":"צפה במערכות","hero.m1":"מערכות פעילות","hero.m2":"ליבת AI","hero.m3":"אוטומציה מלאה",
+    "core.ops":"תפעול","core.ops.sub":"כרטיסיות ושיגור","core.fin":"פיננסים","core.fin.sub":"תיקים ודוחות","core.sup":"שרשרת אספקה","core.sup.sub":"מלאי ולוגיסטיקה","core.ai":"סוכני AI","core.ai.sub":"ליבת האוטומציה","core.maint":"תחזוקה","core.maint.sub":"שטח ועובדים","core.portal":"פורטלי לקוחות","core.portal.sub":"שכבת גישה מאובטחת","core.label":"מרכז פיקוד",
+    "manifesto.label":"הפילוסופיה שלנו","manifesto.h2":"המערכת<br>מאחורי<br><em>העסק.</em>","manifesto.p1":"Levy Tech עוזרת לחברות לעבור מכאוס תפעולי למקור אמת אחד — שילוב של דשבורדים, מסדי נתונים, אוטומציות, סוכני AI ופורטלי לקוחות במוצר עסקי אחד.","manifesto.p2":"אנחנו בונים עבור מייסדים, מנהלי תפעול ומנהלים בכירים שצריכים שליטה אמיתית על הפעילות שלהם — לא עוד כלי מנוי שמונח ללא שימוש.","manifesto.p3":"כל מערכת שאנחנו בונים מחליפה כלים מפוזרים בשכבת הפעלה אחת שכל הצוות משתמש בה בפועל.",
+    "ba.label":"השינוי","ba.before":"לפני Levy Tech","ba.after":"אחרי Levy Tech","ba.b1":"כאוס בוואטסאפ — הודעות מפוזרות, אין היסטוריה","ba.b2":"מעקב באקסל ללא נראות בזמן אמת","ba.b3":"עדכונים ידניים ומעקב אחרי אנשים","ba.b4":"אין אחריות או יומן תפעולי","ba.b5":"הבעלים מחזיק הכל בראש","ba.a1":"תהליך כרטיסיות מסודר ושיגור אוטומטי","ba.a2":"דשבורד חי עם נראות תפעולית מלאה","ba.a3":"תהליכי עבודה אוטומטיים — אפס מעקב ידני","ba.a4":"היסטוריה תפעולית מלאה ויומן ביקורת","ba.a5":"הצוות עובד ממערכת אחת נקייה ומשותפת",
+    "svc.label":"מה אנחנו בונים","svc.h2":"חמש יכולות.<br>מערכת הפעלה <em>אחת.</em>","svc.desc":"כל יכולת מתחברת לאחרות. התוצאה היא שכבת הפעלה אחת על פני כל העסק — לא חמישה כלים נפרדים.","svc.1.title":"מערכות עסקיות פרטיות","svc.1.desc":"תוכנה פנימית מותאמת אישית הבנויה סביב הלוגיקה התפעולית המדויקת שלך.","svc.2.title":"שכבת תפעול AI","svc.2.desc":"שכבה חכמה שמחברת נתונים, מפעילה התראות, מנתבת משימות ומשטחת החלטות אוטומטית.","svc.3.title":"דשבורדים ניהוליים","svc.3.desc":"תצוגות תפעול בזמן אמת להנהלה — סטטוס, KPIs, דוחות ונראות פיננסית במקום אחד.","svc.4.title":"פורטלי לקוחות ועובדים","svc.4.desc":"פורטלי גישה מאובטחים ללקוחות, עובדי שטח וספקים — כל אחד עם התצוגה הנכונה.","svc.5.title":"תהליכי עבודה מבוססי וואטסאפ","svc.5.desc":"מערכות שמתחילות בוואטסאפ ומזינות ישירות לדשבורד מלא — שם הצוות כבר מתקשר.",
+    "proj.label":"מערכות נבחרות","proj.h2":"נבנה לתפעול אמיתי.<br><em>פרוס</em> ללקוחות אמיתיים.","proj.1.tag":"תפעול תחזוקה","proj.1.sub":"מערכת תחזוקה מבוססת וואטסאפ","proj.1.desc":"דיירים מדווחים על תקלות דרך וואטסאפ. המערכת פותחת כרטיסיות מובנות, מקצה עובדי שטח, עוקבת אחרי פתרון ושומרת היסטוריה תפעולית מלאה — הכל בדשבורד מנהל אחד. פעיל עם לקוחות משלמים.","proj.2.tag":"פיננסים והשקעות","proj.2.sub":"פורטל לקוחות השקעות","proj.2.desc":"פורטל דיגיטלי מאובטח ללקוחות השקעות — מסמכים, נראות תיק, דוחות ביצועים ותקשורת מנוהלת בין יועץ ללקוח.","proj.3.tag":"שרשרת אספקה ומלאי","proj.3.sub":"מערכת מודיעין שרשרת אספקה ומלאי","proj.3.desc":"פלטפורמה מרכזית לניהול מלאי, ספקים, הזמנות רכש, לוגיסטיקה ונראות פיננסית — בנויה להפחית נקודות עיוורות תפעוליות.","proj.4.tag":"סביבת עבודה AI","proj.4.sub":"מערכת הפעלה עסקית מבוססת AI","proj.4.desc":"סביבת עבודה עסקית מאוחדת שמחברת מיילים, קבצים, משימות ונתונים תפעוליים חיים למרכז פיקוד אחד מבוסס AI.",
+    "proc.label":"איך אנחנו בונים","proc.h2":"דרך ברורה<br>מ<em>בעיה</em> למוצר.","proc.1.title":"אבחון מערכת","proc.1.desc":"מיפוי הכאב התפעולי האמיתי — איפה הזמן הולך לאיבוד, מה מתקלקל, ומה העסק צריך.","proc.2.title":"ארכיטקטורה","proc.2.desc":"עיצוב לוגיקת הדשבורד, מבנה מסד הנתונים ותהליכי האוטומציה לפני שורת קוד אחת.","proc.3.title":"בנייה","proc.3.desc":"בנייה מהירה ומדויקת עם Next.js, Supabase, Vercel ו-AI משולב — ללא לוחות זמנים של סוכנות.","proc.4.title":"חיבור","proc.4.desc":"אינטגרציה עם וואטסאפ, מייל, לוח שנה, גיליונות אלקטרוניים או כל כלי שהעסק כבר משתמש בו.","proc.5.title":"הפעלה ושיפור","proc.5.desc":"הפעלה עם משתמשים אמיתיים, איסוף משוב תפעולי ופיתוח המערכת לנכס מוצר ארוך טווח.",
+    "faq.label":"שאלות נפוצות","faq.h2":"שאלות נפוצות.","faq.q1":"עם אילו עסקים אתם עובדים?","faq.a1":"אנחנו עובדים עם עסקים קטנים ובינוניים שגדלו מעבר לכלים הנוכחיים שלהם — בניהול נכסים, פיננסים, לוגיסטיקה, קמעונאות ותעשיות עתירות תפעול. אם הצוות שלך מסתמך על וואטסאפ, גיליונות אלקטרוניים ועבודה ידנית — נוכל לעזור.","faq.q2":"כמה זמן לוקח לבנות מערכת?","faq.a2":"מערכת תפעולית בסיסית מוכנה בדרך כלל תוך 2–4 שבועות. מערכות מורכבות יותר עם אינטגרציות מרובות, שכבות AI ופורטלים מותאמים לוקחות 4–8 שבועות.","faq.q3":"מה זה אבחון מערכת?","faq.a3":"פגישה של 45 דקות שבה אנחנו ממפים את תהליך העבודה התפעולי הנוכחי שלך, מזהים את צווארי הבקבוק הגדולים ומציגים לך כיצד תיראה מערכת מותאמת לעסק שלך. זה חינמי, ללא כל התחייבות.","faq.q4":"האם אתם מציעים תמיכה שוטפת לאחר ההפעלה?","faq.a4":"כן. אנחנו מציעים תוכניות ריטיינר חודשיות הכוללות תחזוקה, שיפורים, תכונות חדשות ותמיכה טכנית. רוב הלקוחות שלנו נשארים בריטיינר לאחר ההפעלה.","faq.q5":"האם המערכת מחליפה את הוואטסאפ לחלוטין?","faq.a5":"לא בהכרח. לעתים קרובות אנחנו בונים מערכות שמתחילות בוואטסאפ — כי שם הצוות והלקוחות כבר מתקשרים — ומזינות אוטומטית לדשבורד מובנה. שומרים על הערוץ המוכר אבל מקבלים שליטה תפעולית מלאה.",
+    "contact.label":"צור קשר","contact.h2":"התחל עם<br><em>אבחון מערכת.</em>","contact.desc":"אנחנו ממפים את הכאב התפעולי שלך, מראים לך כיצד תיראה מערכת מותאמת ונותנים לך דרך ברורה מכאוס לשליטה. ללא התחייבות.","contact.email.label":"מייל","contact.audit.label":"אבחון","contact.audit.val":"פגישה של 45 דקות · חינמי · ללא התחייבות",
+    "form.name":"שם","form.company":"חברה","form.email":"אימייל","form.interest":"אני מעוניין ב","form.opt1":"אבחון מערכת (חינמי)","form.opt2":"מערכת עסקית מותאמת","form.opt3":"שכבת תפעול AI","form.opt4":"דשבורד ניהולי","form.opt5":"פורטל לקוחות / עובדים","form.opt6":"תהליך עבודה בוואטסאפ","form.message":"ספר לנו על התפעול שלך","form.submit":"שלח הודעה ←","form.success":"✓ ההודעה נשלחה. נחזור אליך תוך 24 שעות.",
+    "infra.label":"בנוי על","footer.tagline":"מערכות הפעלה עסקיות מבוססות AI"
   },
-  fr:{
-    "brand":"Levy Tech","nav.services":"Services","nav.projects":"Systèmes","nav.process":"Processus","nav.contact":"Contact","nav.cta":"Réserver un Audit Système",
-    "hero.tag":"Systèmes d'exploitation IA privés",
-    "hero.h1":"Nous construisons<br>des <em>systèmes d'exploitation,</em><br>pas des sites web.",
-    "hero.sub":"Levy Tech conçoit et déploie des systèmes d'exploitation IA sur mesure pour les entreprises qui ont dépassé les tableurs, le chaos WhatsApp et le travail manuel.",
-    "hero.cta1":"Réserver un Audit Système →","hero.cta2":"Voir les Systèmes",
-    "hero.m1":"Systèmes en production","hero.m2":"Moteur IA","hero.m3":"Opérations automatisées",
-    "manifesto.label":"Notre Philosophie","manifesto.h2":"Le système<br>derrière<br><em>l'entreprise.</em>",
-    "manifesto.p1":"Levy Tech aide les entreprises à passer du chaos opérationnel à une source unique de vérité — en combinant tableaux de bord, bases de données, automatisations, agents IA et portails clients en un seul produit fonctionnel.",
-    "manifesto.p2":"Nous construisons pour les fondateurs, opérateurs et dirigeants qui ont besoin d'un contrôle réel — pas d'un autre outil d'abonnement inutilisé après le premier mois.",
-    "manifesto.p3":"Chaque système que nous construisons remplace des outils dispersés par une couche opérationnelle unique que toute l'équipe utilise vraiment.",
-    "ba.label":"La Transformation","ba.before":"Avant Levy Tech","ba.after":"Après Levy Tech",
-    "ba.b1":"Chaos WhatsApp — messages perdus, pas d'historique","ba.b2":"Suivi Excel sans visibilité en temps réel","ba.b3":"Mises à jour manuelles et relances constantes","ba.b4":"Pas de responsabilité ni de journal opérationnel","ba.b5":"Le dirigeant garde tout en tête",
-    "ba.a1":"Flux de tickets structuré et dispatch automatisé","ba.a2":"Tableau de bord en direct avec visibilité complète","ba.a3":"Workflows automatisés — zéro relance manuelle","ba.a4":"Historique opérationnel complet et piste d'audit","ba.a5":"L'équipe travaille depuis un système propre et partagé",
-    "svc.label":"Ce que nous construisons","svc.h2":"Cinq capacités.<br>Un <em>système d'exploitation.</em>","svc.sub":"Chaque capacité se connecte aux autres. Le résultat est une couche opérationnelle unique sur toute l'entreprise — pas cinq outils séparés.",
-    "svc.t1":"Systèmes d'entreprise privés","svc.d1":"Logiciel interne sur mesure adapté à votre logique opérationnelle — pas des modèles SaaS génériques.",
-    "svc.t2":"Couche IA opérationnelle","svc.d2":"Une couche intelligente qui connecte les données, déclenche des alertes, achemine les tâches et fait remonter les décisions automatiquement.",
-    "svc.t3":"Tableaux de bord exécutifs","svc.d3":"Vues opérationnelles en temps réel pour la direction — statut, KPIs, rapports et visibilité financière en un seul endroit.",
-    "svc.t4":"Portails clients et employés","svc.d4":"Portails d'accès sécurisés pour les clients, les travailleurs de terrain et les fournisseurs — chacun avec la bonne vue.",
-    "svc.t5":"Workflows basés sur WhatsApp","svc.d5":"Des systèmes qui démarrent sur WhatsApp et alimentent un tableau de bord complet — là où votre équipe communique déjà.",
-    "proj.label":"Systèmes sélectionnés","proj.h2":"Conçu pour de vraies opérations.<br><em>Déployé</em> pour de vrais clients.",
-    "proj.bamakor.tag":"Opérations de maintenance","proj.bamakor.sub":"Système de gestion de maintenance WhatsApp","proj.bamakor.desc":"Les résidents signalent les problèmes via WhatsApp. Le système ouvre des tickets structurés, assigne des techniciens, suit la résolution et conserve l'historique complet — depuis un seul tableau de bord. En production avec des clients payants.",
-    "proj.naaryo.tag":"Finance et investissement","proj.naaryo.sub":"Portail clients investissement","proj.naaryo.desc":"Un portail numérique sécurisé pour les clients investisseurs — documents, visibilité du portefeuille, rapports de performance et communication structurée conseiller-client.",
-    "proj.meditactic.tag":"Chaîne d'approvisionnement","proj.meditactic.sub":"Système d'intelligence chaîne d'approvisionnement","proj.meditactic.desc":"Une plateforme opérationnelle centralisée pour gérer les stocks, fournisseurs, bons de commande, logistique et visibilité financière — réduisant les angles morts et soutenant des décisions plus rapides.",
-    "proj.opsbrain.tag":"Espace de travail IA","proj.opsbrain.sub":"Système d'exploitation IA pour entreprises","proj.opsbrain.desc":"Un espace de travail unifié connectant emails, fichiers, tâches et données opérationnelles en temps réel dans un centre de commande IA — donnant aux dirigeants une interface unique pour comprendre et contrôler toute l'entreprise.",
-    "testi.label":"Témoignage client",
-    "testi.quote":'"Avant Bamakor, je gérais tout via WhatsApp — les messages se perdaient, les ouvriers ne savaient pas quoi faire, et je n\'avais aucune vision claire de ce qui se passait. Maintenant tout passe par le tableau de bord. Ça a changé ma façon de gérer l\'entreprise."',
-    "testi.name":"Sara","testi.role":"Gestion immobilière · Cliente Bamakor",
-    "proc.label":"Comment nous construisons","proc.h2":"Un chemin clair<br>du <em>problème</em> au produit.",
-    "proc.t1":"Audit Système","proc.d1":"Cartographier la vraie douleur opérationnelle — où le temps est perdu, ce qui se casse, et ce dont l'entreprise a vraiment besoin.",
-    "proc.t2":"Architecture","proc.d2":"Concevoir la logique du tableau de bord, la structure de la base de données et les flux d'automatisation avant d'écrire une seule ligne de code.",
-    "proc.t3":"Construction","proc.d3":"Construire vite et précisément avec Next.js, Supabase, Vercel et l'IA intégrée — sans les délais lents des agences.",
-    "proc.t4":"Connexion","proc.d4":"Intégrer WhatsApp, email, calendrier, tableurs ou tout autre outil que l'entreprise utilise déjà.",
-    "proc.t5":"Déploiement & Évolution","proc.d5":"Lancer avec de vrais utilisateurs, collecter les retours opérationnels et faire évoluer le système en actif produit long terme.",
-    "faq.label":"Questions fréquentes","faq.h2":"Tout ce que vous<br>devez <em>savoir.</em>",
-    "faq.q1":"Combien de temps faut-il pour construire un système ?","faq.a1":"La plupart des systèmes sont en production sous 2 à 6 semaines selon la complexité. Un système WhatsApp + tableau de bord de base peut être opérationnel en moins de deux semaines.",
-    "faq.q2":"Faut-il des connaissances techniques pour utiliser le système ?","faq.a2":"Non. Nous construisons des systèmes utilisés quotidiennement par des équipes non techniques. Vos employés continuent d'utiliser WhatsApp normalement. Les managers obtiennent un tableau de bord clair.",
-    "faq.q3":"Que comprend un Audit Système ?","faq.a3":"Une session de 45 minutes où nous cartographions votre douleur opérationnelle et vous montrons à quoi ressemblerait un système sur mesure. Aucun engagement requis.",
-    "faq.q4":"Pouvez-vous maintenir le système après le lancement ?","faq.a4":"Oui. Nous proposons des contrats de maintenance et d'amélioration continue. La plupart des clients nous gardent sur une base mensuelle.",
-    "faq.q5":"Avec quels secteurs travaillez-vous ?","faq.a5":"Gestion immobilière, investissement et finance, chaîne d'approvisionnement médicale, et toute entreprise gérant des personnes, des stocks, des clients ou du travail de terrain manuellement.",
-    "infra.label":"Construit sur",
-    "contact.label":"Contactez-nous","contact.h2":"Prêt à construire votre<br><em>système d'exploitation ?</em>","contact.p":"Commencez par un Audit Système. Nous cartographions votre douleur opérationnelle et vous donnons un chemin clair du chaos vers le contrôle. Aucun engagement requis.",
-    "contact.wa":"WhatsApp — Réserver un appel",
-    "form.name":"Votre nom","form.company":"Entreprise","form.email":"Email","form.msg":"Quel est votre défi opérationnel ?","form.submit":"Envoyer →",
-    "cta.title":"Prêt à transformer vos opérations<br>en <em>système ?</em>","cta.sub":"Commencez par un Audit Système de 45 minutes. Sans engagement — juste de la clarté sur ce dont votre entreprise a vraiment besoin.",
-    "cta.btn1":"Réserver par Email →","cta.btn2":"WhatsApp","cta.note":"Session de 45 min · Sans engagement"
+  fr: {
+    "brand":"Levy Tech","nav.services":"Services","nav.projects":"Systèmes","nav.process":"Processus","nav.faq":"FAQ","nav.contact":"Contact","nav.cta":"Réserver un audit système",
+    "hero.tag":"Systèmes d'exploitation IA privés","hero.h1":"Nous construisons des<br><em>systèmes d'exploitation,</em><br>pas des sites web.","hero.sub":"Levy Tech conçoit et déploie des systèmes d'exploitation IA personnalisés pour les entreprises qui ont dépassé les tableurs, WhatsApp et le travail manuel.","hero.cta1":"Réserver un audit système →","hero.cta2":"Voir les systèmes","hero.m1":"Systèmes actifs","hero.m2":"Moteur IA","hero.m3":"Ops automatisées",
+    "core.ops":"Opérations","core.ops.sub":"Tickets & dispatch","core.fin":"Finance","core.fin.sub":"Portefeuilles & rapports","core.sup":"Chaîne logistique","core.sup.sub":"Stocks & logistique","core.ai":"Agents IA","core.ai.sub":"Moteur d'automatisation","core.maint":"Maintenance","core.maint.sub":"Terrain & équipes","core.portal":"Portails clients","core.portal.sub":"Couche d'accès sécurisée","core.label":"Centre de commandement",
+    "manifesto.label":"Notre philosophie","manifesto.h2":"Le système<br>derrière<br><em>l'entreprise.</em>","manifesto.p1":"Levy Tech aide les entreprises à passer du chaos opérationnel à une source unique de vérité — en combinant tableaux de bord, bases de données, automatisations, agents IA et portails clients en un seul produit.","manifesto.p2":"Nous construisons pour les fondateurs, les opérateurs et les dirigeants qui ont besoin d'un contrôle réel — pas d'un autre outil par abonnement inutilisé.","manifesto.p3":"Chaque système que nous construisons remplace des outils dispersés par une couche opérationnelle unique que toute l'équipe utilise réellement.",
+    "ba.label":"La transformation","ba.before":"Avant Levy Tech","ba.after":"Après Levy Tech","ba.b1":"Chaos WhatsApp — messages dispersés, aucun historique","ba.b2":"Suivi Excel sans visibilité en temps réel","ba.b3":"Mises à jour manuelles et relances constantes","ba.b4":"Aucune responsabilité ni journal opérationnel","ba.b5":"Le dirigeant garde tout dans sa tête","ba.a1":"Flux de tickets structuré et dispatch automatisé","ba.a2":"Tableau de bord en direct avec visibilité totale","ba.a3":"Flux de travail automatisés — zéro relance manuelle","ba.a4":"Historique opérationnel complet et piste d'audit","ba.a5":"L'équipe travaille depuis un système unique et partagé",
+    "svc.label":"Ce que nous construisons","svc.h2":"Cinq capacités.<br>Un seul <em>système d'exploitation.</em>","svc.desc":"Chaque capacité se connecte aux autres. Le résultat est une couche opérationnelle unique sur toute l'entreprise — pas cinq outils séparés.","svc.1.title":"Systèmes métier privés","svc.1.desc":"Logiciel interne sur mesure construit autour de votre logique opérationnelle exacte.","svc.2.title":"Couche d'opérations IA","svc.2.desc":"Une couche intelligente qui connecte les données, déclenche des alertes, route les tâches et remonte les décisions automatiquement.","svc.3.title":"Tableaux de bord exécutifs","svc.3.desc":"Vues opérationnelles en temps réel pour la direction — statut, KPIs, rapports et visibilité financière en un seul endroit.","svc.4.title":"Portails clients & équipes","svc.4.desc":"Portails d'accès sécurisés pour les clients, les équipes terrain et les fournisseurs — chacun avec la bonne vue.","svc.5.title":"Flux de travail WhatsApp","svc.5.desc":"Des systèmes qui démarrent sur WhatsApp et alimentent directement un tableau de bord complet.",
+    "proj.label":"Systèmes sélectionnés","proj.h2":"Construit pour de vraies opérations.<br><em>Déployé</em> pour de vrais clients.","proj.1.tag":"Opérations de maintenance","proj.1.sub":"Système de maintenance opérationnelle WhatsApp","proj.1.desc":"Les résidents signalent des problèmes via WhatsApp. Le système crée automatiquement des tickets structurés, affecte des techniciens et conserve l'historique complet — dans un tableau de bord unique.","proj.2.tag":"Finance & investissement","proj.2.sub":"Portail clients investissement","proj.2.desc":"Un portail numérique sécurisé pour les clients investisseurs — documents, visibilité du portefeuille, rapports et communication conseiller-client structurée.","proj.3.tag":"Chaîne logistique & stocks","proj.3.sub":"Système d'intelligence supply chain","proj.3.desc":"Une plateforme centralisée pour gérer les stocks, fournisseurs, commandes, logistique et visibilité financière — conçue pour réduire les angles morts opérationnels.","proj.4.tag":"Espace de travail IA","proj.4.sub":"Système d'exploitation IA pour entreprises","proj.4.desc":"Un espace de travail unifié qui connecte e-mails, fichiers, tâches et données opérationnelles en direct dans un centre de commandement IA — donnant aux dirigeants une interface unique pour contrôler toute l'entreprise.",
+    "proc.label":"Comment nous construisons","proc.h2":"Un chemin clair<br>du <em>problème</em> au produit.","proc.1.title":"Audit système","proc.1.desc":"Cartographier la douleur opérationnelle réelle — où le temps est perdu, ce qui dysfonctionne, ce dont l'entreprise a besoin.","proc.2.title":"Architecture","proc.2.desc":"Concevoir la logique du tableau de bord, la structure de la base de données et les flux d'automatisation avant d'écrire une seule ligne de code.","proc.3.title":"Construction","proc.3.desc":"Construire rapidement et précisément avec Next.js, Supabase, Vercel et l'IA intégrée — sans les délais d'une agence classique.","proc.4.title":"Connexion","proc.4.desc":"Intégrer avec WhatsApp, e-mail, calendrier, tableurs ou tout autre outil déjà utilisé par l'entreprise.","proc.5.title":"Déploiement & évolution","proc.5.desc":"Lancer avec de vrais utilisateurs, collecter les retours et faire évoluer le système en un actif produit durable.",
+    "faq.label":"FAQ","faq.h2":"Questions fréquentes.","faq.q1":"Avec quels types d'entreprises travaillez-vous ?","faq.a1":"Nous travaillons avec des PME qui ont dépassé leurs outils actuels — en gestion immobilière, finance, logistique, commerce et secteurs à forte intensité opérationnelle.","faq.q2":"Combien de temps faut-il pour construire un système ?","faq.a2":"Un système opérationnel de base est généralement prêt en 2 à 4 semaines. Les systèmes plus complexes avec plusieurs intégrations, couches IA et portails personnalisés prennent 4 à 8 semaines.","faq.q3":"Qu'est-ce qu'un audit système ?","faq.a3":"Une session de 45 minutes où nous cartographions votre flux opérationnel actuel, identifions les principaux goulots d'étranglement et vous montrons à quoi ressemblerait un système personnalisé. C'est gratuit, sans engagement.","faq.q4":"Proposez-vous un support continu après le lancement ?","faq.a4":"Oui. Nous proposons des plans mensuels qui incluent la maintenance, les améliorations, les nouvelles fonctionnalités et le support technique.","faq.q5":"Le système remplace-t-il WhatsApp entièrement ?","faq.a5":"Pas nécessairement. Nous construisons souvent des systèmes qui démarrent sur WhatsApp — car c'est là que votre équipe communique déjà — et alimentent automatiquement un tableau de bord structuré.",
+    "contact.label":"Contactez-nous","contact.h2":"Commencez par un<br><em>audit système.</em>","contact.desc":"Nous cartographions votre douleur opérationnelle, vous montrons à quoi ressemblerait un système personnalisé et vous donnons un chemin clair du chaos au contrôle. Sans engagement.","contact.email.label":"Email","contact.audit.label":"Audit","contact.audit.val":"Session 45 min · Gratuit · Sans engagement",
+    "form.name":"Nom","form.company":"Entreprise","form.email":"Email","form.interest":"Je suis intéressé par","form.opt1":"Audit système (gratuit)","form.opt2":"Système métier personnalisé","form.opt3":"Couche d'opérations IA","form.opt4":"Tableau de bord exécutif","form.opt5":"Portail clients / équipes","form.opt6":"Flux de travail WhatsApp","form.message":"Décrivez vos opérations","form.submit":"Envoyer le message →","form.success":"✓ Message envoyé. Nous vous répondrons dans les 24 heures.",
+    "infra.label":"Construit sur","footer.tagline":"Systèmes d'exploitation IA privés"
   }
 };
 
 let currentLang = 'en';
-function setLang(lang){
+
+function setLang(lang) {
   currentLang = lang;
   const isRTL = lang === 'he';
-  document.body.classList.toggle('rtl', isRTL);
-  document.documentElement.setAttribute('lang', lang);
-  document.documentElement.setAttribute('dir', isRTL ? 'rtl' : 'ltr');
-  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active', b.textContent===lang.toUpperCase()));
-  const t = LANGS[lang];
-  document.querySelectorAll('[data-i18n]').forEach(el=>{
+  document.documentElement.lang = lang;
+  document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
+  document.body.className = lang;
+
+  // Update active button
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent.toLowerCase() === lang);
+  });
+
+  // Translate text nodes
+  document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
-    if(t[key] !== undefined) el.textContent = t[key];
+    if (T[lang] && T[lang][key]) el.textContent = T[lang][key];
   });
-  document.querySelectorAll('[data-i18n-html]').forEach(el=>{
+
+  // Translate HTML nodes (with em tags)
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
     const key = el.getAttribute('data-i18n-html');
-    if(t[key] !== undefined) el.innerHTML = t[key];
+    if (T[lang] && T[lang][key]) el.innerHTML = T[lang][key];
   });
+
+  // Update form placeholders per lang
+  const placeholders = {
+    en: { name:'Your name', company:'Company name', email:'your@email.com', msg:'What\'s the current challenge? What tools are you using today?' },
+    he: { name:'השם שלך', company:'שם החברה', email:'your@email.com', msg:'מה האתגר הנוכחי? אילו כלים אתם משתמשים בהם כיום?' },
+    fr: { name:'Votre nom', company:'Nom de l\'entreprise', email:'votre@email.com', msg:'Quel est le défi actuel ? Quels outils utilisez-vous aujourd\'hui ?' }
+  };
+  const p = placeholders[lang];
+  const fi = document.getElementById('f-name'); if(fi) fi.placeholder = p.name;
+  const fc = document.getElementById('f-company'); if(fc) fc.placeholder = p.company;
+  const fe = document.getElementById('f-email'); if(fe) fe.placeholder = p.email;
+  const fm = document.getElementById('f-message'); if(fm) fm.placeholder = p.msg;
 }
+
+// FAQ accordion
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// Contact form — mailto
+function submitForm(e) {
+  e.preventDefault();
+  const name = document.getElementById('f-name').value;
+  const company = document.getElementById('f-company').value;
+  const email = document.getElementById('f-email').value;
+  const interest = document.getElementById('f-interest').value;
+  const message = document.getElementById('f-message').value;
+
+  const subject = encodeURIComponent(`Levy Tech Inquiry — ${interest}`);
+  const body = encodeURIComponent(
+    `Name: ${name}\nCompany: ${company}\nEmail: ${email}\nInterest: ${interest}\n\n${message}`
+  );
+
+  window.location.href = `mailto:OpsBrain1@gmail.com?subject=${subject}&body=${body}`;
+
+  const successEl = document.getElementById('form-success');
+  successEl.style.display = 'block';
+  setTimeout(() => { successEl.style.display = 'none'; }, 5000);
+}
+
+// Scroll reveal
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('revealed'); io.unobserve(e.target); }
+  });
+}, { threshold: 0.07 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 </script>
 </body>
 </html>
