@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Levy Tech — Private AI Operating Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080808;
+      --surface: #0f0f0f;
+      --surface2: #141414;
+      --surface3: #1a1a1a;
+      --text: #f0ece4;
+      --text-dim: #8a8478;
+      --text-faint: #3d3a35;
+      --gold: #c9a96e;
+      --gold-light: #e8d5a8;
+      --gold-dim: rgba(201,169,110,.18);
+      --champagne: #f5efe3;
+      --line: rgba(255,255,255,.07);
+      --line-gold: rgba(201,169,110,.2);
+      --silver: #9ba3af;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 100;
+      opacity: .032;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 22px 6vw;
+      border-bottom: 1px solid var(--line);
+      background: rgba(8,8,8,.88);
+      backdrop-filter: blur(24px);
+    }
+
+    .brand {
+      display: flex; align-items: center; gap: 14px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px; font-weight: 500;
+      letter-spacing: .5px; color: var(--champagne);
+    }
+
+    .logo-mark {
+      width: 36px; height: 36px;
+      border: 1px solid var(--line-gold);
+      border-radius: 8px;
+      display: grid; place-items: center;
+      background: linear-gradient(145deg, rgba(201,169,110,.12), rgba(201,169,110,.04));
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px; font-weight: 600;
+      color: var(--gold);
+    }
+
+    .nav-links a {
+      color: var(--text-dim); text-decoration: none;
+      font-size: 13px; letter-spacing: .4px;
+      margin-left: 32px;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      display: inline-flex; align-items: center;
+      padding: 9px 20px; border-radius: 4px;
+      border: 1px solid var(--line-gold);
+      background: transparent;
+      color: var(--gold); font-size: 13px;
+      letter-spacing: .4px; text-decoration: none;
+      transition: all .25s;
+    }
+    .nav-cta:hover { background: var(--gold-dim); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 92vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 0;
+      padding: 80px 6vw 60px;
+      position: relative;
+    }
+
+    .hero-left { padding-right: 60px; }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      color: var(--gold); font-size: 11px;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      font-family: 'DM Mono', monospace;
+      margin-bottom: 36px;
+    }
+    .eyebrow-line {
+      width: 32px; height: 1px; background: var(--gold); opacity: .6;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(48px, 6.5vw, 88px);
+      font-weight: 300;
+      line-height: 1.0;
+      letter-spacing: -1px;
+      color: var(--champagne);
+      margin-bottom: 32px;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .lead {
+      color: var(--text-dim);
+      font-size: 16px; line-height: 1.8;
+      max-width: 500px; margin-bottom: 44px;
+      font-weight: 300;
+    }
+
+    .hero-actions { display: flex; align-items: center; gap: 20px; }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 28px; border-radius: 4px;
+      background: var(--gold);
+      color: #080808; font-size: 13px;
+      font-weight: 500; letter-spacing: .4px;
+      text-decoration: none;
+      transition: all .25s;
+    }
+    .btn-primary:hover { background: var(--gold-light); }
+
+    .btn-ghost {
+      color: var(--text-dim); font-size: 13px;
+      letter-spacing: .4px; text-decoration: none;
+      border-bottom: 1px solid var(--text-faint);
+      padding-bottom: 2px;
+      transition: all .2s;
+    }
+    .btn-ghost:hover { color: var(--text); border-color: var(--text-dim); }
+
+    /* ── 3D COMMAND CORE ── */
+    .stage {
+      height: 580px; position: relative;
+      display: grid; place-items: center;
+      perspective: 1200px;
+    }
+
+    .command-sphere {
+      width: 180px; height: 180px; border-radius: 50%;
+      position: relative; z-index: 2;
+      background:
+        radial-gradient(circle at 35% 35%, rgba(201,169,110,.22), transparent 55%),
+        radial-gradient(circle at 70% 70%, rgba(255,255,255,.06), transparent 50%),
+        linear-gradient(145deg, #1c1c1c, #0a0a0a);
+      border: 1px solid rgba(201,169,110,.25);
+      box-shadow:
+        0 0 0 1px rgba(201,169,110,.08),
+        0 0 60px rgba(201,169,110,.08),
+        inset 0 1px 0 rgba(255,255,255,.08),
+        inset 0 0 40px rgba(0,0,0,.6);
+      display: grid; place-items: center;
+      animation: breathe 6s ease-in-out infinite;
+    }
+
+    .sphere-inner { text-align: center; }
+    .sphere-inner .lt {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 42px; font-weight: 400;
+      color: var(--gold); line-height: 1;
+    }
+    .sphere-inner .label {
+      font-size: 9px; letter-spacing: 2.5px;
+      text-transform: uppercase; color: var(--text-dim);
+      margin-top: 6px; font-family: 'DM Mono', monospace;
+    }
+
+    /* Orbit rings */
+    .orbit-ring {
+      position: absolute; border-radius: 50%;
+      border: 1px solid rgba(201,169,110,.12);
+      animation: orbit-spin var(--dur) linear infinite;
+    }
+    .ring-1 { width: 280px; height: 280px; --dur: 28s; transform: rotateX(70deg); }
+    .ring-2 { width: 380px; height: 380px; --dur: 42s; animation-direction: reverse; transform: rotateX(72deg) rotateZ(25deg); border-color: rgba(255,255,255,.06); }
+    .ring-3 { width: 480px; height: 480px; --dur: 60s; transform: rotateX(68deg) rotateZ(-15deg); border-color: rgba(201,169,110,.07); }
+
+    @keyframes orbit-spin { to { transform: rotateX(70deg) rotateZ(360deg); } }
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 1px rgba(201,169,110,.08), 0 0 60px rgba(201,169,110,.08), inset 0 1px 0 rgba(255,255,255,.08), inset 0 0 40px rgba(0,0,0,.6); }
+      50% { transform: scale(1.03); box-shadow: 0 0 0 1px rgba(201,169,110,.15), 0 0 100px rgba(201,169,110,.14), inset 0 1px 0 rgba(255,255,255,.08), inset 0 0 40px rgba(0,0,0,.6); }
+    }
+
+    /* Floating system nodes */
+    .sys-nodes {
+      position: absolute; inset: 0;
+      animation: nodes-rotate 50s linear infinite;
+      transform-style: preserve-3d;
+    }
+
+    .sys-node {
+      position: absolute; left: 50%; top: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      opacity: 0;
+      animation: node-appear 1s ease forwards;
+    }
+
+    .node-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px 16px;
+      white-space: nowrap;
+      min-width: 130px;
+      transition: border-color .3s;
+    }
+    .node-card:hover { border-color: var(--line-gold); }
+
+    .node-card .n-label {
+      font-size: 11px; font-weight: 500;
+      color: var(--text); letter-spacing: .3px;
+    }
+    .node-card .n-sub {
+      font-size: 10px; color: var(--text-dim);
+      margin-top: 2px; font-family: 'DM Mono', monospace;
+      letter-spacing: .3px;
+    }
+    .node-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--gold); display: inline-block;
+      margin-right: 6px; vertical-align: middle;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes nodes-rotate { to { transform: rotateY(360deg); } }
+    @keyframes node-appear { to { opacity: 1; } }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; } 50% { opacity: .3; }
+    }
+
+    /* Static positioned nodes (no 3D orbit for readability) */
+    .node-ops     { top: 8%;  left: 50%; transform: translateX(-50%); animation-delay: .1s; }
+    .node-fin     { top: 22%; right: 4%; animation-delay: .2s; }
+    .node-maint   { bottom: 22%; right: 4%; animation-delay: .3s; }
+    .node-supply  { bottom: 8%; left: 50%; transform: translateX(-50%); animation-delay: .4s; }
+    .node-portal  { bottom: 22%; left: 4%; animation-delay: .5s; }
+    .node-ai      { top: 22%;  left: 4%; animation-delay: .6s; }
+
+    /* ── MANIFESTO ── */
+    .manifesto {
+      padding: 100px 6vw;
+      border-top: 1px solid var(--line);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+      align-items: center;
+    }
+
+    .manifesto-statement {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 4.5vw, 60px);
+      font-weight: 300; line-height: 1.15;
+      color: var(--champagne); letter-spacing: -.5px;
+    }
+    .manifesto-statement strong {
+      font-weight: 500; color: var(--gold);
+      font-style: italic;
+    }
+
+    .manifesto-body p {
+      color: var(--text-dim); font-size: 15px;
+      line-height: 1.85; margin-bottom: 20px;
+      font-weight: 300;
+    }
+
+    .divider-line {
+      width: 40px; height: 1px;
+      background: var(--gold); opacity: .5;
+      margin-bottom: 28px;
+    }
+
+    /* ── BEFORE / AFTER ── */
+    .transformation {
+      padding: 80px 6vw;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-label {
+      font-size: 11px; letter-spacing: 2.5px;
+      text-transform: uppercase; color: var(--gold);
+      font-family: 'DM Mono', monospace; margin-bottom: 48px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-label::after {
+      content: ''; flex: 1; height: 1px;
+      background: var(--line-gold); max-width: 60px;
+    }
+
+    .before-after {
+      display: grid; grid-template-columns: 1fr 48px 1fr; gap: 0;
+      align-items: stretch;
+    }
+
+    .ba-column {
+      border: 1px solid var(--line); border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .ba-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--line);
+      font-size: 11px; letter-spacing: 2px;
+      text-transform: uppercase; font-family: 'DM Mono', monospace;
+    }
+    .ba-header.before { color: var(--text-faint); background: var(--surface); }
+    .ba-header.after  { color: var(--gold); background: rgba(201,169,110,.06); border-color: var(--line-gold); }
+
+    .ba-column.after-col { border-color: var(--line-gold); }
+
+    .ba-items { padding: 8px 0; }
+    .ba-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px; color: var(--text-dim);
+      font-weight: 300;
+    }
+    .ba-item:last-child { border-bottom: none; }
+    .ba-item.after-item { color: var(--text); }
+    .ba-icon { font-size: 12px; opacity: .5; }
+    .ba-icon.check { color: var(--gold); opacity: 1; }
+
+    .ba-divider {
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; color: var(--text-faint);
+    }
+    .arrow-icon {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 1px solid var(--line-gold);
+      display: grid; place-items: center;
+      color: var(--gold); font-size: 14px;
+    }
+
+    /* ── SERVICES ── */
+    .services {
+      padding: 80px 6vw;
+      border-top: 1px solid var(--line);
+    }
+
+    .services-header {
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: end; gap: 60px; margin-bottom: 56px;
+    }
+
+    h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 4vw, 54px);
+      font-weight: 300; line-height: 1.1;
+      letter-spacing: -.5px; color: var(--champagne);
+    }
+
+    .services-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+    }
+
+    .service-cell {
+      background: var(--bg);
+      padding: 32px 24px;
+      transition: background .25s;
+    }
+    .service-cell:hover { background: var(--surface); }
+
+    .service-number {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px; color: var(--gold);
+      letter-spacing: 1.5px; margin-bottom: 24px;
+      opacity: .7;
+    }
+
+    .service-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px; font-weight: 500;
+      color: var(--champagne); margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .service-desc {
+      font-size: 12px; color: var(--text-dim);
+      line-height: 1.7; font-weight: 300;
+    }
+
+    /* ── PROJECTS ── */
+    .projects {
+      padding: 80px 6vw;
+      border-top: 1px solid var(--line);
+    }
+
+    .projects-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+      margin-top: 48px;
+    }
+
+    .project-card {
+      background: var(--bg); padding: 40px;
+      position: relative; overflow: hidden;
+      transition: background .25s;
+      cursor: default;
+    }
+    .project-card:hover { background: var(--surface); }
+
+    .project-card.featured {
+      grid-column: span 2;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+      align-items: center;
+    }
+
+    .project-tag {
+      font-size: 10px; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--gold);
+      font-family: 'DM Mono', monospace;
+      margin-bottom: 16px; opacity: .8;
+    }
+
+    .project-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px; font-weight: 400;
+      color: var(--champagne); margin-bottom: 8px;
+      line-height: 1.1;
+    }
+
+    .project-subtitle {
+      font-size: 12px; color: var(--gold);
+      letter-spacing: .5px; margin-bottom: 18px;
+      font-weight: 400;
+    }
+
+    .project-desc {
+      font-size: 14px; color: var(--text-dim);
+      line-height: 1.75; font-weight: 300;
+      max-width: 400px;
+    }
+
+    .project-visual {
+      aspect-ratio: 16/9;
+      background: var(--surface2);
+      border-radius: 8px; border: 1px solid var(--line);
+      display: grid; place-items: center;
+      overflow: hidden; position: relative;
+    }
+
+    .pv-inner {
+      width: 100%; height: 100%;
+      display: grid; place-items: center;
+      position: relative;
+    }
+
+    /* Mini dashboard mockup per project */
+    .mini-dash {
+      width: 85%; height: 80%;
+      background: var(--surface3);
+      border-radius: 6px; border: 1px solid var(--line);
+      padding: 12px; overflow: hidden;
+    }
+    .mini-dash-bar {
+      height: 6px; border-radius: 3px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      margin-bottom: 8px; opacity: .6;
+    }
+    .mini-dash-rows { display: flex; flex-direction: column; gap: 5px; }
+    .mini-row {
+      height: 8px; border-radius: 2px;
+      background: var(--line);
+    }
+    .mini-row:nth-child(1) { width: 80%; }
+    .mini-row:nth-child(2) { width: 65%; }
+    .mini-row:nth-child(3) { width: 90%; }
+    .mini-row:nth-child(4) { width: 50%; }
+
+    .project-number {
+      position: absolute; bottom: 32px; right: 32px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 80px; font-weight: 300;
+      color: var(--text-faint); line-height: 1;
+      pointer-events: none;
+      opacity: .4;
+    }
+
+    /* ── PROCESS ── */
+    .process {
+      padding: 80px 6vw;
+      border-top: 1px solid var(--line);
+    }
+
+    .process-steps {
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      gap: 0; margin-top: 48px;
+      border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+      background: var(--line);
+    }
+
+    .process-step {
+      background: var(--bg); padding: 32px 24px;
+      position: relative;
+    }
+
+    .step-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px; color: var(--gold);
+      letter-spacing: 1.5px; margin-bottom: 20px;
+      opacity: .7;
+    }
+
+    .step-title {
+      font-size: 14px; font-weight: 500;
+      color: var(--champagne); margin-bottom: 10px;
+    }
+
+    .step-desc {
+      font-size: 12px; color: var(--text-dim);
+      line-height: 1.7; font-weight: 300;
+    }
+
+    /* ── INFRASTRUCTURE ── */
+    .infra {
+      padding: 60px 6vw;
+      border-top: 1px solid var(--line);
+      display: flex; align-items: center; gap: 48px;
+    }
+
+    .infra-label {
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text-dim); font-family: 'DM Mono', monospace;
+      white-space: nowrap;
+    }
+
+    .infra-line { width: 1px; height: 32px; background: var(--line); }
+
+    .infra-tags {
+      display: flex; flex-wrap: wrap; gap: 10px;
+    }
+
+    .infra-tag {
+      padding: 6px 14px; border-radius: 3px;
+      border: 1px solid var(--line);
+      font-size: 12px; color: var(--text-dim);
+      font-family: 'DM Mono', monospace; letter-spacing: .3px;
+      transition: all .2s;
+    }
+    .infra-tag:hover { border-color: var(--line-gold); color: var(--gold); }
+
+    /* ── CTA ── */
+    .cta-section {
+      margin: 0 6vw 80px; padding: 72px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--surface);
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 60px; align-items: center;
+      position: relative; overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .cta-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 300; line-height: 1.1;
+      color: var(--champagne);
+    }
+    .cta-title em { font-style: italic; color: var(--gold); }
+
+    .cta-sub {
+      color: var(--text-dim); font-size: 15px;
+      line-height: 1.7; margin-top: 16px; font-weight: 300;
+      max-width: 520px;
+    }
+
+    .cta-actions { display: flex; flex-direction: column; gap: 12px; align-items: flex-end; }
+
+    .cta-note {
+      font-size: 11px; color: var(--text-dim);
+      letter-spacing: .5px; font-family: 'DM Mono', monospace;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 32px 6vw;
+      border-top: 1px solid var(--line);
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 16px;
+    }
+
+    .footer-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px; color: var(--text-dim);
+    }
+
+    .footer-right {
+      font-size: 12px; color: var(--text-faint);
+      font-family: 'DM Mono', monospace;
+      letter-spacing: .4px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      .hero { grid-template-columns: 1fr; padding-top: 50px; }
+      .hero-left { padding-right: 0; }
+      .stage { height: 420px; }
+      .node-fin, .node-portal { display: none; }
+      .manifesto { grid-template-columns: 1fr; gap: 40px; }
+      .services-header { grid-template-columns: 1fr; gap: 16px; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+      .before-after { grid-template-columns: 1fr 32px 1fr; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+      .cta-section { grid-template-columns: 1fr; padding: 40px; gap: 32px; }
+      .cta-actions { align-items: flex-start; }
+      .nav-links { display: none; }
+      h1 { font-size: 44px; }
+      .infra { flex-wrap: wrap; gap: 20px; }
+    }
+
+    @media (max-width: 600px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: 1fr; }
+      .before-after { grid-template-columns: 1fr; }
+      .ba-divider { display: none; }
+    }
+
+    /* scroll reveal */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+    .revealed { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="brand">
+      <div class="logo-mark">L</div>
+      Levy Tech
+    </div>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#projects">Systems</a>
+      <a href="#process">Process</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a class="nav-cta" href="#contact">Book a System Audit</a>
+  </nav>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-left">
+        <div class="eyebrow">
+          <span class="eyebrow-line"></span>
+          Private AI Operating Systems
+        </div>
+        <h1>We build<br><em>operating systems</em><br>not websites.</h1>
+        <p class="lead">
+          Levy Tech designs and deploys private AI-powered operating systems for businesses
+          that have outgrown spreadsheets, WhatsApp and manual work.
+        </p>
+        <div class="hero-actions">
+          <a class="btn-primary" href="#contact">Book a System Audit →</a>
+          <a class="btn-ghost" href="#projects">View Systems</a>
+        </div>
+      </div>
+
+      <!-- 3D Command Core -->
+      <div class="stage">
+        <div class="orbit-ring ring-1"></div>
+        <div class="orbit-ring ring-2"></div>
+        <div class="orbit-ring ring-3"></div>
+
+        <!-- System nodes -->
+        <div class="sys-nodes" style="animation: none; position: absolute; inset: 0;">
+          <div class="sys-node node-ops">
+            <div class="node-card">
+              <div class="n-label"><span class="node-dot"></span>Operations</div>
+              <div class="n-sub">Ticket & dispatch layer</div>
+            </div>
+          </div>
+          <div class="sys-node node-fin">
+            <div class="node-card">
+              <div class="n-label"><span class="node-dot" style="animation-delay:.4s"></span>Finance</div>
+              <div class="n-sub">Portfolio & visibility</div>
+            </div>
+          </div>
+          <div class="sys-node node-maint">
+            <div class="node-card">
+              <div class="n-label"><span class="node-dot" style="animation-delay:.8s"></span>Maintenance</div>
+              <div class="n-sub">Worker & field ops</div>
+            </div>
+          </div>
+          <div class="sys-node node-supply">
+            <div class="node-card">
+              <div class="n-label"><span class="node-dot" style="animation-delay:1.2s"></span>Supply Chain</div>
+              <div class="n-sub">Inventory & logistics</div>
+            </div>
+          </div>
+          <div class="sys-node node-portal">
+            <div class="node-card">
+              <div class="n-label"><span class="node-dot" style="animation-delay:1.6s"></span>Client Portals</div>
+              <div class="n-sub">Secure access layer</div>
+            </div>
+          </div>
+          <div class="sys-node node-ai">
+            <div class="node-card">
+              <div class="n-label"><span class="node-dot" style="animation-delay:2s"></span>AI Agents</div>
+              <div class="n-sub">Automation core</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="command-sphere">
+          <div class="sphere-inner">
+            <div class="lt">LT</div>
+            <div class="label">Command Core</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MANIFESTO -->
+    <section class="manifesto reveal" id="manifesto">
+      <div class="manifesto-statement">
+        We don't build&nbsp;websites.<br>
+        We build the <strong>system behind</strong><br>
+        the business.
+      </div>
+      <div class="manifesto-body">
+        <div class="divider-line"></div>
+        <p>
+          Levy Tech helps companies move from operational chaos to a single source of truth —
+          combining dashboards, databases, automations, AI agents and client portals into
+          one working product.
+        </p>
+        <p>
+          We build for founders, operators and executives who need real control over their operations —
+          not another tool that sits unused.
+        </p>
+      </div>
+    </section>
+
+    <!-- BEFORE / AFTER -->
+    <section class="transformation reveal" id="transformation">
+      <div class="section-label">The Transformation</div>
+      <div class="before-after">
+        <div class="ba-column">
+          <div class="ba-header before">Before Levy Tech</div>
+          <div class="ba-items">
+            <div class="ba-item"><span class="ba-icon">✕</span> WhatsApp chaos and scattered messages</div>
+            <div class="ba-item"><span class="ba-icon">✕</span> Excel tracking with no real-time view</div>
+            <div class="ba-item"><span class="ba-icon">✕</span> Manual updates and constant follow-ups</div>
+            <div class="ba-item"><span class="ba-icon">✕</span> No operational history or accountability</div>
+            <div class="ba-item"><span class="ba-icon">✕</span> Owner holds everything in their head</div>
+          </div>
+        </div>
+        <div class="ba-divider">
+          <div class="arrow-icon">→</div>
+        </div>
+        <div class="ba-column after-col">
+          <div class="ba-header after">After Levy Tech</div>
+          <div class="ba-items">
+            <div class="ba-item after-item"><span class="ba-icon check">✓</span> Structured ticket flow and dispatch</div>
+            <div class="ba-item after-item"><span class="ba-icon check">✓</span> Live dashboard with full visibility</div>
+            <div class="ba-item after-item"><span class="ba-icon check">✓</span> Automated workflows and alerts</div>
+            <div class="ba-item after-item"><span class="ba-icon check">✓</span> Full operational log and history</div>
+            <div class="ba-item after-item"><span class="ba-icon check">✓</span> Team works from one clean system</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services reveal" id="services">
+      <div class="services-header">
+        <div>
+          <div class="section-label">What We Build</div>
+          <h2>Five capabilities.<br>One operating system.</h2>
+        </div>
+        <p style="color: var(--text-dim); font-size: 14px; line-height: 1.8; font-weight: 300; max-width: 320px;">
+          Each system is built to connect — not to exist in isolation. The result is a single operational layer across the entire business.
+        </p>
+      </div>
+      <div class="services-grid">
+        <div class="service-cell">
+          <div class="service-number">01</div>
+          <div class="service-title">Private Business Systems</div>
+          <div class="service-desc">Custom internal software built around your exact operational logic — not generic SaaS templates.</div>
+        </div>
+        <div class="service-cell">
+          <div class="service-number">02</div>
+          <div class="service-title">AI Operations Layer</div>
+          <div class="service-desc">An intelligent layer that connects data, triggers alerts, routes tasks and surfaces decisions automatically.</div>
+        </div>
+        <div class="service-cell">
+          <div class="service-number">03</div>
+          <div class="service-title">Executive Dashboards</div>
+          <div class="service-desc">Real-time operational views for managers — status, reports, KPIs and financial visibility in one place.</div>
+        </div>
+        <div class="service-cell">
+          <div class="service-number">04</div>
+          <div class="service-title">Client & Worker Portals</div>
+          <div class="service-desc">Secure access portals for clients, field workers, suppliers and partners — each with the right view.</div>
+        </div>
+        <div class="service-cell">
+          <div class="service-number">05</div>
+          <div class="service-title">WhatsApp-Based Workflows</div>
+          <div class="service-desc">Systems that start in WhatsApp and land in a full dashboard — where your team already communicates.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="projects reveal" id="projects">
+      <div class="section-label">Selected Systems</div>
+      <h2>Built for real operations.<br>Deployed for real clients.</h2>
+
+      <div class="projects-grid">
+
+        <!-- Bamakor — featured -->
+        <div class="project-card featured">
+          <div>
+            <div class="project-tag">Maintenance Operations</div>
+            <div class="project-name">Bamakor</div>
+            <div class="project-subtitle">WhatsApp Maintenance Operations System</div>
+            <p class="project-desc">
+              Residents report issues through WhatsApp. The system opens structured tickets,
+              assigns field workers, tracks resolution and keeps full operational history —
+              all managed from a single dashboard.
+            </p>
+          </div>
+          <div class="project-visual">
+            <div class="pv-inner">
+              <div class="mini-dash">
+                <div class="mini-dash-bar" style="width: 100%"></div>
+                <div class="mini-dash-rows">
+                  <div class="mini-row"></div>
+                  <div class="mini-row"></div>
+                  <div class="mini-row"></div>
+                  <div class="mini-row"></div>
+                  <div class="mini-row" style="width: 40%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="project-number">01</div>
+        </div>
+
+        <!-- Naaryo -->
+        <div class="project-card">
+          <div class="project-tag">Investment Finance</div>
+          <div class="project-name">Naaryo</div>
+          <div class="project-subtitle">Investment Client Portal</div>
+          <p class="project-desc">
+            A secure digital portal for investment clients — documents, portfolio visibility,
+            reports and structured advisor-client communication.
+          </p>
+          <div class="project-number">02</div>
+        </div>
+
+        <!-- Meditactic -->
+        <div class="project-card">
+          <div class="project-tag">Supply Chain & Inventory</div>
+          <div class="project-name">Meditactic</div>
+          <div class="project-subtitle">Supply Chain & Inventory Intelligence System</div>
+          <p class="project-desc">
+            A centralized operational platform for managing inventory, suppliers, orders,
+            logistics and financial visibility — built to reduce operational blind spots
+            and support faster executive decisions.
+          </p>
+          <div class="project-number">03</div>
+        </div>
+
+        <!-- OpsBrain -->
+        <div class="project-card" style="grid-column: span 2;">
+          <div class="project-tag">AI Workspace</div>
+          <div class="project-name">OpsBrain</div>
+          <div class="project-subtitle">AI Business Operating System</div>
+          <p class="project-desc" style="max-width: 560px;">
+            A unified business workspace that connects emails, files, tasks and operational data
+            into one AI-powered command center. The operating layer that ties everything together.
+          </p>
+          <div class="project-number">04</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="process reveal" id="process">
+      <div class="section-label">How We Build</div>
+      <h2>A clear path from<br>problem to product.</h2>
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="step-num">01</div>
+          <div class="step-title">System Audit</div>
+          <div class="step-desc">Map the real operational pain — what breaks, where time is lost, what the business actually needs.</div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">02</div>
+          <div class="step-title">Architecture</div>
+          <div class="step-desc">Design the dashboard logic, database structure and automation flows before writing a single line of code.</div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">03</div>
+          <div class="step-title">Build</div>
+          <div class="step-desc">Build fast and precisely using Next.js, Supabase, Vercel and integrated AI APIs.</div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">04</div>
+          <div class="step-title">Connect</div>
+          <div class="step-desc">Integrate with WhatsApp, email, calendar, spreadsheets or any business tool already in use.</div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">05</div>
+          <div class="step-title">Deploy & Improve</div>
+          <div class="step-desc">Launch with real users, collect operational feedback and evolve the system into a long-term product.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INFRASTRUCTURE -->
+    <section class="infra reveal">
+      <span class="infra-label">Built on</span>
+      <div class="infra-line"></div>
+      <div class="infra-tags">
+        <span class="infra-tag">Next.js</span>
+        <span class="infra-tag">Supabase</span>
+        <span class="infra-tag">Vercel</span>
+        <span class="infra-tag">WhatsApp Cloud API</span>
+        <span class="infra-tag">OpenAI / Claude</span>
+        <span class="infra-tag">Custom Integrations</span>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-section reveal" id="contact">
+      <div>
+        <div class="cta-title">
+          Ready to turn your<br>
+          operation into a <em>system?</em>
+        </div>
+        <p class="cta-sub">
+          Start with a System Audit. We map your operational pain, show you what a custom
+          system would look like, and give you a clear path from chaos to control.
+        </p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn-primary" href="mailto:hello@levytech.ai">Book a System Audit →</a>
+        <span class="cta-note">No commitment. 45-minute session.</span>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="footer-brand">Levy Tech</div>
+    <div class="footer-right">© 2026 · Private AI Operating Systems</div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const els = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('revealed');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    els.forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
