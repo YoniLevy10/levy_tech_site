@@ -21,7 +21,7 @@ export default function Infrastructure() {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      viewport={{ once: true }}
+      viewport={{ once: true, amount: 0.1 }}
       className="px-[5vw] py-11 border-t border-line flex items-center gap-6 flex-wrap"
     >
       <span className="font-mono text-[10px] tracking-widest uppercase text-muted whitespace-nowrap">

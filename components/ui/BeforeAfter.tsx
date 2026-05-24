@@ -29,7 +29,7 @@ export default function BeforeAfter() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.1 }}
           className="flex items-center gap-3 font-mono text-[10px] tracking-[2.5px] uppercase text-gold mb-8"
         >
           <span>{t("ba.label")}</span>
@@ -42,7 +42,7 @@ export default function BeforeAfter() {
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, amount: 0.1 }}
             className="border border-line rounded-lg overflow-hidden"
           >
             <div className="px-5 py-3.5 border-b border-line font-mono text-[10px] tracking-widest uppercase text-muted bg-surface-1">
@@ -65,7 +65,7 @@ export default function BeforeAfter() {
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
               transition={{ duration: 0.3, delay: 0.3 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.1 }}
               className="w-7 h-7 rounded-full border border-gold-border grid place-items-center text-gold text-xs rotate-90 md:rotate-0"
             >
               →
@@ -77,7 +77,7 @@ export default function BeforeAfter() {
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, amount: 0.1 }}
             className="border border-gold-border rounded-lg overflow-hidden"
           >
             <div className="px-5 py-3.5 border-b border-gold-border font-mono text-[10px] tracking-widest uppercase text-gold bg-gold/5">

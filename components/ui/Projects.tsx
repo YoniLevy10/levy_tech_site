@@ -13,7 +13,7 @@ export default function Projects() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.1 }}
         >
           <div className="flex items-center gap-3 font-mono text-[10px] tracking-[2.5px] uppercase text-gold mb-3">
             <span>{t("proj.label")}</span>
@@ -30,7 +30,7 @@ export default function Projects() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, amount: 0.1 }}
             className="md:col-span-2 bg-background p-10 relative overflow-hidden transition-colors hover:bg-surface-1 group grid grid-cols-1 md:grid-cols-2 gap-8 items-center"
           >
             <div>
@@ -54,7 +54,7 @@ export default function Projects() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, amount: 0.1 }}
             className="bg-background p-10 relative overflow-hidden transition-colors hover:bg-surface-1 group"
           >
             <div className="font-mono text-[10px] tracking-widest uppercase text-gold mb-3 opacity-80">
@@ -75,7 +75,7 @@ export default function Projects() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, amount: 0.1 }}
             className="bg-background p-10 relative overflow-hidden transition-colors hover:bg-surface-1 group"
           >
             <div className="font-mono text-[10px] tracking-widest uppercase text-gold mb-3 opacity-80">
@@ -96,7 +96,7 @@ export default function Projects() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, amount: 0.1 }}
             className="md:col-span-2 bg-background p-10 relative overflow-hidden transition-colors hover:bg-surface-1 group grid grid-cols-1 md:grid-cols-2 gap-8 items-center"
           >
             <div>

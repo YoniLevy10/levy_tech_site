@@ -11,7 +11,7 @@ export default function CTA() {
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      viewport={{ once: true }}
+      viewport={{ once: true, amount: 0.1 }}
       className="mx-[5vw] mb-20 p-16 border border-line rounded-xl bg-surface-1 relative overflow-hidden grid grid-cols-1 md:grid-cols-[1fr_auto] gap-12 items-center"
     >
       {/* Gold line accent */}
