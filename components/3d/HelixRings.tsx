@@ -2,6 +2,7 @@
 
 import { useRef, useMemo } from "react"
 import { useFrame } from "@react-three/fiber"
+import { Line } from "@react-three/drei"
 import * as THREE from "three"
 
 export default function HelixRings() {
@@ -57,20 +58,19 @@ export default function HelixRings() {
     <group>
       {rings.map((ring, index) => {
         const points = createEllipseCurve(ring.rx, ring.ry)
-        const geometry = new THREE.BufferGeometry().setFromPoints(points)
         
         return (
           <group key={index} ref={groupRefs[index]}>
-            <line geometry={geometry}>
-              <lineDashedMaterial
-                color="#c8a96d"
-                transparent
-                opacity={ring.opacity}
-                dashSize={ring.dashed ? 0.1 : 100}
-                gapSize={ring.dashed ? 0.15 : 0}
-                linewidth={ring.lineWidth}
-              />
-            </line>
+            <Line
+              points={points}
+              color="#c8a96d"
+              transparent
+              opacity={ring.opacity}
+              lineWidth={ring.lineWidth}
+              dashed={ring.dashed}
+              dashSize={0.1}
+              gapSize={0.15}
+            />
           </group>
         )
       })}

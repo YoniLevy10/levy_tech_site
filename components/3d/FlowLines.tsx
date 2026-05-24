@@ -42,10 +42,9 @@ export default function FlowLines() {
         const scale = Math.sin(flow.progress * Math.PI) * 0.8
         mesh.scale.setScalar(Math.max(0.1, scale))
         
-        // @ts-expect-error - material opacity
-        if (mesh.material) {
-          // @ts-expect-error - material opacity
-          mesh.material.opacity = flow.opacity * Math.sin(flow.progress * Math.PI)
+        const material = mesh.material as THREE.MeshBasicMaterial
+        if (material) {
+          material.opacity = flow.opacity * Math.sin(flow.progress * Math.PI)
         }
       }
     })
