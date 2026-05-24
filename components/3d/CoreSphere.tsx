@@ -50,10 +50,9 @@ export default function CoreSphere({ mousePosition }: CoreSphereProps) {
       const pulse = 1 + Math.sin(state.clock.elapsedTime * 2) * 0.1
       glowRef.current.scale.setScalar(1.15 * pulse)
       
-      // @ts-expect-error - material opacity
-      if (glowRef.current.material) {
-        // @ts-expect-error - material opacity
-        glowRef.current.material.opacity = 0.15 + Math.sin(state.clock.elapsedTime * 1.5) * 0.05
+      const material = glowRef.current.material as THREE.MeshBasicMaterial
+      if (material) {
+        material.opacity = 0.15 + Math.sin(state.clock.elapsedTime * 1.5) * 0.05
       }
     }
   })
