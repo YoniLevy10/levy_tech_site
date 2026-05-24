@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #060606;
+  --s1: #0d0d0d;
+  --s2: #111111;
+  --s3: #171717;
+  --text: #ede8df;
+  --dim: #7a7267;
+  --faint: #232220;
+  --gold: #c8a96d;
+  --gold2: #e8d5a3;
+  --gold-bg: rgba(200, 169, 109, 0.09);
+  --gold-bd: rgba(200, 169, 109, 0.22);
+  --line: rgba(255, 255, 255, 0.07);
+  --line2: rgba(255, 255, 255, 0.04);
+  --purple: #6b5b95;
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --color-muted: var(--dim);
+  --color-faint: var(--faint);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold2);
+  --color-gold-bg: var(--gold-bg);
+  --color-gold-border: var(--gold-bd);
+  --color-surface-1: var(--s1);
+  --color-surface-2: var(--s2);
+  --color-surface-3: var(--s3);
+  --color-line: var(--line);
+  --color-line-2: var(--line2);
+  --color-purple: var(--purple);
+  
+  --font-sans: var(--font-outfit), system-ui, sans-serif;
+  --font-serif: var(--font-playfair), Georgia, serif;
+  --font-mono: var(--font-dm-mono), monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Grain overlay */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.024;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+
+/* RTL Support */
+.rtl {
+  direction: rtl;
+}
+
+.rtl .text-left {
+  text-align: right;
+}
+
+/* Selection */
+::selection {
+  background: rgba(200, 169, 109, 0.3);
+  color: var(--text);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gold-bd);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
