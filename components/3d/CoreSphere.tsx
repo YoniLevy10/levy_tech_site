@@ -11,7 +11,6 @@ interface CoreSphereProps {
 
 export default function CoreSphere({ mousePosition }: CoreSphereProps) {
   const meshRef = useRef<THREE.Mesh>(null)
-  const materialRef = useRef<THREE.MeshStandardMaterial>(null)
   const glowRef = useRef<THREE.Mesh>(null)
   
   // Create gradient texture for iridescent effect
@@ -72,7 +71,6 @@ export default function CoreSphere({ mousePosition }: CoreSphereProps) {
       {/* Main sphere with distortion */}
       <Sphere ref={meshRef} args={[1, 64, 64]}>
         <MeshDistortMaterial
-          ref={materialRef}
           color="#0a0908"
           roughness={0.4}
           metalness={0.8}
