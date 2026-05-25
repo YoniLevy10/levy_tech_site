@@ -10,6 +10,7 @@ import Projects from "@/components/ui/Projects"
 import Testimonial from "@/components/ui/Testimonial"
 import Process from "@/components/ui/Process"
 import FAQ from "@/components/ui/FAQ"
+import WhyLevyTech from "@/components/ui/WhyLevyTech"
 import Infrastructure from "@/components/ui/Infrastructure"
 import Contact from "@/components/ui/Contact"
 import CTA from "@/components/ui/CTA"
@@ -46,6 +47,7 @@ export default function Home() {
         <Manifesto />
         <BeforeAfter />
         <Services />
+        <WhyLevyTech />
         <Projects />
         <Testimonial />
         <Process />
