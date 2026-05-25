@@ -9,40 +9,32 @@ export default function Navigation() {
   const languages: Language[] = ["en", "he", "fr"]
 
   return (
-    <nav className="sticky top-0 z-50 flex items-center justify-between px-[5vw] py-4 bg-background/92 backdrop-blur-xl border-b border-line">
-      <a href="#" className="flex items-center gap-3 no-underline">
-        <div className="w-8 h-8 rounded-md border border-gold-border bg-gradient-to-br from-gold/15 to-gold/5 grid place-items-center font-serif text-sm text-gold shrink-0">
+    <nav className="sticky top-0 z-50 flex items-center justify-between gap-3 border-b border-line bg-background/92 px-5 py-3 backdrop-blur-xl sm:px-[5vw] sm:py-4">
+      <a href="#" className="flex min-w-0 items-center gap-3 no-underline">
+        <div className="grid h-8 w-8 shrink-0 place-items-center rounded-md border border-gold-border bg-gradient-to-br from-gold/15 to-gold/5 font-serif text-sm text-gold">
           L
         </div>
-        <span className="font-serif text-[17px] text-foreground">Levy Tech</span>
+        <span className="truncate font-serif text-[16px] text-foreground sm:text-[17px]">Levy Tech</span>
       </a>
 
-      <div className="hidden md:flex gap-6">
-        <a href="#services" className="text-muted text-[13px] tracking-wide no-underline transition-colors hover:text-foreground">
-          {t("nav.services")}
-        </a>
-        <a href="#projects" className="text-muted text-[13px] tracking-wide no-underline transition-colors hover:text-foreground">
-          {t("nav.projects")}
-        </a>
-        <a href="#process" className="text-muted text-[13px] tracking-wide no-underline transition-colors hover:text-foreground">
-          {t("nav.process")}
-        </a>
-        <a href="#contact" className="text-muted text-[13px] tracking-wide no-underline transition-colors hover:text-foreground">
-          {t("nav.contact")}
-        </a>
+      <div className="hidden gap-6 md:flex">
+        <a href="#services" className="text-[13px] tracking-wide text-muted no-underline transition-colors hover:text-foreground">{t("nav.services")}</a>
+        <a href="#projects" className="text-[13px] tracking-wide text-muted no-underline transition-colors hover:text-foreground">{t("nav.projects")}</a>
+        <a href="#process" className="text-[13px] tracking-wide text-muted no-underline transition-colors hover:text-foreground">{t("nav.process")}</a>
+        <a href="#contact" className="text-[13px] tracking-wide text-muted no-underline transition-colors hover:text-foreground">{t("nav.contact")}</a>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex shrink-0 items-center gap-2 sm:gap-3">
         <div className="flex gap-1">
           {languages.map((l) => (
             <button
               key={l}
               onClick={() => setLang(l)}
-              className={`px-2 py-1 rounded-sm border text-[10px] font-mono tracking-wider cursor-pointer transition-all
-                ${lang === l
-                  ? "border-gold-border text-gold bg-gold-bg"
-                  : "border-line text-muted bg-transparent hover:border-gold-border hover:text-gold"
-                }`}
+              className={`cursor-pointer rounded-sm border px-2 py-1 font-mono text-[9px] tracking-wider transition-all sm:text-[10px] ${
+                lang === l
+                  ? "border-gold-border bg-gold-bg text-gold"
+                  : "border-line bg-transparent text-muted hover:border-gold-border hover:text-gold"
+              }`}
             >
               {l.toUpperCase()}
             </button>
@@ -50,7 +42,7 @@ export default function Navigation() {
         </div>
         <a
           href="#contact"
-          className="hidden md:flex px-4 py-2 rounded border border-gold-border bg-transparent text-gold text-xs tracking-wide no-underline transition-all hover:bg-gold-bg"
+          className="hidden rounded border border-gold-border bg-transparent px-4 py-2 text-xs tracking-wide text-gold no-underline transition-all hover:bg-gold-bg md:flex"
         >
           {t("nav.cta")}
         </a>
