@@ -6,7 +6,7 @@
   --s2: #111111;
   --s3: #171717;
   --text: #ede8df;
-  --dim: #7a7267;
+  --dim: #9b9489;
   --faint: #232220;
   --gold: #c8a96d;
   --gold2: #e8d5a3;
@@ -32,7 +32,6 @@
   --color-line: var(--line);
   --color-line-2: var(--line2);
   --color-purple: var(--purple);
-  
   --font-sans: var(--font-outfit), system-ui, sans-serif;
   --font-serif: var(--font-playfair), Georgia, serif;
   --font-mono: var(--font-dm-mono), monospace;
@@ -40,8 +39,6 @@
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 html {
@@ -50,25 +47,44 @@ html {
 }
 
 body {
+  margin: 0;
   font-family: var(--font-sans);
   background: var(--bg);
   color: var(--text);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
 }
 
-/* Grain overlay */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 999;
-  opacity: 0.024;
+  opacity: 0.018;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
 }
 
-/* RTL Support */
+main, section {
+  width: 100%;
+}
+
+section {
+  padding-left: clamp(20px, 5vw, 72px);
+  padding-right: clamp(20px, 5vw, 72px);
+}
+
+p {
+  max-width: 68ch;
+  line-height: 1.85;
+  letter-spacing: 0.01em;
+}
+
+h1, h2, h3 {
+  text-wrap: balance;
+}
+
 .rtl {
   direction: rtl;
 }
@@ -77,13 +93,11 @@ body::after {
   text-align: right;
 }
 
-/* Selection */
 ::selection {
   background: rgba(200, 169, 109, 0.3);
   color: var(--text);
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -99,4 +113,34 @@ body::after {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--gold);
+}
+
+@media (max-width: 768px) {
+  section {
+    padding-left: 22px !important;
+    padding-right: 22px !important;
+    padding-top: 72px;
+    padding-bottom: 72px;
+  }
+
+  p {
+    font-size: 16px !important;
+    line-height: 1.85 !important;
+    letter-spacing: 0.005em;
+  }
+
+  h1 {
+    font-size: clamp(44px, 13vw, 68px) !important;
+    line-height: 0.98 !important;
+    letter-spacing: -0.04em !important;
+  }
+
+  h2 {
+    font-size: clamp(34px, 10vw, 52px) !important;
+    line-height: 1.08 !important;
+  }
+
+  .font-mono {
+    letter-spacing: 0.18em;
+  }
 }
