@@ -14,49 +14,49 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="px-[5vw] py-20 border-t border-line">
-      <div className="max-w-7xl mx-auto">
+    <section id="contact" className="border-t border-line px-6 py-24 sm:px-[5vw]">
+      <div className="mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true, amount: 0.1 }}
-          className="flex items-center gap-3 font-mono text-[10px] tracking-[2.5px] uppercase text-gold mb-8"
+          className="mb-10 flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.22em] text-gold sm:text-[10px]"
         >
           <span>{t("contact.label")}</span>
-          <span className="w-8 h-px bg-gold-border" />
+          <span className="h-px w-8 bg-gold-border" />
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-18 items-start">
+        <div className="grid grid-cols-1 items-start gap-12 md:grid-cols-2 md:gap-18">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
             viewport={{ once: true, amount: 0.1 }}
           >
-            <h2 className="font-serif text-[clamp(30px,4vw,52px)] font-normal leading-[1.08] tracking-tight text-foreground">
+            <h2 className="max-w-[12ch] font-serif text-[clamp(38px,11vw,56px)] font-normal leading-[1.05] tracking-[-0.035em] text-foreground sm:max-w-none">
               {t("contact.h2")} <em className="italic text-gold">{t("contact.h2.em")}</em>
             </h2>
-            <p className="text-muted text-sm leading-relaxed font-light mt-3 mb-6">
+
+            <p className="mt-5 mb-8 max-w-[36rem] text-[16px] font-light leading-[1.9] text-muted">
               {t("contact.p")}
             </p>
 
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-md border border-gold-border bg-gold-bg grid place-items-center text-[13px] shrink-0">
+            <div className="space-y-5">
+              <div className="flex items-center gap-4">
+                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-gold-border bg-gold-bg text-[13px]">
                   <MailIcon />
                 </div>
-                <div className="text-[13px] text-muted">
-                  <a href="mailto:OpsBrain1@gmail.com" className="text-gold no-underline hover:text-gold-light">
-                    OpsBrain1@gmail.com
-                  </a>
-                </div>
+                <a href="mailto:OpsBrain1@gmail.com" className="break-all text-[14px] text-gold no-underline hover:text-gold-light">
+                  OpsBrain1@gmail.com
+                </a>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-md border border-gold-border bg-gold-bg grid place-items-center text-[13px] shrink-0">
+
+              <div className="flex items-center gap-4">
+                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-gold-border bg-gold-bg text-[13px]">
                   <ChatIcon />
                 </div>
-                <div className="text-[13px] text-muted">
+                <div className="text-[14px] leading-relaxed text-muted">
                   {t("contact.wa").split(" — ")[0]} —{" "}
                   <a href="#" className="text-gold no-underline hover:text-gold-light">
                     {t("contact.wa").split(" — ")[1]}
@@ -67,55 +67,35 @@ export default function Contact() {
           </motion.div>
 
           <motion.form
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 0, x: 24 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true, amount: 0.1 }}
             onSubmit={handleSubmit}
-            className="flex flex-col gap-3"
+            className="flex flex-col gap-4 rounded-2xl border border-line bg-surface-1/30 p-5 sm:p-7"
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] text-muted font-mono tracking-wider">{t("form.name")}</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="Sara Cohen"
-                  className="bg-surface-1 border border-line rounded px-3.5 py-3 text-foreground text-[13px] font-sans outline-none transition-colors focus:border-gold-border placeholder:text-faint"
-                />
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] text-muted font-mono tracking-wider">{t("form.company")}</label>
-                <input
-                  type="text"
-                  placeholder="Your Business"
-                  className="bg-surface-1 border border-line rounded px-3.5 py-3 text-foreground text-[13px] font-sans outline-none transition-colors focus:border-gold-border placeholder:text-faint"
-                />
-              </div>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Field label={t("form.name")} placeholder="Sara Cohen" required />
+              <Field label={t("form.company")} placeholder="Your Business" />
             </div>
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] text-muted font-mono tracking-wider">{t("form.email")}</label>
-              <input
-                type="email"
-                required
-                placeholder="you@company.com"
-                className="bg-surface-1 border border-line rounded px-3.5 py-3 text-foreground text-[13px] font-sans outline-none transition-colors focus:border-gold-border placeholder:text-faint"
-              />
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] text-muted font-mono tracking-wider">{t("form.msg")}</label>
+
+            <Field label={t("form.email")} placeholder="you@company.com" type="email" required />
+
+            <div className="flex flex-col gap-2">
+              <label className="font-mono text-[10px] tracking-wider text-muted">{t("form.msg")}</label>
               <textarea
                 placeholder="Describe your current process..."
-                className="bg-surface-1 border border-line rounded px-3.5 py-3 text-foreground text-[13px] font-sans outline-none transition-colors focus:border-gold-border h-24 resize-none placeholder:text-faint"
+                className="h-32 resize-none rounded-lg border border-line bg-surface-1 px-4 py-4 font-sans text-[15px] text-foreground outline-none transition-colors placeholder:text-faint focus:border-gold-border"
               />
             </div>
+
             <button
               type="submit"
               disabled={submitted}
-              className={`self-start inline-flex items-center gap-2 px-7 py-4 rounded text-[13px] font-medium tracking-wide transition-all ${
+              className={`inline-flex w-full items-center justify-center gap-2 rounded px-7 py-4 text-[13px] font-medium tracking-wide transition-all sm:w-auto sm:self-start ${
                 submitted
-                  ? "bg-surface-2 text-gold cursor-default"
-                  : "bg-gold text-background hover:bg-gold-light hover:-translate-y-0.5"
+                  ? "cursor-default bg-surface-2 text-gold"
+                  : "bg-gold text-background hover:-translate-y-0.5 hover:bg-gold-light"
               }`}
             >
               {submitted ? "✓ Sent — we'll be in touch soon" : t("form.submit")} {!submitted && <span>→</span>}
@@ -124,6 +104,20 @@ export default function Contact() {
         </div>
       </div>
     </section>
+  )
+}
+
+function Field({ label, placeholder, type = "text", required = false }: { label: string; placeholder: string; type?: string; required?: boolean }) {
+  return (
+    <div className="flex flex-col gap-2">
+      <label className="font-mono text-[10px] tracking-wider text-muted">{label}</label>
+      <input
+        type={type}
+        required={required}
+        placeholder={placeholder}
+        className="rounded-lg border border-line bg-surface-1 px-4 py-4 font-sans text-[15px] text-foreground outline-none transition-colors placeholder:text-faint focus:border-gold-border"
+      />
+    </div>
   )
 }
 
