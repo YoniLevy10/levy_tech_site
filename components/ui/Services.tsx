@@ -15,20 +15,20 @@ export default function Services() {
   ]
 
   return (
-    <section id="services" className="px-[5vw] py-28 md:py-36">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-[0.95fr_0.65fr] gap-10 md:gap-24 items-end mb-16 md:mb-20">
+    <section id="services" className="px-6 py-24 sm:px-[5vw] md:py-36">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-12 grid grid-cols-1 items-start gap-7 md:mb-20 md:grid-cols-[0.95fr_0.65fr] md:items-end md:gap-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true, amount: 0.1 }}
           >
-            <div className="flex items-center gap-3 font-mono text-[10px] tracking-[2.5px] uppercase text-gold mb-5">
+            <div className="mb-5 flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.22em] text-gold sm:text-[10px]">
               <span>{t("svc.label")}</span>
-              <span className="w-8 h-px bg-gold-border" />
+              <span className="h-px w-8 bg-gold-border" />
             </div>
-            <h2 className="font-serif text-[clamp(34px,4.8vw,64px)] font-normal leading-[1.04] tracking-tight text-foreground">
+            <h2 className="max-w-[12ch] font-serif text-[clamp(38px,11vw,64px)] font-normal leading-[1.04] tracking-[-0.035em] text-foreground sm:max-w-none">
               {t("svc.h2")} <em className="italic text-gold">{t("svc.h2.em")}</em>
             </h2>
           </motion.div>
@@ -37,7 +37,7 @@ export default function Services() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
             viewport={{ once: true, amount: 0.1 }}
-            className="text-muted text-[15px] leading-[1.85] font-light max-w-md md:ml-auto"
+            className="max-w-xl text-[16px] font-light leading-[1.9] text-muted md:ml-auto md:max-w-md"
           >
             {t("svc.sub")}
           </motion.p>
@@ -48,24 +48,24 @@ export default function Services() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true, amount: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-6 gap-5 md:gap-6"
+          className="grid grid-cols-1 gap-4 md:grid-cols-6 md:gap-6"
         >
           {services.map((service, index) => (
             <motion.div
               key={index}
-              className={`group rounded-xl border border-line/80 bg-surface-1/35 p-7 md:p-8 transition-all hover:border-gold-border hover:bg-surface-1 ${
+              className={`group rounded-2xl border border-line/70 bg-surface-1/35 p-6 transition-all hover:border-gold-border hover:bg-surface-1 sm:p-8 ${
                 index < 3 ? "md:col-span-2" : "md:col-span-3"
               }`}
-              whileHover={{ y: -5 }}
+              whileHover={{ y: -4 }}
               transition={{ duration: 0.2 }}
             >
-              <div className="font-mono text-[10px] text-gold tracking-widest mb-8 opacity-65">
+              <div className="mb-7 font-mono text-[10px] tracking-[0.22em] text-gold opacity-70">
                 {service.num}
               </div>
-              <div className="font-serif text-[22px] md:text-2xl text-foreground mb-4 leading-tight group-hover:text-gold transition-colors">
+              <div className="mb-4 font-serif text-[24px] leading-[1.12] text-foreground transition-colors group-hover:text-gold md:text-2xl">
                 {service.title}
               </div>
-              <div className="text-[13px] text-muted leading-[1.8] font-light max-w-sm">
+              <div className="max-w-sm text-[15px] font-light leading-[1.85] text-muted">
                 {service.desc}
               </div>
             </motion.div>
