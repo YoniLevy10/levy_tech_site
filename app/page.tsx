@@ -51,8 +51,8 @@ export default function Home() {
         <Projects />
         <Testimonial />
         <Process />
-        <FAQ />
         <Infrastructure />
+        <FAQ />
         <Contact />
         <CTA />
       </main>
