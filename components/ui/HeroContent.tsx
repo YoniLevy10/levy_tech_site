@@ -6,10 +6,16 @@ import { motion } from "framer-motion"
 export default function HeroContent() {
   const { t } = useI18n()
 
+  const badges = [
+    t("hero.badge1"),
+    t("hero.badge2"),
+    t("hero.badge3"),
+  ]
+
   return (
-    <div className="relative z-10 mx-auto flex w-full max-w-[780px] flex-col items-center justify-center px-6 text-center sm:px-8">
+    <div className="relative z-10 mx-auto flex w-full max-w-[840px] flex-col items-center justify-center px-6 text-center sm:px-8">
       <motion.div
-        className="mb-6 flex max-w-full items-center justify-center gap-3 font-mono text-[9px] uppercase tracking-[0.22em] text-gold sm:mb-8 sm:text-[10px]"
+        className="mb-5 flex max-w-full items-center justify-center gap-3 font-mono text-[9px] uppercase tracking-[0.22em] text-gold sm:mb-7 sm:text-[10px]"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -18,8 +24,24 @@ export default function HeroContent() {
         <span className="leading-relaxed">{t("hero.tag")}</span>
       </motion.div>
 
+      <motion.div
+        className="mb-6 flex flex-wrap items-center justify-center gap-2"
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.05 }}
+      >
+        {badges.map((badge) => (
+          <span
+            key={badge}
+            className="rounded-full border border-line bg-surface-1/60 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.16em] text-muted"
+          >
+            {badge}
+          </span>
+        ))}
+      </motion.div>
+
       <motion.h1
-        className="mb-6 max-w-[11ch] font-serif text-[clamp(46px,14vw,90px)] font-normal leading-[0.96] tracking-[-0.045em] text-foreground sm:max-w-none sm:leading-[0.95]"
+        className="mb-7 max-w-[12ch] font-serif text-[clamp(46px,13vw,88px)] font-normal leading-[0.97] tracking-[-0.045em] text-foreground sm:max-w-[13ch] sm:leading-[0.96]"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.1 }}
@@ -32,7 +54,7 @@ export default function HeroContent() {
       </motion.h1>
 
       <motion.p
-        className="mb-9 max-w-[32rem] text-[15px] font-light leading-[1.85] text-muted sm:mb-10 sm:text-[17px]"
+        className="mb-9 max-w-[38rem] text-[15px] font-light leading-[1.9] text-muted sm:mb-10 sm:text-[17px]"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
@@ -61,24 +83,24 @@ export default function HeroContent() {
       </motion.div>
 
       <motion.div
-        className="mt-12 grid w-full max-w-[420px] grid-cols-3 overflow-hidden rounded-lg border border-line bg-background/60 backdrop-blur-xl sm:mt-14"
+        className="mt-12 grid w-full max-w-[480px] grid-cols-3 overflow-hidden rounded-xl border border-line bg-background/60 backdrop-blur-xl sm:mt-14"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.4 }}
       >
-        <div className="border-r border-line px-3 py-4 text-center sm:px-5">
-          <div className="font-serif text-2xl leading-none text-foreground">4</div>
-          <div className="mt-2 font-mono text-[8px] tracking-[0.16em] text-muted sm:text-[9px]">{t("hero.m1")}</div>
-        </div>
-        <div className="border-r border-line px-3 py-4 text-center sm:px-5">
-          <div className="font-serif text-2xl leading-none text-foreground">AI</div>
-          <div className="mt-2 font-mono text-[8px] tracking-[0.16em] text-muted sm:text-[9px]">{t("hero.m2")}</div>
-        </div>
-        <div className="px-3 py-4 text-center sm:px-5">
-          <div className="font-serif text-2xl leading-none text-foreground">24/7</div>
-          <div className="mt-2 font-mono text-[8px] tracking-[0.16em] text-muted sm:text-[9px]">{t("hero.m3")}</div>
-        </div>
+        <Metric value="4" label={t("hero.m1")} />
+        <Metric value="AI" label={t("hero.m2")} />
+        <Metric value="24/7" label={t("hero.m3")} last />
       </motion.div>
+    </div>
+  )
+}
+
+function Metric({ value, label, last = false }: { value: string; label: string; last?: boolean }) {
+  return (
+    <div className={`${last ? "" : "border-r border-line"} px-3 py-4 text-center sm:px-5`}>
+      <div className="font-serif text-2xl leading-none text-foreground">{value}</div>
+      <div className="mt-2 font-mono text-[8px] tracking-[0.16em] text-muted sm:text-[9px]">{label}</div>
     </div>
   )
 }
