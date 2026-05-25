@@ -7,21 +7,19 @@ export default function HeroContent() {
   const { t } = useI18n()
 
   return (
-    <div className="relative z-10 flex flex-col items-center justify-center text-center max-w-[780px] mx-auto px-4">
-      {/* Tag line */}
-      <motion.div 
-        className="flex items-center gap-3 font-mono text-[10px] tracking-[2.5px] uppercase text-gold mb-8"
+    <div className="relative z-10 mx-auto flex w-full max-w-[780px] flex-col items-center justify-center px-6 text-center sm:px-8">
+      <motion.div
+        className="mb-6 flex max-w-full items-center justify-center gap-3 font-mono text-[9px] uppercase tracking-[0.22em] text-gold sm:mb-8 sm:text-[10px]"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <span className="w-6 h-px bg-gold opacity-55" />
-        <span>{t("hero.tag")}</span>
+        <span className="hidden h-px w-6 bg-gold opacity-55 sm:block" />
+        <span className="leading-relaxed">{t("hero.tag")}</span>
       </motion.div>
 
-      {/* Main heading */}
-      <motion.h1 
-        className="font-serif text-[clamp(40px,8vw,90px)] font-normal leading-[0.95] tracking-[-2px] text-foreground mb-6"
+      <motion.h1
+        className="mb-6 max-w-[11ch] font-serif text-[clamp(46px,14vw,90px)] font-normal leading-[0.96] tracking-[-0.045em] text-foreground sm:max-w-none sm:leading-[0.95]"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.1 }}
@@ -33,9 +31,8 @@ export default function HeroContent() {
         {t("hero.h1.end")}
       </motion.h1>
 
-      {/* Subtitle */}
-      <motion.p 
-        className="text-muted text-[clamp(14px,1.8vw,17px)] leading-relaxed font-light max-w-[520px] mb-10"
+      <motion.p
+        className="mb-9 max-w-[32rem] text-[15px] font-light leading-[1.85] text-muted sm:mb-10 sm:text-[17px]"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
@@ -43,45 +40,43 @@ export default function HeroContent() {
         {t("hero.sub")}
       </motion.p>
 
-      {/* CTA buttons */}
-      <motion.div 
-        className="flex items-center justify-center gap-5 flex-wrap"
+      <motion.div
+        className="flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row sm:gap-5"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.3 }}
       >
-        <a 
-          href="#contact" 
-          className="inline-flex items-center gap-2 px-7 py-4 rounded bg-gold text-background text-[13px] font-medium tracking-wide no-underline transition-all hover:bg-gold-light hover:-translate-y-0.5"
+        <a
+          href="#contact"
+          className="inline-flex w-full items-center justify-center gap-2 rounded bg-gold px-7 py-4 text-[13px] font-medium tracking-wide text-background no-underline transition-all hover:-translate-y-0.5 hover:bg-gold-light sm:w-auto"
         >
           {t("hero.cta1")} <span aria-hidden="true">→</span>
         </a>
-        <a 
-          href="#projects" 
-          className="text-muted text-[13px] tracking-wide no-underline border-b border-faint pb-0.5 transition-all hover:text-foreground hover:border-muted"
+        <a
+          href="#projects"
+          className="text-[13px] tracking-wide text-muted no-underline transition-all hover:text-foreground sm:border-b sm:border-faint sm:pb-0.5 sm:hover:border-muted"
         >
           {t("hero.cta2")}
         </a>
       </motion.div>
 
-      {/* Metrics */}
-      <motion.div 
-        className="flex gap-0 mt-14 border border-line rounded-lg overflow-hidden backdrop-blur-xl bg-background/60 max-w-[420px]"
+      <motion.div
+        className="mt-12 grid w-full max-w-[420px] grid-cols-3 overflow-hidden rounded-lg border border-line bg-background/60 backdrop-blur-xl sm:mt-14"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.4 }}
       >
-        <div className="flex-1 px-5 py-4 border-r border-line text-center">
-          <div className="font-serif text-2xl text-foreground leading-none">4</div>
-          <div className="text-[9px] text-muted mt-1 font-mono tracking-wider">{t("hero.m1")}</div>
+        <div className="border-r border-line px-3 py-4 text-center sm:px-5">
+          <div className="font-serif text-2xl leading-none text-foreground">4</div>
+          <div className="mt-2 font-mono text-[8px] tracking-[0.16em] text-muted sm:text-[9px]">{t("hero.m1")}</div>
         </div>
-        <div className="flex-1 px-5 py-4 border-r border-line text-center">
-          <div className="font-serif text-2xl text-foreground leading-none">AI</div>
-          <div className="text-[9px] text-muted mt-1 font-mono tracking-wider">{t("hero.m2")}</div>
+        <div className="border-r border-line px-3 py-4 text-center sm:px-5">
+          <div className="font-serif text-2xl leading-none text-foreground">AI</div>
+          <div className="mt-2 font-mono text-[8px] tracking-[0.16em] text-muted sm:text-[9px]">{t("hero.m2")}</div>
         </div>
-        <div className="flex-1 px-5 py-4 text-center">
-          <div className="font-serif text-2xl text-foreground leading-none">24/7</div>
-          <div className="text-[9px] text-muted mt-1 font-mono tracking-wider">{t("hero.m3")}</div>
+        <div className="px-3 py-4 text-center sm:px-5">
+          <div className="font-serif text-2xl leading-none text-foreground">24/7</div>
+          <div className="mt-2 font-mono text-[8px] tracking-[0.16em] text-muted sm:text-[9px]">{t("hero.m3")}</div>
         </div>
       </motion.div>
     </div>
