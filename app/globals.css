@@ -144,3 +144,15 @@ h1, h2, h3 {
     letter-spacing: 0.18em;
   }
 }
+
+/* ── Project card hover ── */
+.project-card article {
+  transition: border-color 0.25s, background-color 0.25s;
+}
+.project-card:hover article {
+  border-color: var(--gold-bd) !important;
+  background: var(--s2) !important;
+}
+.project-card:hover .project-card-img {
+  transform: scale(1.05);
+}

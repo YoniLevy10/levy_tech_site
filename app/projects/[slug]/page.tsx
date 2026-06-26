@@ -1,11 +1,19 @@
-import { fetchAllProjects } from "@/lib/github"
+import { fetchAllProjects, fetchProject } from "@/lib/github"
 import { notFound } from "next/navigation"
-import Link from "next/link"
+import { ProjectsNav } from "../projects-nav"
 import type { Metadata } from "next"
 
 export const revalidate = 21600
 
 const GITHUB_USER = process.env.NEXT_PUBLIC_GITHUB_USERNAME ?? "YoniLevy10"
+
+const STATUS_STYLE: Record<string, { border: string; bg: string; text: string }> = {
+  Production: { border: "rgba(52,211,153,0.3)", bg: "rgba(52,211,153,0.08)", text: "#6ee7b7" },
+  Pilot: { border: "rgba(200,169,109,0.3)", bg: "rgba(200,169,109,0.09)", text: "#c8a96d" },
+  Development: { border: "rgba(167,139,250,0.3)", bg: "rgba(167,139,250,0.08)", text: "#c4b5fd" },
+  Paused: { border: "rgba(255,255,255,0.08)", bg: "rgba(255,255,255,0.03)", text: "#6b7280" },
+  Archived: { border: "rgba(239,68,68,0.2)", bg: "rgba(239,68,68,0.06)", text: "#f87171" },
+}
 
 export async function generateStaticParams() {
   try {
@@ -21,14 +29,12 @@ export async function generateMetadata({
 }: {
   params: { slug: string }
 }): Promise<Metadata> {
-  const projects = await fetchAllProjects()
-  const project = projects.find((p) => p.slug === params.slug)
+  const project = await fetchProject(params.slug) // uses cache
   if (!project) return {}
   const m = project.meta
   const coverUrl = m.cover
     ? `https://raw.githubusercontent.com/${GITHUB_USER}/${project.repoName}/main${m.cover}`
     : undefined
-
   return {
     title: `${m.title} — Levy Tech`,
     description: m.description,
@@ -40,17 +46,8 @@ export async function generateMetadata({
   }
 }
 
-const STATUS_STYLE: Record<string, { border: string; bg: string; text: string }> = {
-  Production: { border: "rgba(52,211,153,0.3)", bg: "rgba(52,211,153,0.08)", text: "#6ee7b7" },
-  Pilot: { border: "rgba(200,169,109,0.3)", bg: "rgba(200,169,109,0.09)", text: "#c8a96d" },
-  Development: { border: "rgba(167,139,250,0.3)", bg: "rgba(167,139,250,0.08)", text: "#c4b5fd" },
-  Paused: { border: "rgba(255,255,255,0.08)", bg: "rgba(255,255,255,0.03)", text: "#6b7280" },
-  Archived: { border: "rgba(239,68,68,0.2)", bg: "rgba(239,68,68,0.06)", text: "#f87171" },
-}
-
 export default async function ProjectPage({ params }: { params: { slug: string } }) {
-  const projects = await fetchAllProjects()
-  const project = projects.find((p) => p.slug === params.slug)
+  const project = await fetchProject(params.slug) // uses cache — same data, no extra call
   if (!project) notFound()
 
   const { meta: m, repoName, readme, stars, forks, language, createdAt, updatedAt, topics, homepage } = project
@@ -59,40 +56,13 @@ export default async function ProjectPage({ params }: { params: { slug: string }
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)", color: "var(--text)" }}>
-      {/* ── Nav ── */}
-      <nav
-        className="sticky top-0 z-50 flex items-center justify-between gap-3 border-b px-5 py-3 backdrop-blur-xl sm:px-[5vw] sm:py-4"
-        style={{ borderColor: "var(--line)", background: "rgba(6,6,6,0.92)" }}
-      >
-        <Link href="/" className="flex items-center gap-3 no-underline">
-          <div
-            className="grid h-8 w-8 place-items-center rounded-md border font-serif text-sm"
-            style={{ borderColor: "var(--gold-bd)", background: "rgba(200,169,109,0.08)", color: "var(--gold)" }}
-          >
-            L
-          </div>
-          <span className="font-serif text-[16px]" style={{ color: "var(--text)" }}>
-            Levy Tech
-          </span>
-        </Link>
-        <Link
-          href="/projects"
-          className="font-mono text-[10px] uppercase tracking-widest transition-colors hover:opacity-100"
-          style={{ color: "var(--dim)" }}
-        >
-          ← All Projects
-        </Link>
-      </nav>
+      <ProjectsNav back={{ href: "/projects", label: "All Projects" }} />
 
-      {/* ── Hero ── */}
+      {/* Hero */}
       <section className="relative">
         {m.cover && (
-          <div className="h-56 overflow-hidden" style={{ background: "var(--s2)" }}>
-            <img
-              src={`${rawBase}${m.cover}`}
-              alt=""
-              className="h-full w-full object-cover opacity-50"
-            />
+          <div className="relative h-56 overflow-hidden" style={{ background: "var(--s2)" }}>
+            <img src={`${rawBase}${m.cover}`} alt="" className="h-full w-full object-cover opacity-50" />
             <div
               className="absolute inset-0"
               style={{ background: "linear-gradient(to bottom, transparent 40%, var(--bg))" }}
@@ -107,7 +77,6 @@ export default async function ProjectPage({ params }: { params: { slug: string }
                 alt=""
                 className="h-16 w-16 shrink-0 rounded-2xl object-contain"
                 style={{ background: "var(--s2)", padding: "8px", border: "1px solid var(--line)" }}
-                onError={() => {}}
               />
             )}
             <div className="min-w-0">
@@ -123,7 +92,10 @@ export default async function ProjectPage({ params }: { params: { slug: string }
                 </span>
               </div>
               {m.category && (
-                <div className="mb-3 font-mono text-[9px] uppercase tracking-[0.2em]" style={{ color: "var(--gold)" }}>
+                <div
+                  className="mb-3 font-mono text-[9px] uppercase tracking-[0.2em]"
+                  style={{ color: "var(--gold)" }}
+                >
                   {m.category}
                 </div>
               )}
@@ -131,14 +103,13 @@ export default async function ProjectPage({ params }: { params: { slug: string }
                 {m.description}
               </p>
 
-              {/* CTA buttons */}
               <div className="mt-6 flex flex-wrap gap-3">
                 {homepage && (
                   <a
                     href={homepage}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-lg border px-5 py-2.5 font-mono text-[10px] uppercase tracking-[0.14em] transition-all hover:opacity-80"
+                    className="rounded-lg border px-5 py-2.5 font-mono text-[10px] uppercase tracking-[0.14em] transition-opacity hover:opacity-75"
                     style={{ borderColor: "var(--gold-bd)", background: "var(--gold-bg)", color: "var(--gold)" }}
                   >
                     View Project ↗
@@ -148,7 +119,7 @@ export default async function ProjectPage({ params }: { params: { slug: string }
                   href={`https://github.com/${GITHUB_USER}/${repoName}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-lg border px-5 py-2.5 font-mono text-[10px] uppercase tracking-[0.14em] transition-all hover:opacity-80"
+                  className="rounded-lg border px-5 py-2.5 font-mono text-[10px] uppercase tracking-[0.14em] transition-opacity hover:opacity-75"
                   style={{ borderColor: "var(--line)", color: "var(--dim)" }}
                 >
                   GitHub →
@@ -159,7 +130,7 @@ export default async function ProjectPage({ params }: { params: { slug: string }
         </div>
       </section>
 
-      {/* ── Content ── */}
+      {/* Content */}
       <div className="mx-auto max-w-5xl gap-12 px-5 pb-24 sm:px-[5vw] lg:grid lg:grid-cols-[1fr_260px]">
         {/* README */}
         <div>
@@ -171,9 +142,9 @@ export default async function ProjectPage({ params }: { params: { slug: string }
           </h2>
           {readme ? (
             <div
-              className="prose-content text-[14px] font-light leading-[1.9]"
+              className="prose-levy text-[14px] font-light leading-[1.9]"
               style={{ color: "var(--text)" }}
-              dangerouslySetInnerHTML={{ __html: basicMarkdown(readme) }}
+              dangerouslySetInnerHTML={{ __html: renderMarkdown(readme) }}
             />
           ) : (
             <p className="text-[14px] italic" style={{ color: "var(--dim)" }}>
@@ -183,7 +154,7 @@ export default async function ProjectPage({ params }: { params: { slug: string }
         </div>
 
         {/* Sidebar */}
-        <aside className="mt-12 lg:mt-0">
+        <aside className="mt-12 space-y-5 lg:mt-0">
           <div
             className="rounded-2xl border p-5 space-y-4"
             style={{ background: "var(--s1)", borderColor: "var(--line)" }}
@@ -213,8 +184,11 @@ export default async function ProjectPage({ params }: { params: { slug: string }
           </div>
 
           {m.technologies.length > 0 && (
-            <div className="mt-5">
-              <h3 className="mb-3 font-mono text-[9px] uppercase tracking-[0.2em]" style={{ color: "var(--dim)" }}>
+            <div>
+              <h3
+                className="mb-3 font-mono text-[9px] uppercase tracking-[0.2em]"
+                style={{ color: "var(--dim)" }}
+              >
                 Technologies
               </h3>
               <div className="flex flex-wrap gap-1.5">
@@ -232,8 +206,11 @@ export default async function ProjectPage({ params }: { params: { slug: string }
           )}
 
           {topics.length > 0 && (
-            <div className="mt-5">
-              <h3 className="mb-3 font-mono text-[9px] uppercase tracking-[0.2em]" style={{ color: "var(--dim)" }}>
+            <div>
+              <h3
+                className="mb-3 font-mono text-[9px] uppercase tracking-[0.2em]"
+                style={{ color: "var(--dim)" }}
+              >
                 Tags
               </h3>
               <div className="flex flex-wrap gap-1.5">
@@ -253,54 +230,106 @@ export default async function ProjectPage({ params }: { params: { slug: string }
       </div>
 
       <style>{`
-        .prose-content h1 { font-family: var(--font-playfair), Georgia, serif; font-size: 26px; font-weight: 400; margin: 1.5rem 0 0.75rem; color: var(--text); }
-        .prose-content h2 { font-family: var(--font-playfair), Georgia, serif; font-size: 20px; font-weight: 400; margin: 1.5rem 0 0.5rem; color: var(--text); }
-        .prose-content h3 { font-size: 15px; font-weight: 500; margin: 1rem 0 0.4rem; color: var(--text); }
-        .prose-content p { margin: 0.75rem 0; }
-        .prose-content a { color: var(--gold); text-underline-offset: 3px; }
-        .prose-content code { background: var(--s2); border: 1px solid var(--line); border-radius: 4px; padding: 2px 6px; font-size: 12px; font-family: var(--font-dm-mono), monospace; }
-        .prose-content pre { background: var(--s1); border: 1px solid var(--line); border-radius: 12px; padding: 16px; overflow-x: auto; margin: 1rem 0; }
-        .prose-content pre code { background: none; border: none; padding: 0; }
-        .prose-content ul, .prose-content ol { padding-left: 1.5rem; margin: 0.75rem 0; }
-        .prose-content li { margin: 0.3rem 0; }
-        .prose-content blockquote { border-left: 2px solid var(--gold-bd); padding-left: 1rem; margin: 1rem 0; color: var(--dim); font-style: italic; }
-        .prose-content hr { border: none; border-top: 1px solid var(--line); margin: 2rem 0; }
-        .prose-content img { max-width: 100%; border-radius: 8px; margin: 1rem 0; }
-        .prose-content strong { color: var(--text); font-weight: 600; }
+        .prose-levy h1 { font-family: var(--font-playfair), Georgia, serif; font-size: 26px; font-weight: 400; margin: 1.5rem 0 0.75rem; color: var(--text); }
+        .prose-levy h2 { font-family: var(--font-playfair), Georgia, serif; font-size: 20px; font-weight: 400; margin: 1.5rem 0 0.5rem; color: var(--text); }
+        .prose-levy h3 { font-size: 15px; font-weight: 500; margin: 1rem 0 0.4rem; color: var(--text); }
+        .prose-levy p { margin: 0.75rem 0; }
+        .prose-levy a { color: var(--gold); text-underline-offset: 3px; }
+        .prose-levy code { background: var(--s2); border: 1px solid var(--line); border-radius: 4px; padding: 2px 6px; font-size: 12px; font-family: var(--font-dm-mono), monospace; }
+        .prose-levy pre { background: var(--s1); border: 1px solid var(--line); border-radius: 12px; padding: 16px; overflow-x: auto; margin: 1rem 0; }
+        .prose-levy pre code { background: none; border: none; padding: 0; }
+        .prose-levy ul, .prose-levy ol { padding-left: 1.5rem; margin: 0.75rem 0; }
+        .prose-levy li { margin: 0.3rem 0; }
+        .prose-levy blockquote { border-left: 2px solid var(--gold-bd); padding-left: 1rem; margin: 1rem 0; color: var(--dim); font-style: italic; }
+        .prose-levy hr { border: none; border-top: 1px solid var(--line); margin: 2rem 0; }
+        .prose-levy img { max-width: 100%; border-radius: 8px; margin: 1rem 0; }
+        .prose-levy strong { color: var(--text); font-weight: 600; }
+        .prose-levy table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 13px; }
+        .prose-levy th, .prose-levy td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; }
+        .prose-levy th { background: var(--s2); color: var(--text); font-weight: 500; }
+        .prose-levy td { color: var(--dim); }
       `}</style>
     </div>
   )
 }
 
-// ── Basic Markdown parser (no external deps) ──────────────────────────────────
-function basicMarkdown(md: string): string {
-  return md
-    // Escape HTML
-    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-    // Code blocks
-    .replace(/```[\w]*\n([\s\S]*?)```/g, "<pre><code>$1</code></pre>")
-    // Inline code
-    .replace(/`([^`]+)`/g, "<code>$1</code>")
-    // Headings
+// ── Markdown renderer — handles code blocks before HTML-escaping text ──────────
+function renderMarkdown(md: string): string {
+  // 1. Extract code blocks first (protect from further processing)
+  const codeBlocks: string[] = []
+  let result = md.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) => {
+    const escaped = code
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+    codeBlocks.push(`<pre><code class="language-${lang}">${escaped}</code></pre>`)
+    return `\x00CODE${codeBlocks.length - 1}\x00`
+  })
+
+  // 2. Inline code (before HTML escape of remaining text)
+  const inlineCodes: string[] = []
+  result = result.replace(/`([^`\n]+)`/g, (_, code) => {
+    const escaped = code.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    inlineCodes.push(`<code>${escaped}</code>`)
+    return `\x00INLINE${inlineCodes.length - 1}\x00`
+  })
+
+  // 3. Escape remaining HTML
+  result = result
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+
+  // 4. Headings
+  result = result
     .replace(/^### (.+)$/gm, "<h3>$1</h3>")
     .replace(/^## (.+)$/gm, "<h2>$1</h2>")
     .replace(/^# (.+)$/gm, "<h1>$1</h1>")
-    // Bold + italic
+
+  // 5. Bold / italic
+  result = result
     .replace(/\*\*\*(.+?)\*\*\*/g, "<strong><em>$1</em></strong>")
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
     .replace(/\*(.+?)\*/g, "<em>$1</em>")
-    // HR
-    .replace(/^---$/gm, "<hr />")
-    // Blockquote
-    .replace(/^> (.+)$/gm, "<blockquote>$1</blockquote>")
-    // Unordered list
+
+  // 6. HR
+  result = result.replace(/^---$/gm, "<hr />")
+
+  // 7. Blockquote
+  result = result.replace(/^&gt; (.+)$/gm, "<blockquote>$1</blockquote>")
+
+  // 8. Lists
+  result = result
     .replace(/^[-*] (.+)$/gm, "<li>$1</li>")
-    .replace(/(<li>.*<\/li>\n?)+/g, "<ul>$&</ul>")
-    // Links
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
-    // Images
-    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" />')
-    // Paragraphs (blank lines)
-    .replace(/\n\n([^<])/g, "\n\n<p>$1")
-    .replace(/([^>])\n\n/g, "$1</p>\n\n")
+    .replace(/^(\d+)\. (.+)$/gm, "<li>$2</li>")
+  result = result.replace(/(<li>[\s\S]*?<\/li>)(\n<li>[\s\S]*?<\/li>)*/g, "<ul>$&</ul>")
+
+  // 9. Images before links
+  result = result.replace(
+    /!\[([^\]]*)\]\(([^)]+)\)/g,
+    '<img src="$2" alt="$1" />'
+  )
+
+  // 10. Links
+  result = result.replace(
+    /\[([^\]]+)\]\(([^)]+)\)/g,
+    '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
+  )
+
+  // 11. Paragraphs (double newline)
+  result = result
+    .split(/\n{2,}/)
+    .map((block) => {
+      const trimmed = block.trim()
+      if (!trimmed) return ""
+      if (/^<(h[1-6]|ul|ol|li|pre|blockquote|hr|img)/.test(trimmed)) return trimmed
+      return `<p>${trimmed.replace(/\n/g, "<br />")}</p>`
+    })
+    .join("\n")
+
+  // 12. Restore code blocks
+  result = result.replace(/\x00CODE(\d+)\x00/g, (_, i) => codeBlocks[parseInt(i)])
+  result = result.replace(/\x00INLINE(\d+)\x00/g, (_, i) => inlineCodes[parseInt(i)])
+
+  return result
 }

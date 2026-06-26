@@ -1,5 +1,3 @@
-"use client"
-
 import Link from "next/link"
 import type { ProjectData } from "@/lib/github"
 
@@ -13,39 +11,29 @@ const STATUS_STYLE: Record<string, { border: string; bg: string; text: string }>
 
 const GITHUB_USER = process.env.NEXT_PUBLIC_GITHUB_USERNAME ?? "YoniLevy10"
 
+// Server Component — no "use client" needed
 export function ProjectCard({ project }: { project: ProjectData }) {
   const { meta, slug, repoName, updatedAt, language } = project
   const s = STATUS_STYLE[meta.status] ?? STATUS_STYLE.Development
   const rawBase = `https://raw.githubusercontent.com/${GITHUB_USER}/${repoName}/main`
 
   return (
-    <Link href={`/projects/${slug}`} className="no-underline block group">
-      <article
-        className="relative overflow-hidden rounded-2xl border transition-all duration-300 h-full flex flex-col"
-        style={{ background: "var(--s1)", borderColor: "var(--line)" }}
-        onMouseEnter={(e) => {
-          ;(e.currentTarget as HTMLElement).style.borderColor = "var(--gold-bd)"
-          ;(e.currentTarget as HTMLElement).style.background = "var(--s2)"
-        }}
-        onMouseLeave={(e) => {
-          ;(e.currentTarget as HTMLElement).style.borderColor = "var(--line)"
-          ;(e.currentTarget as HTMLElement).style.background = "var(--s1)"
-        }}
-      >
-        {/* Cover */}
+    <Link href={`/projects/${slug}`} className="project-card no-underline block h-full">
+      <article className="h-full flex flex-col overflow-hidden rounded-2xl border transition-all duration-300"
+        style={{ background: "var(--s1)", borderColor: "var(--line)" }}>
+
         {meta.cover && (
           <div className="h-40 overflow-hidden" style={{ background: "var(--s2)" }}>
             <img
               src={`${rawBase}${meta.cover}`}
               alt={meta.title}
-              className="h-full w-full object-cover opacity-80 transition-transform duration-500 group-hover:scale-105"
-              onError={(e) => ((e.currentTarget as HTMLImageElement).style.display = "none")}
+              className="h-full w-full object-cover opacity-80 transition-transform duration-500 project-card-img"
+              onError={(e) => ((e.currentTarget as HTMLImageElement).parentElement!.style.display = "none")}
             />
           </div>
         )}
 
         <div className="flex flex-1 flex-col p-6">
-          {/* Header */}
           <div className="mb-3 flex items-start justify-between gap-3">
             <div className="flex items-center gap-2.5 min-w-0">
               {meta.logo && (
@@ -69,20 +57,17 @@ export function ProjectCard({ project }: { project: ProjectData }) {
             </span>
           </div>
 
-          {/* Category */}
           {meta.category && (
             <div className="mb-2 font-mono text-[9px] uppercase tracking-[0.2em]" style={{ color: "var(--gold)" }}>
               {meta.category}
             </div>
           )}
 
-          {/* Description */}
           <p className="mb-4 flex-1 text-[13px] font-light leading-[1.8]" style={{ color: "var(--dim)" }}>
             {(meta.description ?? "").slice(0, 140) || "No description."}
             {(meta.description ?? "").length > 140 ? "…" : ""}
           </p>
 
-          {/* Tech badges */}
           {meta.technologies.length > 0 && (
             <div className="mb-4 flex flex-wrap gap-1.5">
               {meta.technologies.slice(0, 5).map((tech) => (
@@ -102,7 +87,6 @@ export function ProjectCard({ project }: { project: ProjectData }) {
             </div>
           )}
 
-          {/* Footer */}
           <div
             className="flex items-center justify-between border-t pt-4 font-mono text-[9px] uppercase tracking-[0.12em]"
             style={{ borderColor: "var(--line2)", color: "var(--dim)" }}

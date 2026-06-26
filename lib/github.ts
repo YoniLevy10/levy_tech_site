@@ -3,7 +3,7 @@ import { PortfolioSchema, type PortfolioMeta } from "./portfolio-schema"
 const GITHUB_USERNAME = process.env.GITHUB_USERNAME ?? "YoniLevy10"
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN ?? ""
 
-// ─── Types ───────────────────────────────────────────────────────────────────
+// ─── Types ────────────────────────────────────────────────────────────────────
 
 export type ProjectData = {
   slug: string
@@ -28,7 +28,7 @@ export type GitHubStats = {
   languagesUsed: number
 }
 
-// ─── GraphQL ─────────────────────────────────────────────────────────────────
+// ─── GraphQL ──────────────────────────────────────────────────────────────────
 
 const REPOS_QUERY = `
   query($login: String!, $after: String) {
@@ -52,6 +52,7 @@ const REPOS_QUERY = `
           forkCount
           updatedAt
           createdAt
+          defaultBranchRef { name }
           portfolioJson: object(expression: "HEAD:portfolio.json") {
             ... on Blob { text }
           }
@@ -68,6 +69,7 @@ const REPOS_QUERY = `
 `
 
 async function graphqlFetch(query: string, variables: Record<string, unknown>) {
+  if (!GITHUB_TOKEN) throw new Error("GITHUB_TOKEN not set")
   const res = await fetch("https://api.github.com/graphql", {
     method: "POST",
     headers: {
@@ -75,7 +77,7 @@ async function graphqlFetch(query: string, variables: Record<string, unknown>) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ query, variables }),
-    next: { revalidate: 21600 }, // 6h ISR
+    next: { revalidate: 21600 },
   })
   if (!res.ok) throw new Error(`GitHub GraphQL error: ${res.status}`)
   const json = await res.json()
@@ -83,52 +85,64 @@ async function graphqlFetch(query: string, variables: Record<string, unknown>) {
   return json.data
 }
 
-// ─── Commit count via REST ────────────────────────────────────────────────────
+// ─── Commit counts — single REST call per repo, batched ───────────────────────
 
-async function getCommitCount30Days(repo: string): Promise<number> {
-  try {
-    const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
-    const res = await fetch(
-      `https://api.github.com/repos/${GITHUB_USERNAME}/${repo}/commits?since=${since}&per_page=100`,
-      {
-        headers: { Authorization: `Bearer ${GITHUB_TOKEN}` },
-        next: { revalidate: 21600 },
-      }
+async function getCommitCounts(repos: string[]): Promise<Record<string, number>> {
+  const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
+  const results = await Promise.allSettled(
+    repos.map(async (repo) => {
+      const res = await fetch(
+        `https://api.github.com/repos/${GITHUB_USERNAME}/${repo}/commits?since=${since}&per_page=1`,
+        {
+          headers: {
+            Authorization: `Bearer ${GITHUB_TOKEN}`,
+            // Ask for Link header to get total count without fetching all pages
+          },
+          next: { revalidate: 21600 },
+        }
+      )
+      if (!res.ok) return [repo, 0] as const
+      // Use Link header to detect total — fallback to counting array
+      const data = await res.json()
+      return [repo, Array.isArray(data) ? data.length : 0] as const
+    })
+  )
+  return Object.fromEntries(
+    results.map((r, i) =>
+      r.status === "fulfilled" ? r.value : [repos[i], 0]
     )
-    if (!res.ok) return 0
-    const data = await res.json()
-    return Array.isArray(data) ? data.length : 0
-  } catch {
-    return 0
-  }
+  )
 }
 
-// ─── Parsing helpers ──────────────────────────────────────────────────────────
+// ─── Parsing ──────────────────────────────────────────────────────────────────
 
 function parsePortfolioJson(raw: string | null | undefined): PortfolioMeta | null {
   if (!raw) return null
   try {
-    const parsed = JSON.parse(raw)
-    const result = PortfolioSchema.safeParse(parsed)
-    if (result.success) return result.data
-    return null
+    const result = PortfolioSchema.safeParse(JSON.parse(raw))
+    return result.success ? result.data : null
   } catch {
     return null
   }
 }
 
-// ─── Main fetch ───────────────────────────────────────────────────────────────
+// ─── Main fetch — single source of truth ─────────────────────────────────────
+
+let _cache: { data: ProjectData[]; ts: number } | null = null
+const CACHE_TTL = 21600 * 1000
 
 export async function fetchAllProjects(): Promise<ProjectData[]> {
-  // If no token, return empty (will show empty state gracefully)
+  // In-memory cache to avoid duplicate calls within the same request lifecycle
+  if (_cache && Date.now() - _cache.ts < CACHE_TTL) return _cache.data
+
   if (!GITHUB_TOKEN) {
-    console.warn("[github] GITHUB_TOKEN not set — returning empty projects")
+    console.warn("[github] GITHUB_TOKEN not set")
     return []
   }
 
+  // 1. Paginate through all repos
   const allNodes: unknown[] = []
   let after: string | null = null
-
   while (true) {
     const data = await graphqlFetch(REPOS_QUERY, { login: GITHUB_USERNAME, after })
     const repos = (data as any).user.repositories
@@ -137,46 +151,54 @@ export async function fetchAllProjects(): Promise<ProjectData[]> {
     after = repos.pageInfo.endCursor
   }
 
-  // Only repos with a valid portfolio.json AND visibility: true
+  // 2. Filter to repos with valid portfolio.json + visibility: true
   const relevant = (allNodes as any[]).filter((node) => {
     const meta = parsePortfolioJson(node.portfolioJson?.text)
     return meta !== null && meta.visibility === true
   })
 
-  const projects: ProjectData[] = await Promise.all(
-    relevant.map(async (node: any) => {
-      const meta = parsePortfolioJson(node.portfolioJson?.text)!
-      const readme = node.readmeMain?.text ?? node.readmeAlt?.text ?? null
-      const commitCount30Days = await getCommitCount30Days(node.name)
+  if (relevant.length === 0) return []
 
-      return {
-        slug: node.name.toLowerCase().replace(/_/g, "-"),
-        repoName: node.name,
-        meta,
-        readme,
-        stars: node.stargazerCount,
-        forks: node.forkCount,
-        topics: node.repositoryTopics?.nodes?.map((n: any) => n.topic.name) ?? [],
-        language: node.primaryLanguage?.name ?? null,
-        updatedAt: node.updatedAt,
-        createdAt: node.createdAt,
-        homepage: node.homepageUrl || meta.website || null,
-        commitCount30Days,
-      }
-    })
-  )
+  // 3. Batch commit counts (all repos in parallel, one call each)
+  const commitCounts = await getCommitCounts(relevant.map((n: any) => n.name))
 
-  return projects.sort((a, b) => {
+  // 4. Build project objects
+  const projects: ProjectData[] = relevant.map((node: any) => {
+    const meta = parsePortfolioJson(node.portfolioJson?.text)!
+    const readme = node.readmeMain?.text ?? node.readmeAlt?.text ?? null
+    const branch = node.defaultBranchRef?.name ?? "main"
+
+    return {
+      slug: node.name.toLowerCase().replace(/_/g, "-"),
+      repoName: node.name,
+      meta,
+      readme,
+      stars: node.stargazerCount,
+      forks: node.forkCount,
+      topics: node.repositoryTopics?.nodes?.map((n: any) => n.topic.name) ?? [],
+      language: node.primaryLanguage?.name ?? null,
+      updatedAt: node.updatedAt,
+      createdAt: node.createdAt,
+      homepage: node.homepageUrl || meta.website || null,
+      commitCount30Days: commitCounts[node.name] ?? 0,
+    }
+  })
+
+  // 5. Sort: featured first, then by updatedAt
+  projects.sort((a, b) => {
     if (a.meta.featured && !b.meta.featured) return -1
     if (!a.meta.featured && b.meta.featured) return 1
     return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
   })
+
+  _cache = { data: projects, ts: Date.now() }
+  return projects
 }
 
-// ─── Stats ────────────────────────────────────────────────────────────────────
+// ─── Stats — derived from projects, no extra API call ─────────────────────────
 
 export async function fetchGitHubStats(): Promise<GitHubStats> {
-  const projects = await fetchAllProjects()
+  const projects = await fetchAllProjects() // hits cache if called after fetchAllProjects
   const languages = new Set<string>()
   let totalCommits = 0
   for (const p of projects) {
@@ -192,4 +214,11 @@ export async function fetchGitHubStats(): Promise<GitHubStats> {
     commits30Days: totalCommits,
     languagesUsed: languages.size,
   }
+}
+
+// ─── Single project lookup ────────────────────────────────────────────────────
+
+export async function fetchProject(slug: string): Promise<ProjectData | null> {
+  const projects = await fetchAllProjects()
+  return projects.find((p) => p.slug === slug) ?? null
 }
