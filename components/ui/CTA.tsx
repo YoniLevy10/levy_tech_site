@@ -3,7 +3,11 @@
 import { useI18n } from "@/lib/i18n"
 import { motion } from "framer-motion"
 
-const auditItems = ["Operational map", "System blueprint", "Build estimate"]
+const auditItems = [
+  { icon: "→", text: "Operational map of your business" },
+  { icon: "→", text: "Custom system blueprint" },
+  { icon: "→", text: "Build estimate & timeline" },
+]
 
 export default function CTA() {
   const { t } = useI18n()
@@ -14,55 +18,84 @@ export default function CTA() {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       viewport={{ once: true, amount: 0.1 }}
-      className="relative mx-6 mb-20 grid grid-cols-1 items-center gap-10 overflow-hidden rounded-2xl border border-gold-border/70 bg-surface-1 p-8 sm:mx-[5vw] sm:p-12 md:grid-cols-[1fr_340px] md:gap-12 md:p-16"
+      className="relative mx-6 mb-20 overflow-hidden rounded-2xl sm:mx-[5vw]"
+      style={{ background: "var(--s1)", border: "1px solid rgba(200,169,109,0.3)" }}
     >
-      <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
+      {/* Glow top */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
+      {/* Ambient glow */}
+      <div
+        className="pointer-events-none absolute -top-32 left-1/2 h-64 w-96 -translate-x-1/2 rounded-full blur-3xl"
+        style={{ background: "rgba(200,169,109,0.08)" }}
+      />
 
-      <div>
-        <div className="mb-5 flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.22em] text-gold sm:text-[10px]">
-          <span>System Audit</span>
-          <span className="h-px w-8 bg-gold-border" />
+      <div className="relative grid grid-cols-1 gap-0 md:grid-cols-[1fr_320px]">
+        {/* Left — copy */}
+        <div className="px-8 py-12 sm:px-12 sm:py-16">
+          <div className="mb-5 flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.22em] text-gold sm:text-[10px]">
+            <span>Free System Audit</span>
+            <span className="h-px w-8 bg-gold-border" />
+          </div>
+
+          <h2 className="max-w-[14ch] font-serif text-[clamp(32px,6vw,52px)] font-normal leading-[1.06] tracking-[-0.03em] text-foreground">
+            {t("cta.title")}{" "}
+            <em className="italic text-gold">{t("cta.title.em")}</em>
+          </h2>
+
+          <p className="mt-5 max-w-[38rem] text-[15px] font-light leading-[1.9] text-muted sm:text-[16px]">
+            {t("cta.sub")}
+          </p>
+
+          {/* Trust line */}
+          <div className="mt-8 flex items-center gap-6">
+            {[
+              { val: "45 min", label: "session" },
+              { val: "Free",   label: "no commitment" },
+              { val: "48h",    label: "response time" },
+            ].map((item) => (
+              <div key={item.label}>
+                <div className="font-serif text-[22px] leading-none text-foreground">{item.val}</div>
+                <div className="mt-1 font-mono text-[8px] uppercase tracking-[0.16em] text-muted">{item.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="max-w-[12ch] font-serif text-[clamp(34px,10vw,48px)] leading-[1.08] text-foreground sm:max-w-none">
-          {t("cta.title")} <em className="italic text-gold">{t("cta.title.em")}</em>
-        </div>
-
-        <p className="mt-4 max-w-[36rem] text-[15px] font-light leading-[1.9] text-muted sm:text-[16px]">
-          {t("cta.sub")}
-        </p>
-      </div>
-
-      <div className="z-10 rounded-xl border border-line bg-background/55 p-5">
-        <div className="mb-4 font-mono text-[9px] uppercase tracking-[0.18em] text-muted">
-          What you get
-        </div>
-
-        <div className="mb-6 space-y-3">
-          {auditItems.map((item) => (
-            <div key={item} className="flex items-center gap-3 text-[14px] text-foreground">
-              <span className="text-gold">✓</span>
-              <span>{item}</span>
-            </div>
-          ))}
-        </div>
-
-        <a
-          href="mailto:OpsBrain1@gmail.com"
-          className="inline-flex w-full items-center justify-center gap-2 rounded bg-gold px-6 py-4 text-[13px] font-medium tracking-wide text-background no-underline transition-all hover:-translate-y-0.5 hover:bg-gold-light"
+        {/* Right — action box */}
+        <div
+          className="flex flex-col justify-center gap-5 border-t border-l-0 px-8 py-10 md:border-t-0 md:border-l sm:px-10"
+          style={{ borderColor: "rgba(200,169,109,0.2)" }}
         >
-          {t("cta.btn1")} <span>→</span>
-        </a>
+          <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-muted">
+            What you get
+          </div>
 
-        <a
-          href="#contact"
-          className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded border border-gold-border bg-transparent px-5 py-3 text-xs tracking-wide text-gold no-underline transition-all hover:bg-gold-bg"
-        >
-          {t("cta.btn2")}
-        </a>
+          <div className="space-y-3">
+            {auditItems.map((item) => (
+              <div key={item.text} className="flex items-start gap-3 text-[14px] text-foreground">
+                <span className="mt-0.5 shrink-0 text-gold">{item.icon}</span>
+                <span className="font-light leading-snug">{item.text}</span>
+              </div>
+            ))}
+          </div>
 
-        <div className="mt-4 text-center font-mono text-[10px] tracking-wide text-muted">
-          {t("cta.note")}
+          <a
+            href="mailto:OpsBrain1@gmail.com"
+            className="inline-flex w-full items-center justify-center gap-2 rounded bg-gold px-6 py-4 text-[13px] font-medium tracking-wide text-background no-underline transition-all hover:-translate-y-0.5 hover:bg-gold-light"
+          >
+            {t("cta.btn1")} <span>→</span>
+          </a>
+
+          <a
+            href="#contact"
+            className="inline-flex w-full items-center justify-center gap-2 rounded border border-gold-border bg-transparent px-5 py-3 text-[12px] tracking-wide text-gold no-underline transition-all hover:bg-gold-bg"
+          >
+            {t("cta.btn2")}
+          </a>
+
+          <p className="text-center font-mono text-[10px] tracking-wide text-muted opacity-70">
+            {t("cta.note")}
+          </p>
         </div>
       </div>
     </motion.div>

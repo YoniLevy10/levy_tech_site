@@ -7,47 +7,75 @@ export default function Testimonial() {
   const { t } = useI18n()
 
   return (
-    <section className="px-[5vw] py-20 border-t border-line">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true, amount: 0.1 }}
-          className="flex items-center gap-3 font-mono text-[10px] tracking-[2.5px] uppercase text-gold mb-8"
-        >
-          <span>{t("testi.label")}</span>
-          <span className="w-8 h-px bg-gold-border" />
-        </motion.div>
+    <section className="border-t border-line px-6 py-20 sm:px-[5vw]">
+      <div className="mx-auto max-w-7xl">
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          viewport={{ once: true, amount: 0.1 }}
-          className="border border-gold-border rounded-xl p-12 bg-gradient-to-br from-gold/[0.055] to-transparent relative overflow-hidden"
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true, amount: 0.15 }}
+          className="relative overflow-hidden rounded-2xl border border-gold-border"
+          style={{ background: "linear-gradient(135deg, rgba(200,169,109,0.07) 0%, rgba(200,169,109,0.03) 50%, transparent 100%)" }}
         >
-          {/* Quote mark */}
-          <div className="absolute -top-4 left-9 font-serif text-[130px] text-gold opacity-10 leading-none pointer-events-none select-none">
-            &ldquo;
-          </div>
+          {/* Top line */}
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
 
-          <blockquote className="font-serif text-[clamp(18px,2.2vw,26px)] font-normal italic text-foreground leading-relaxed max-w-[720px] mb-7 relative z-10">
-            &ldquo;{t("testi.quote")}&rdquo;
-          </blockquote>
-
-          <div className="flex items-center gap-4">
-            <div className="w-11 h-11 rounded-full border border-gold-border bg-gold-bg grid place-items-center font-serif text-lg text-gold shrink-0">
-              S
-            </div>
-            <div>
-              <div className="text-sm font-medium text-foreground">{t("testi.name")}</div>
-              <div className="text-[11px] text-muted font-mono mt-0.5 tracking-wide">
-                {t("testi.role")}
+          <div className="grid grid-cols-1 gap-0 md:grid-cols-[1fr_260px]">
+            {/* Quote */}
+            <div className="px-8 py-10 sm:px-12 sm:py-14">
+              <div className="mb-6 flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.22em] text-gold sm:text-[10px]">
+                <span>{t("testi.label")}</span>
+                <span className="h-px w-8 bg-gold-border" />
               </div>
+
+              {/* Giant quote mark */}
+              <div className="pointer-events-none absolute -top-2 left-10 select-none font-serif text-[160px] leading-none text-gold opacity-[0.07]">
+                &ldquo;
+              </div>
+
+              <blockquote className="relative font-serif text-[clamp(18px,2.4vw,28px)] font-normal italic leading-[1.55] text-foreground">
+                &ldquo;{t("testi.quote")}&rdquo;
+              </blockquote>
+
+              <div className="mt-8 flex items-center gap-4">
+                <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-gold-border bg-gold-bg font-serif text-xl text-gold">
+                  S
+                </div>
+                <div>
+                  <div className="text-[15px] font-medium text-foreground">{t("testi.name")}</div>
+                  <div className="mt-0.5 font-mono text-[10px] tracking-wide text-muted">
+                    {t("testi.role")}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Stats sidebar */}
+            <div
+              className="flex flex-col justify-center gap-0 border-t border-gold-border/40 md:border-t-0 md:border-l"
+              style={{ borderColor: "rgba(200,169,109,0.2)" }}
+            >
+              {[
+                { value: "150+", label: "Residents on system" },
+                { value: "20+",  label: "Buildings managed" },
+                { value: "0",    label: "Messages lost since launch" },
+              ].map((stat, i) => (
+                <div
+                  key={stat.label}
+                  className={`px-8 py-7 ${i < 2 ? "border-b" : ""}`}
+                  style={{ borderColor: "rgba(200,169,109,0.15)" }}
+                >
+                  <div className="font-serif text-[38px] leading-none text-gold">{stat.value}</div>
+                  <div className="mt-2 font-mono text-[9px] uppercase tracking-[0.18em] text-muted">
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </motion.div>
+
       </div>
     </section>
   )
