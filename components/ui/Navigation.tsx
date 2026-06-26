@@ -18,10 +18,11 @@ export default function Navigation() {
       </a>
 
       <div className="hidden gap-6 md:flex">
-        <a href="#services" className="text-[13px] tracking-wide text-muted no-underline transition-colors hover:text-foreground">{t("nav.services")}</a>
-        <a href="#projects" className="text-[13px] tracking-wide text-muted no-underline transition-colors hover:text-foreground">{t("nav.projects")}</a>
-        <a href="#process" className="text-[13px] tracking-wide text-muted no-underline transition-colors hover:text-foreground">{t("nav.process")}</a>
-        <a href="#contact" className="text-[13px] tracking-wide text-muted no-underline transition-colors hover:text-foreground">{t("nav.contact")}</a>
+        <a href="/#services" className="text-[13px] tracking-wide text-muted no-underline transition-colors hover:text-foreground">{t("nav.services")}</a>
+        <a href="/#projects" className="text-[13px] tracking-wide text-muted no-underline transition-colors hover:text-foreground">{t("nav.projects")}</a>
+        <a href="/projects" className="text-[13px] tracking-wide text-muted no-underline transition-colors hover:text-foreground">Portfolio</a>
+        <a href="/#process" className="text-[13px] tracking-wide text-muted no-underline transition-colors hover:text-foreground">{t("nav.process")}</a>
+        <a href="/#contact" className="text-[13px] tracking-wide text-muted no-underline transition-colors hover:text-foreground">{t("nav.contact")}</a>
       </div>
 
       <div className="flex shrink-0 items-center gap-2 sm:gap-3">
