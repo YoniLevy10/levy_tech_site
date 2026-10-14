@@ -68,37 +68,17 @@ export const translations = {
     "why.t4": "Built for real usage",
     "why.d4": "Teams keep familiar tools while managers get one clear dashboard.",
     "proj.label": "Selected Systems",
-    "proj.h2": "Built for real",
-    "proj.h2.em": "operations.",
+    "proj.h2": "Two systems.",
+    "proj.h2.em": "Real operations.",
     "proj.h2.end": "",
-    "proj.bamakor.tag": "Maintenance Operations",
-    "proj.bamakor.sub": "WhatsApp Maintenance Operations System",
-    "proj.bamakor.desc":
-      "Residents report issues via WhatsApp. The system opens structured tickets, assigns workers, tracks resolution and keeps full history — from one manager dashboard.",
-    "proj.naaryo.tag": "Investment Finance",
-    "proj.naaryo.sub": "Investment Client Portal",
-    "proj.naaryo.desc":
-      "A secure portal for investment clients — documents, portfolio visibility, reports and advisor-client communication in one private interface.",
-    "proj.meditactic.tag": "Supply Chain & Inventory",
-    "proj.meditactic.sub": "Supply Chain & Inventory Intelligence",
-    "proj.meditactic.desc":
-      "Centralized platform for managing inventory, suppliers, orders, logistics and financial visibility — reducing blind spots and supporting faster decisions.",
     "proj.bino.tag": "Operations Platform",
     "proj.bino.sub": "Business Operations System",
     "proj.bino.desc":
       "A custom operations layer that connects day-to-day workflows, data and team coordination into one clear system tailored to how the business runs.",
-    "proj.retail.tag": "Retail Operations",
-    "proj.retail.sub": "Global retail optics chain",
-    "proj.retail.desc":
-      "Operational tooling for a global retail optics chain — helping store and HQ teams coordinate processes, visibility and day-to-day work across locations.",
-    "proj.opsbrain.tag": "AI Workspace",
-    "proj.opsbrain.sub": "Internal AI operating layer",
-    "proj.opsbrain.desc":
-      "OpsBrain’s own platform concept: a unified workspace connecting emails, files, tasks and live operational data into one AI command center.",
-    "case.label": "Case note",
-    "case.title": "From scattered chats to structured ops",
-    "case.body":
-      "Bamakor needed a clearer way to take resident reports, assign work, and follow resolution without losing context in chat threads. The system turns WhatsApp reports into structured tickets with a manager dashboard for assignment, tracking and history.",
+    "proj.milo.tag": "Retail Operations",
+    "proj.milo.sub": "Global retail chain",
+    "proj.milo.desc":
+      "Operational tooling for a global retail chain — helping store and HQ teams coordinate processes, visibility and day-to-day work across locations.",
     "proc.label": "How We Build",
     "proc.h2": "A clear path from",
     "proc.h2.em": "problem",
@@ -220,37 +200,17 @@ export const translations = {
     "why.t4": "בנוי לשימוש אמיתי",
     "why.d4": "הצוות נשאר בכלים מוכרים; המנהלים מקבלים דשבורד אחד ברור.",
     "proj.label": "מערכות נבחרות",
-    "proj.h2": "נבנה לתפעול",
-    "proj.h2.em": "אמיתי.",
+    "proj.h2": "שתי מערכות.",
+    "proj.h2.em": "תפעול אמיתי.",
     "proj.h2.end": "",
-    "proj.bamakor.tag": "ניהול תחזוקה",
-    "proj.bamakor.sub": "מערכת ניהול תחזוקה מבוססת וואטסאפ",
-    "proj.bamakor.desc":
-      "דיירים מדווחים על תקלות דרך וואטסאפ. המערכת פותחת טיקטים, מקצה עובדים, עוקבת ושומרת היסטוריה — מדשבורד אחד.",
-    "proj.naaryo.tag": "פיננסים",
-    "proj.naaryo.sub": "פורטל לקוחות השקעות",
-    "proj.naaryo.desc":
-      "פורטל מאובטח ללקוחות השקעות — מסמכים, ראייה בתיק, דוחות ותקשורת מובנית בממשק פרטי אחד.",
-    "proj.meditactic.tag": "שרשרת אספקה",
-    "proj.meditactic.sub": "מערכת אינטליגנציה לשרשרת אספקה ומלאי",
-    "proj.meditactic.desc":
-      "פלטפורמה מרכזית לניהול מלאי, ספקים, הזמנות ולוגיסטיקה — להפחתת נקודות עיוורות ותמיכה בהחלטות מהירות.",
     "proj.bino.tag": "פלטפורמת תפעול",
     "proj.bino.sub": "מערכת תפעול עסקית",
     "proj.bino.desc":
       "שכבת תפעול מותאמת שמחברת תהליכי יום־יום, נתונים ותיאום צוות למערכת אחת ברורה סביב איך שהעסק רץ.",
-    "proj.retail.tag": "תפעול קמעונאי",
-    "proj.retail.sub": "רשת חנויות גלובלית",
-    "proj.retail.desc":
-      "כלי תפעול לרשת חנויות אופטיקה גלובלית — עוזרים לצוותי חנויות ומטה לתאם תהליכים, ראייה ועבודה יומיומית בין סניפים.",
-    "proj.opsbrain.tag": "סביבת עבודה AI",
-    "proj.opsbrain.sub": "שכבת הפעלה AI פנימית",
-    "proj.opsbrain.desc":
-      "קונספט הפלטפורמה של OpsBrain: סביבת עבודה מאוחדת שמחברת מיילים, קבצים, משימות ונתוני תפעול חיים למרכז פיקוד AI אחד.",
-    "case.label": "תיאור מקרה",
-    "case.title": "מצ'אטים מפוזרים לתפעול מסודר",
-    "case.body":
-      "במקור נזקקה לדרך ברורה יותר לקבל דיווחי דיירים, להקצות עבודה ולעקוב אחרי סגירה בלי לאבד הקשר בשרשורים. המערכת הופכת דיווחי וואטסאפ לטיקטים מובנים עם דשבורד מנהל להקצאה, מעקב והיסטוריה.",
+    "proj.milo.tag": "תפעול קמעונאי",
+    "proj.milo.sub": "רשת חנויות גלובלית",
+    "proj.milo.desc":
+      "כלי תפעול לרשת חנויות גלובלית — עוזרים לצוותי חנויות ומטה לתאם תהליכים, ראייה ועבודה יומיומית בין סניפים.",
     "proc.label": "איך אנחנו בונים",
     "proc.h2": "מסלול ברור מ",
     "proc.h2.em": "בעיה",
@@ -372,37 +332,17 @@ export const translations = {
     "why.t4": "Concu pour un usage reel",
     "why.d4": "Les equipes gardent des outils familiers; les managers obtiennent un tableau de bord clair.",
     "proj.label": "Systemes selectionnes",
-    "proj.h2": "Concu pour de vraies",
-    "proj.h2.em": "operations.",
+    "proj.h2": "Deux systemes.",
+    "proj.h2.em": "De vraies operations.",
     "proj.h2.end": "",
-    "proj.bamakor.tag": "Operations de maintenance",
-    "proj.bamakor.sub": "Systeme de maintenance WhatsApp",
-    "proj.bamakor.desc":
-      "Les residents signalent via WhatsApp. Le systeme ouvre des tickets, assigne des techniciens, suit et conserve l'historique — depuis un tableau de bord.",
-    "proj.naaryo.tag": "Finance",
-    "proj.naaryo.sub": "Portail clients investissement",
-    "proj.naaryo.desc":
-      "Portail securise pour investisseurs — documents, portefeuille, rapports et communication conseiller-client en une interface privee.",
-    "proj.meditactic.tag": "Chaine d'approvisionnement",
-    "proj.meditactic.sub": "Intelligence chaine d'approvisionnement",
-    "proj.meditactic.desc":
-      "Plateforme centralisee pour gerer stocks, fournisseurs, commandes et logistique — reduisant les angles morts et accelerant les decisions.",
     "proj.bino.tag": "Plateforme operations",
     "proj.bino.sub": "Systeme d'operations metier",
     "proj.bino.desc":
       "Une couche operations sur mesure qui relie workflows quotidiens, donnees et coordination d'equipe en un systeme clair adapte au metier.",
-    "proj.retail.tag": "Operations retail",
-    "proj.retail.sub": "Chaine optique retail mondiale",
-    "proj.retail.desc":
-      "Outils operationnels pour une chaine optique retail mondiale — pour aider magasins et siege a coordonner process, visibilite et travail quotidien.",
-    "proj.opsbrain.tag": "Espace de travail IA",
-    "proj.opsbrain.sub": "Couche d'exploitation IA interne",
-    "proj.opsbrain.desc":
-      "Le concept de plateforme OpsBrain: un espace unifie reliant emails, fichiers, taches et donnees operationnelles dans un centre de commande IA.",
-    "case.label": "Note de cas",
-    "case.title": "Des chats disperses a des operations structurees",
-    "case.body":
-      "Bamakor avait besoin d'une facon plus claire de recevoir les signalements, assigner le travail et suivre la resolution sans perdre le contexte dans les fils. Le systeme transforme les signalements WhatsApp en tickets structures avec un tableau de bord manager.",
+    "proj.milo.tag": "Operations retail",
+    "proj.milo.sub": "Chaine retail mondiale",
+    "proj.milo.desc":
+      "Outils operationnels pour une chaine retail mondiale — pour aider magasins et siege a coordonner process, visibilite et travail quotidien.",
     "proc.label": "Comment nous construisons",
     "proc.h2": "Un chemin clair du",
     "proc.h2.em": "probleme",

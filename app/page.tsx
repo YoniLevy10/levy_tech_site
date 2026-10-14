@@ -7,7 +7,6 @@ import Manifesto from "@/components/ui/Manifesto"
 import BeforeAfter from "@/components/ui/BeforeAfter"
 import Services from "@/components/ui/Services"
 import Projects from "@/components/ui/Projects"
-import CaseNote from "@/components/ui/CaseNote"
 import Process from "@/components/ui/Process"
 import FAQ from "@/components/ui/FAQ"
 import WhyOpsBrain from "@/components/ui/WhyOpsBrain"
@@ -49,7 +48,6 @@ export default function Home() {
         <Services />
         <WhyOpsBrain />
         <Projects />
-        <CaseNote />
         <Process />
         <Infrastructure />
         <FAQ />

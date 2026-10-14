@@ -4,39 +4,21 @@ import { useI18n } from "@/lib/i18n"
 import type { TranslationKey } from "@/lib/translations"
 import { motion } from "framer-motion"
 
-type ProjectId = "Bamakor" | "Naaryo" | "Meditactic" | "BINO" | "Retail" | "OpsBrain"
+/** Featured marketing cases only — keep the landing sparse. */
+type ProjectId = "BINO" | "Milo"
 
 const meta: Record<
   ProjectId,
-  { status: string; stack: string[]; result: string; title: string; tagKey: TranslationKey; subKey: TranslationKey; descKey: TranslationKey }
+  {
+    title: string
+    status: string
+    stack: string[]
+    result: string
+    tagKey: TranslationKey
+    subKey: TranslationKey
+    descKey: TranslationKey
+  }
 > = {
-  Bamakor: {
-    title: "Bamakor",
-    status: "Live client system",
-    stack: ["WhatsApp", "Tickets", "Supabase"],
-    result: "Structured maintenance flow",
-    tagKey: "proj.bamakor.tag",
-    subKey: "proj.bamakor.sub",
-    descKey: "proj.bamakor.desc",
-  },
-  Naaryo: {
-    title: "Naaryo",
-    status: "Private portal",
-    stack: ["Finance", "Documents", "Security"],
-    result: "Client visibility layer",
-    tagKey: "proj.naaryo.tag",
-    subKey: "proj.naaryo.sub",
-    descKey: "proj.naaryo.desc",
-  },
-  Meditactic: {
-    title: "Meditactic",
-    status: "Blueprint",
-    stack: ["Inventory", "Orders", "Reports"],
-    result: "Supply-chain clarity",
-    tagKey: "proj.meditactic.tag",
-    subKey: "proj.meditactic.sub",
-    descKey: "proj.meditactic.desc",
-  },
   BINO: {
     title: "BINO",
     status: "Client system",
@@ -46,27 +28,18 @@ const meta: Record<
     subKey: "proj.bino.sub",
     descKey: "proj.bino.desc",
   },
-  Retail: {
-    title: "Global retail chain",
+  Milo: {
+    title: "Milo",
     status: "Client system",
     stack: ["Retail", "Multi-location", "Ops"],
     result: "Cross-location coordination",
-    tagKey: "proj.retail.tag",
-    subKey: "proj.retail.sub",
-    descKey: "proj.retail.desc",
-  },
-  OpsBrain: {
-    title: "OpsBrain Platform",
-    status: "Platform concept",
-    stack: ["Gmail", "Drive", "AI"],
-    result: "Unified AI workspace",
-    tagKey: "proj.opsbrain.tag",
-    subKey: "proj.opsbrain.sub",
-    descKey: "proj.opsbrain.desc",
+    tagKey: "proj.milo.tag",
+    subKey: "proj.milo.sub",
+    descKey: "proj.milo.desc",
   },
 }
 
-const order: ProjectId[] = ["Bamakor", "Naaryo", "BINO", "Retail", "Meditactic", "OpsBrain"]
+const order: ProjectId[] = ["BINO", "Milo"]
 
 export default function Projects() {
   const { t } = useI18n()
@@ -94,7 +67,6 @@ export default function Projects() {
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
           {order.map((id, index) => {
             const item = meta[id]
-            const wide = id === "Bamakor" || id === "OpsBrain"
             return (
               <ProjectCard
                 key={id}
@@ -106,7 +78,6 @@ export default function Projects() {
                 stack={item.stack}
                 result={item.result}
                 number={String(index + 1).padStart(2, "0")}
-                wide={wide}
               />
             )
           })}
@@ -125,7 +96,6 @@ function ProjectCard({
   stack,
   result,
   number,
-  wide,
 }: {
   title: string
   tag: string
@@ -135,7 +105,6 @@ function ProjectCard({
   stack: string[]
   result: string
   number: string
-  wide?: boolean
 }) {
   return (
     <motion.div
@@ -143,9 +112,9 @@ function ProjectCard({
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       viewport={{ once: true, amount: 0.1 }}
-      className={`group relative overflow-hidden rounded-2xl border border-line bg-background p-7 transition-colors hover:border-gold-border hover:bg-surface-1 sm:p-10 ${wide ? "md:col-span-2" : ""}`}
+      className="group relative overflow-hidden rounded-2xl border border-line bg-background p-7 transition-colors hover:border-gold-border hover:bg-surface-1 sm:p-10"
     >
-      <div className="relative z-10 grid grid-cols-1 gap-8 md:grid-cols-[1fr_280px]">
+      <div className="relative z-10 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_240px]">
         <div className="max-w-[560px]">
           <div className="mb-4 font-mono text-[9px] uppercase tracking-[0.22em] text-gold opacity-80 sm:text-[10px]">{tag}</div>
           <div className="mb-2 font-serif text-[34px] leading-none text-foreground">{title}</div>
