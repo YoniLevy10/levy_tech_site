@@ -93,7 +93,6 @@ export default function BeforeAfter() {
           </motion.div>
         </div>
 
-        {/* Bridge line */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -103,7 +102,7 @@ export default function BeforeAfter() {
         >
           <span className="h-px w-12 bg-line" />
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
-            Built in under 3 weeks · Live with real clients
+            One operating layer · Built around how you work
           </p>
           <span className="h-px w-12 bg-line" />
         </motion.div>

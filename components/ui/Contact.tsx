@@ -2,16 +2,68 @@
 
 import { useState } from "react"
 import { useI18n } from "@/lib/i18n"
+import {
+  CONTACT_EMAIL,
+  whatsappUrl,
+  WHATSAPP_PREFILL_EN,
+  WHATSAPP_PREFILL_HE,
+  WHATSAPP_PREFILL_FR,
+} from "@/lib/site"
 import { motion } from "framer-motion"
 
-export default function Contact() {
-  const { t } = useI18n()
-  const [submitted, setSubmitted] = useState(false)
+type SubmitState = "idle" | "sending" | "sent" | "error" | "config"
 
-  const handleSubmit = (e: React.FormEvent) => {
+export default function Contact() {
+  const { t, lang } = useI18n()
+  const [status, setStatus] = useState<SubmitState>("idle")
+  const [name, setName] = useState("")
+  const [company, setCompany] = useState("")
+  const [email, setEmail] = useState("")
+  const [message, setMessage] = useState("")
+
+  const waMessage =
+    lang === "he" ? WHATSAPP_PREFILL_HE : lang === "fr" ? WHATSAPP_PREFILL_FR : WHATSAPP_PREFILL_EN
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
+    if (status === "sending" || status === "sent") return
+
+    setStatus("sending")
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, company, email, message }),
+      })
+
+      if (res.status === 503) {
+        setStatus("config")
+        return
+      }
+
+      if (!res.ok) {
+        setStatus("error")
+        return
+      }
+
+      setStatus("sent")
+      setName("")
+      setCompany("")
+      setEmail("")
+      setMessage("")
+    } catch {
+      setStatus("error")
+    }
   }
+
+  const statusMessage =
+    status === "sent"
+      ? t("form.sent")
+      : status === "config"
+        ? t("form.config")
+        : status === "error"
+          ? t("form.error")
+          : null
 
   return (
     <section id="contact" className="border-t border-line px-6 py-24 sm:px-[5vw]">
@@ -27,14 +79,14 @@ export default function Contact() {
           <span className="h-px w-8 bg-gold-border" />
         </motion.div>
 
-        <div className="grid grid-cols-1 items-start gap-12 md:grid-cols-2 md:gap-18">
+        <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
           <motion.div
             initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
             viewport={{ once: true, amount: 0.1 }}
           >
-            <h2 className="max-w-[12ch] font-serif text-[clamp(38px,11vw,56px)] font-normal leading-[1.05] tracking-[-0.035em] text-foreground sm:max-w-none">
+            <h2 className="max-w-[14ch] font-serif text-[clamp(38px,11vw,56px)] font-normal leading-[1.05] tracking-[-0.035em] text-foreground sm:max-w-none">
               {t("contact.h2")} <em className="italic text-gold">{t("contact.h2.em")}</em>
             </h2>
 
@@ -42,13 +94,33 @@ export default function Contact() {
               {t("contact.p")}
             </p>
 
+            <div className="mb-8 rounded-2xl border border-gold-border/40 bg-gold-bg/40 p-5 sm:p-6">
+              <div className="mb-4 font-mono text-[9px] uppercase tracking-[0.18em] text-gold">
+                {t("contact.audit.title")}
+              </div>
+              <ul className="space-y-3">
+                {[t("contact.audit.1"), t("contact.audit.2"), t("contact.audit.3")].map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-[14px] font-light text-foreground">
+                    <span className="mt-0.5 text-gold" aria-hidden="true">
+                      →
+                    </span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-5 font-mono text-[10px] tracking-wide text-muted">{t("contact.audit.note")}</p>
+            </div>
+
             <div className="space-y-5">
               <div className="flex items-center gap-4">
                 <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-gold-border bg-gold-bg text-[13px]">
                   <MailIcon />
                 </div>
-                <a href="mailto:OpsBrain1@gmail.com" className="break-all text-[14px] text-gold no-underline hover:text-gold-light">
-                  OpsBrain1@gmail.com
+                <a
+                  href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("OpsBrain System Audit")}`}
+                  className="break-all text-[14px] text-gold no-underline hover:text-gold-light"
+                >
+                  {CONTACT_EMAIL}
                 </a>
               </div>
 
@@ -56,12 +128,14 @@ export default function Contact() {
                 <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-gold-border bg-gold-bg text-[13px]">
                   <ChatIcon />
                 </div>
-                <div className="text-[14px] leading-relaxed text-muted">
-                  {t("contact.wa").split(" — ")[0]} —{" "}
-                  <a href="#" className="text-gold no-underline hover:text-gold-light">
-                    {t("contact.wa").split(" — ")[1]}
-                  </a>
-                </div>
+                <a
+                  href={whatsappUrl(waMessage)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[14px] text-gold no-underline hover:text-gold-light"
+                >
+                  {t("contact.wa")}
+                </a>
               </div>
             </div>
           </motion.div>
@@ -75,31 +149,62 @@ export default function Contact() {
             className="flex flex-col gap-4 rounded-2xl border border-line bg-surface-1/30 p-5 sm:p-7"
           >
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <Field label={t("form.name")} placeholder="Sara Cohen" required />
-              <Field label={t("form.company")} placeholder="Your Business" />
+              <Field
+                label={t("form.name")}
+                placeholder="Your name"
+                required
+                value={name}
+                onChange={setName}
+                disabled={status === "sending" || status === "sent"}
+              />
+              <Field
+                label={t("form.company")}
+                placeholder="Your business"
+                value={company}
+                onChange={setCompany}
+                disabled={status === "sending" || status === "sent"}
+              />
             </div>
 
-            <Field label={t("form.email")} placeholder="you@company.com" type="email" required />
+            <Field
+              label={t("form.email")}
+              placeholder="you@company.com"
+              type="email"
+              required
+              value={email}
+              onChange={setEmail}
+              disabled={status === "sending" || status === "sent"}
+            />
 
             <div className="flex flex-col gap-2">
               <label className="font-mono text-[10px] tracking-wider text-muted">{t("form.msg")}</label>
               <textarea
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                disabled={status === "sending" || status === "sent"}
                 placeholder="Describe your current process..."
-                className="h-32 resize-none rounded-lg border border-line bg-surface-1 px-4 py-4 font-sans text-[15px] text-foreground outline-none transition-colors placeholder:text-faint focus:border-gold-border"
+                className="h-32 resize-none rounded-lg border border-line bg-surface-1 px-4 py-4 font-sans text-[15px] text-foreground outline-none transition-colors placeholder:text-faint focus:border-gold-border disabled:opacity-60"
               />
             </div>
 
             <button
               type="submit"
-              disabled={submitted}
+              disabled={status === "sending" || status === "sent"}
               className={`inline-flex w-full items-center justify-center gap-2 rounded px-7 py-4 text-[13px] font-medium tracking-wide transition-all sm:w-auto sm:self-start ${
-                submitted
+                status === "sent"
                   ? "cursor-default bg-surface-2 text-gold"
-                  : "bg-gold text-background hover:-translate-y-0.5 hover:bg-gold-light"
+                  : "bg-gold text-background hover:-translate-y-0.5 hover:bg-gold-light disabled:opacity-70"
               }`}
             >
-              {submitted ? "✓ Sent — we'll be in touch soon" : t("form.submit")} {!submitted && <span>→</span>}
+              {status === "sending" ? t("form.sending") : status === "sent" ? `✓ ${t("form.sent")}` : t("form.submit")}
+              {status === "idle" || status === "error" || status === "config" ? <span>→</span> : null}
             </button>
+
+            {statusMessage && status !== "sent" && (
+              <p className="text-[13px] font-light text-muted" role="status">
+                {statusMessage}
+              </p>
+            )}
           </motion.form>
         </div>
       </div>
@@ -107,7 +212,23 @@ export default function Contact() {
   )
 }
 
-function Field({ label, placeholder, type = "text", required = false }: { label: string; placeholder: string; type?: string; required?: boolean }) {
+function Field({
+  label,
+  placeholder,
+  type = "text",
+  required = false,
+  value,
+  onChange,
+  disabled = false,
+}: {
+  label: string
+  placeholder: string
+  type?: string
+  required?: boolean
+  value: string
+  onChange: (v: string) => void
+  disabled?: boolean
+}) {
   return (
     <div className="flex flex-col gap-2">
       <label className="font-mono text-[10px] tracking-wider text-muted">{label}</label>
@@ -115,7 +236,10 @@ function Field({ label, placeholder, type = "text", required = false }: { label:
         type={type}
         required={required}
         placeholder={placeholder}
-        className="rounded-lg border border-line bg-surface-1 px-4 py-4 font-sans text-[15px] text-foreground outline-none transition-colors placeholder:text-faint focus:border-gold-border"
+        value={value}
+        disabled={disabled}
+        onChange={(e) => onChange(e.target.value)}
+        className="rounded-lg border border-line bg-surface-1 px-4 py-4 font-sans text-[15px] text-foreground outline-none transition-colors placeholder:text-faint focus:border-gold-border disabled:opacity-60"
       />
     </div>
   )

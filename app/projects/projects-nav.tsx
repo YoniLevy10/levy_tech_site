@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { BRAND_NAME } from "@/lib/site"
 
 interface ProjectsNavProps {
   back?: { href: string; label: string }
@@ -21,10 +22,10 @@ export function ProjectsNav({ back }: ProjectsNavProps) {
             color: "var(--gold)",
           }}
         >
-          L
+          O
         </div>
         <span className="font-serif text-[16px] sm:text-[17px]" style={{ color: "var(--text)" }}>
-          Levy Tech
+          {BRAND_NAME}
         </span>
       </Link>
 

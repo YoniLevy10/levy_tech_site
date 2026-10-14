@@ -1,40 +1,31 @@
 "use client"
 
 import { useI18n } from "@/lib/i18n"
+import { whatsappUrl, WHATSAPP_PREFILL_EN, WHATSAPP_PREFILL_HE, WHATSAPP_PREFILL_FR } from "@/lib/site"
 import { motion } from "framer-motion"
 
-const badges = ["AI Systems", "Business Automation", "SaaS MVPs"]
-
 export default function HeroContent() {
-  const { t } = useI18n()
+  const { t, lang } = useI18n()
+
+  const waMessage =
+    lang === "he" ? WHATSAPP_PREFILL_HE : lang === "fr" ? WHATSAPP_PREFILL_FR : WHATSAPP_PREFILL_EN
 
   return (
     <div className="relative z-10 mx-auto flex w-full max-w-[860px] flex-col items-center justify-center px-6 text-center sm:px-8">
-
       <motion.div
-        className="mb-5 flex max-w-full items-center justify-center gap-3 font-mono text-[9px] uppercase tracking-[0.22em] text-gold sm:mb-7 sm:text-[10px]"
+        className="mb-6 flex flex-col items-center gap-3 sm:mb-8"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <span className="hidden h-px w-6 bg-gold opacity-55 sm:block" />
-        <span className="leading-relaxed">{t("hero.tag")}</span>
-      </motion.div>
-
-      <motion.div
-        className="mb-6 flex flex-wrap items-center justify-center gap-2"
-        initial={{ opacity: 0, y: 14 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.05 }}
-      >
-        {badges.map((badge) => (
-          <span
-            key={badge}
-            className="rounded-full border border-line bg-surface-1/60 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.16em] text-muted"
-          >
-            {badge}
-          </span>
-        ))}
+        <span className="font-serif text-[clamp(28px,6vw,40px)] tracking-[-0.03em] text-gold">
+          {t("hero.brand")}
+        </span>
+        <div className="flex max-w-full items-center justify-center gap-3 font-mono text-[9px] uppercase tracking-[0.22em] text-muted sm:text-[10px]">
+          <span className="hidden h-px w-6 bg-gold opacity-40 sm:block" />
+          <span className="leading-relaxed">{t("hero.tag")}</span>
+          <span className="hidden h-px w-6 bg-gold opacity-40 sm:block" />
+        </div>
       </motion.div>
 
       <motion.h1
@@ -72,44 +63,20 @@ export default function HeroContent() {
           {t("hero.cta1")} <span aria-hidden="true">→</span>
         </a>
         <a
-          href="/projects"
+          href={whatsappUrl(waMessage)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex w-full items-center justify-center gap-2 rounded border border-gold-border px-7 py-4 text-[13px] tracking-wide text-gold no-underline transition-all hover:bg-gold-bg sm:w-auto"
+        >
+          {t("hero.cta.wa")}
+        </a>
+        <a
+          href="#projects"
           className="text-[13px] tracking-wide text-muted no-underline transition-all hover:text-foreground sm:border-b sm:border-faint sm:pb-0.5 sm:hover:border-muted"
         >
           {t("hero.cta2")}
         </a>
       </motion.div>
-
-      {/* Metrics — real numbers */}
-      <motion.div
-        className="mt-12 grid w-full max-w-[520px] grid-cols-3 overflow-hidden rounded-xl border border-line bg-background/60 backdrop-blur-xl sm:mt-14"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.4 }}
-      >
-        <Metric value="3" label="Weeks to launch" />
-        <Metric value="150+" label="Active users" />
-        <Metric value="0" label="Messages lost" last />
-      </motion.div>
-
-      {/* Proof footnote */}
-      <motion.p
-        className="mt-3 font-mono text-[9px] tracking-[0.14em] text-muted opacity-60"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.6 }}
-        transition={{ duration: 0.6, delay: 0.55 }}
-      >
-        Based on Bamakor · Live with paying clients
-      </motion.p>
-
-    </div>
-  )
-}
-
-function Metric({ value, label, last = false }: { value: string; label: string; last?: boolean }) {
-  return (
-    <div className={`${last ? "" : "border-r border-line"} px-3 py-4 text-center sm:px-5`}>
-      <div className="font-serif text-2xl leading-none text-foreground">{value}</div>
-      <div className="mt-2 font-mono text-[8px] tracking-[0.16em] text-muted sm:text-[9px]">{label}</div>
     </div>
   )
 }

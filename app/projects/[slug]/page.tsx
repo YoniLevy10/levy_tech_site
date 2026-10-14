@@ -36,10 +36,10 @@ export async function generateMetadata({
     ? `https://raw.githubusercontent.com/${GITHUB_USER}/${project.repoName}/main${m.cover}`
     : undefined
   return {
-    title: `${m.title} — Levy Tech`,
+    title: m.title,
     description: m.description,
     openGraph: {
-      title: `${m.title} — Levy Tech`,
+      title: `${m.title} — OpsBrain`,
       description: m.description,
       images: coverUrl ? [coverUrl] : [],
     },

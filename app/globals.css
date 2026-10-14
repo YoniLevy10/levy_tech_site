@@ -32,7 +32,7 @@
   --color-line: var(--line);
   --color-line-2: var(--line2);
   --color-purple: var(--purple);
-  --font-sans: var(--font-outfit), system-ui, sans-serif;
+  --font-sans: var(--font-outfit), var(--font-heebo), system-ui, sans-serif;
   --font-serif: var(--font-playfair), Georgia, serif;
   --font-mono: var(--font-dm-mono), monospace;
 }
@@ -87,10 +87,18 @@ h1, h2, h3 {
 
 .rtl {
   direction: rtl;
+  font-family: var(--font-heebo), var(--font-outfit), system-ui, sans-serif;
 }
 
 .rtl .text-left {
   text-align: right;
+}
+
+.rtl h1,
+.rtl h2,
+.rtl h3,
+.rtl .font-serif {
+  font-family: var(--font-heebo), var(--font-playfair), Georgia, serif;
 }
 
 ::selection {

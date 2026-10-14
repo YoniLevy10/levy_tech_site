@@ -12,6 +12,8 @@ export default function FAQ() {
     { q: t("faq.q1"), a: t("faq.a1") },
     { q: t("faq.q2"), a: t("faq.a2") },
     { q: t("faq.q3"), a: t("faq.a3") },
+    { q: t("faq.q4"), a: t("faq.a4") },
+    { q: t("faq.q5"), a: t("faq.a5") },
   ]
 
   const toggleFaq = (index: number) => {
@@ -20,7 +22,7 @@ export default function FAQ() {
 
   return (
     <section className="px-[5vw] py-28 md:py-36">
-      <div className="max-w-5xl mx-auto">
+      <div className="mx-auto max-w-5xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -28,12 +30,12 @@ export default function FAQ() {
           viewport={{ once: true, amount: 0.1 }}
           className="mb-14"
         >
-          <div className="flex items-center gap-3 font-mono text-[10px] tracking-[2.5px] uppercase text-gold mb-5">
+          <div className="mb-5 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[2.5px] text-gold">
             <span>{t("faq.label")}</span>
-            <span className="w-8 h-px bg-gold-border" />
+            <span className="h-px w-8 bg-gold-border" />
           </div>
 
-          <h2 className="font-serif text-[clamp(34px,4.8vw,60px)] font-normal leading-[1.05] tracking-tight text-foreground max-w-3xl">
+          <h2 className="max-w-3xl font-serif text-[clamp(34px,4.8vw,60px)] font-normal leading-[1.05] tracking-tight text-foreground">
             {t("faq.h2")} <em className="italic text-gold">{t("faq.h2.em")}</em>
           </h2>
         </motion.div>
@@ -46,20 +48,18 @@ export default function FAQ() {
           className="space-y-4"
         >
           {faqs.map((faq, index) => (
-            <div
-              key={index}
-              className="border-b border-line/70 pb-4"
-            >
+            <div key={index} className="border-b border-line/70 pb-4">
               <button
+                type="button"
                 onClick={() => toggleFaq(index)}
-                className="w-full flex items-center justify-between gap-6 py-4 text-left"
+                className="flex w-full items-center justify-between gap-6 py-4 text-left"
               >
-                <span className="text-[17px] md:text-[19px] font-light text-foreground leading-relaxed max-w-3xl">
+                <span className="max-w-3xl text-[17px] font-light leading-relaxed text-foreground md:text-[19px]">
                   {faq.q}
                 </span>
 
                 <motion.span
-                  className="text-gold text-xl leading-none shrink-0"
+                  className="shrink-0 text-xl leading-none text-gold"
                   animate={{ rotate: openIndex === index ? 45 : 0 }}
                   transition={{ duration: 0.25 }}
                 >
@@ -76,9 +76,7 @@ export default function FAQ() {
                     transition={{ duration: 0.3 }}
                     className="overflow-hidden"
                   >
-                    <div className="pb-6 pr-8 text-[14px] text-muted leading-[1.9] font-light max-w-3xl">
-                      {faq.a}
-                    </div>
+                    <div className="max-w-3xl pb-6 pr-8 text-[14px] font-light leading-[1.9] text-muted">{faq.a}</div>
                   </motion.div>
                 )}
               </AnimatePresence>

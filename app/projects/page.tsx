@@ -6,11 +6,11 @@ import type { Metadata } from "next"
 export const revalidate = 21600
 
 export const metadata: Metadata = {
-  title: "Projects — Levy Tech",
-  description: "Every product and SaaS system built by Levy Tech, auto-synced from GitHub.",
+  title: "Projects",
+  description: "Products and SaaS systems built by OpsBrain, auto-synced from GitHub.",
   openGraph: {
-    title: "Projects — Levy Tech",
-    description: "Every product and SaaS system built by Levy Tech, auto-synced from GitHub.",
+    title: "Projects — OpsBrain",
+    description: "Products and SaaS systems built by OpsBrain, auto-synced from GitHub.",
   },
 }
 
