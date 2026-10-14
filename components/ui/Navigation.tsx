@@ -17,7 +17,7 @@ export default function Navigation() {
   const { lang, setLang, t } = useI18n()
   const [open, setOpen] = useState(false)
 
-  const languages: Language[] = ["en", "he", "fr"]
+  const languages: Language[] = ["he", "en", "fr"]
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : ""

@@ -32,36 +32,38 @@ const dmMono = DM_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "OpsBrain — Private AI Operating Systems",
+    default: "OpsBrain — מערכות הפעלה AI לעסקים",
     template: "%s — OpsBrain",
   },
   description:
-    "OpsBrain designs and deploys custom AI-powered operating systems for businesses that have outgrown spreadsheets, WhatsApp chaos and manual work.",
+    "OpsBrain מתכננת ומפתחת מערכות הפעלה AI מותאמות אישית לעסקים — דשבורדים, אוטומציות, וואטסאפ ופורטלים במקום כאוס של אקסל והודעות.",
   keywords: [
     "OpsBrain",
-    "AI operating systems",
-    "business automation",
-    "dashboards",
-    "WhatsApp workflows",
     "מערכות הפעלה לעסקים",
     "אוטומציה עסקית",
+    "פיתוח מערכות",
+    "אוטומציות AI לעסקים",
+    "דשבורדים",
+    "וואטסאפ עסקי",
+    "AI operating systems",
+    "business automation",
   ],
   authors: [{ name: "OpsBrain" }],
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "OpsBrain — Private AI Operating Systems",
-    description: "We build operating systems, not websites.",
+    title: "OpsBrain — מערכות הפעלה AI לעסקים",
+    description: "אנחנו בונים מערכות הפעלה, לא אתרים.",
     type: "website",
     url: SITE_URL,
     siteName: "OpsBrain",
-    locale: "en_US",
+    locale: "he_IL",
   },
   twitter: {
     card: "summary_large_image",
-    title: "OpsBrain — Private AI Operating Systems",
-    description: "We build operating systems, not websites.",
+    title: "OpsBrain — מערכות הפעלה AI לעסקים",
+    description: "אנחנו בונים מערכות הפעלה, לא אתרים.",
   },
   robots: {
     index: true,
@@ -83,10 +85,11 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang="en"
+      lang="he"
+      dir="rtl"
       className={`${playfair.variable} ${outfit.variable} ${heebo.variable} ${dmMono.variable} bg-background`}
     >
-      <body>
+      <body className="rtl">
         <GoogleAnalytics />
         {children}
       </body>

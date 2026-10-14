@@ -13,7 +13,7 @@ export const WHATSAPP_PREFILL_HE =
 export const WHATSAPP_PREFILL_FR =
   "Bonjour OpsBrain — je souhaiterais reserver un Audit Systeme."
 
-export function whatsappUrl(message: string = WHATSAPP_PREFILL_EN): string {
+export function whatsappUrl(message: string = WHATSAPP_PREFILL_HE): string {
   return `https://wa.me/${WHATSAPP_E164}?text=${encodeURIComponent(message)}`
 }
 

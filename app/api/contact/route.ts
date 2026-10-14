@@ -11,6 +11,11 @@ const ContactSchema = z.object({
   message: z.string().trim().max(4000).optional().default(""),
 })
 
+/**
+ * Contact form → Resend email.
+ * Requires RESEND_API_KEY. Destination: CONTACT_TO (default OpsBrain1@gmail.com).
+ * Returns 503 when unset — never pretends the message was sent.
+ */
 export async function POST(request: Request) {
   let body: unknown
   try {
@@ -25,41 +30,20 @@ export async function POST(request: Request) {
   }
 
   const { name, company, email, message } = parsed.data
-  const formspreeId = process.env.FORMSPREE_FORM_ID
   const resendKey = process.env.RESEND_API_KEY
-  const toEmail = process.env.CONTACT_TO_EMAIL || CONTACT_EMAIL
+  const toEmail = process.env.CONTACT_TO || process.env.CONTACT_TO_EMAIL || CONTACT_EMAIL
 
-  if (!formspreeId && !resendKey) {
-    return NextResponse.json({ error: "not_configured" }, { status: 503 })
+  if (!resendKey) {
+    return NextResponse.json(
+      {
+        error: "not_configured",
+        message: "RESEND_API_KEY is not set. Configure Resend before accepting form submissions.",
+      },
+      { status: 503 }
+    )
   }
 
   try {
-    if (formspreeId) {
-      const res = await fetch(`https://formspree.io/f/${formspreeId}`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          company,
-          email,
-          message,
-          _subject: `OpsBrain inquiry from ${name}`,
-        }),
-      })
-
-      if (!res.ok) {
-        const text = await res.text()
-        console.error("Formspree error:", res.status, text)
-        return NextResponse.json({ error: "upstream" }, { status: 502 })
-      }
-
-      return NextResponse.json({ ok: true, provider: "formspree" })
-    }
-
-    // Resend path
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
