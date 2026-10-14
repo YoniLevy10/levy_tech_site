@@ -5,6 +5,7 @@ import Navigation from "@/components/ui/Navigation"
 import HeroContent from "@/components/ui/HeroContent"
 import Manifesto from "@/components/ui/Manifesto"
 import BeforeAfter from "@/components/ui/BeforeAfter"
+import VideoSection from "@/components/ui/VideoSection"
 import Services from "@/components/ui/Services"
 import Projects from "@/components/ui/Projects"
 import Process from "@/components/ui/Process"
@@ -44,7 +45,7 @@ export default function Home() {
 
         <Manifesto />
         <BeforeAfter />
-        {/* Promo video section reserved until a real asset/URL is provided. */}
+        <VideoSection />
         <Services />
         <WhyOpsBrain />
         <Projects />
