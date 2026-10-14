@@ -27,7 +27,7 @@ export const FEATURED_CASES: FeaturedCase[] = [
     id: "Milo",
     title: "Milo",
     tag: "Retail Operations",
-    // Anonymized Optical Center — never use the real brand name
+    // Client anonymized as global retail chain (never publish the real brand name)
     sub: "Global retail chain · רשת חנויות גלובלית",
     desc: "Operational tooling for a global retail chain — helping store and HQ teams coordinate processes, visibility and day-to-day work across locations.",
     status: "Client system",
