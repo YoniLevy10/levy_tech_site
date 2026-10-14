@@ -7,11 +7,11 @@ export const CONTACT_EMAIL = "OpsBrain1@gmail.com"
 export const WHATSAPP_E164 = "972548174688"
 
 export const WHATSAPP_PREFILL_EN =
-  "Hi OpsBrain — I'd like to book a System Audit for my business."
+  "Hi OpsBrain — I'd like to discuss a custom system for my business."
 export const WHATSAPP_PREFILL_HE =
-  "שלום OpsBrain — אשמח לקבוע אבחון מערכת לעסק שלי."
+  "שלום OpsBrain — אשמח לדבר על מערכת מותאמת לעסק שלי."
 export const WHATSAPP_PREFILL_FR =
-  "Bonjour OpsBrain — je souhaiterais reserver un Audit Systeme."
+  "Bonjour OpsBrain — je souhaiterais discuter d'un systeme sur mesure pour mon entreprise."
 
 export function whatsappUrl(message: string = WHATSAPP_PREFILL_HE): string {
   return `https://wa.me/${WHATSAPP_E164}?text=${encodeURIComponent(message)}`

@@ -3,11 +3,11 @@ import { FEATURED_CASES } from "@/lib/featured-cases"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Projects",
-  description: "Featured OpsBrain systems — BINO and Milo.",
+  title: "Work",
+  description: "Selected OpsBrain client systems — BINO and Milo.",
   openGraph: {
-    title: "Projects — OpsBrain",
-    description: "Featured OpsBrain systems — BINO and Milo.",
+    title: "Work — OpsBrain",
+    description: "Selected OpsBrain client systems — BINO and Milo.",
   },
 }
 
@@ -21,17 +21,17 @@ export default function ProjectsPage() {
           className="mb-4 flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.22em] sm:text-[10px]"
           style={{ color: "var(--gold)" }}
         >
-          <span>Selected Systems</span>
+          <span>Selected work</span>
           <span className="h-px w-8" style={{ background: "var(--gold-bd)" }} />
         </div>
         <h1 className="font-serif text-[clamp(36px,9vw,56px)] font-normal leading-[1.05] tracking-[-0.035em]">
-          Two systems.{" "}
+          Recent client{" "}
           <em className="italic" style={{ color: "var(--gold)" }}>
-            Real operations.
+            systems.
           </em>
         </h1>
         <p className="mt-4 max-w-xl text-[15px] font-light leading-relaxed" style={{ color: "var(--dim)" }}>
-          Featured client systems — BINO and Milo (a global retail chain).
+          BINO and Milo — a global retail chain. Short descriptions only; no invented metrics.
         </p>
       </section>
 

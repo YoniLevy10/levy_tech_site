@@ -32,29 +32,29 @@ const dmMono = DM_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "OpsBrain — מערכות הפעלה AI לעסקים",
+    default: "OpsBrain — מערכות עסקיות, AI ואוטומציה",
     template: "%s — OpsBrain",
   },
   description:
-    "OpsBrain מתכננת ומפתחת מערכות הפעלה AI מותאמות אישית לעסקים — דשבורדים, אוטומציות, וואטסאפ ופורטלים במקום כאוס של אקסל והודעות.",
+    "OpsBrain בונה לעסקים מערכות פנימיות, פתרונות AI ואוטומציות — כדי לחסוך זמן, להפחית עבודה ידנית ולייעל תהליכים.",
   keywords: [
     "OpsBrain",
-    "מערכות הפעלה לעסקים",
+    "מערכות עסקיות",
     "אוטומציה עסקית",
+    "פתרונות AI לעסקים",
     "פיתוח מערכות",
-    "אוטומציות AI לעסקים",
     "דשבורדים",
-    "וואטסאפ עסקי",
-    "AI operating systems",
+    "custom business systems",
     "business automation",
+    "AI solutions",
   ],
   authors: [{ name: "OpsBrain" }],
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "OpsBrain — מערכות הפעלה AI לעסקים",
-    description: "אנחנו בונים מערכות הפעלה, לא אתרים.",
+    title: "OpsBrain — מערכות עסקיות, AI ואוטומציה",
+    description: "מערכות מותאמות לעסק שלכם — שחוסכות זמן ומפחיתות עבודה ידנית.",
     type: "website",
     url: SITE_URL,
     siteName: "OpsBrain",
@@ -62,8 +62,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "OpsBrain — מערכות הפעלה AI לעסקים",
-    description: "אנחנו בונים מערכות הפעלה, לא אתרים.",
+    title: "OpsBrain — מערכות עסקיות, AI ואוטומציה",
+    description: "מערכות מותאמות לעסק שלכם — שחוסכות זמן ומפחיתות עבודה ידנית.",
   },
   robots: {
     index: true,
@@ -74,7 +74,6 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  // Do not set maximumScale — blocks pinch-zoom accessibility
   themeColor: "#060606",
 }
 

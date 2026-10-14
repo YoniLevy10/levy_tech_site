@@ -9,6 +9,7 @@ export default function HeroContent() {
 
   const waMessage =
     lang === "he" ? WHATSAPP_PREFILL_HE : lang === "fr" ? WHATSAPP_PREFILL_FR : WHATSAPP_PREFILL_EN
+  const h1End = t("hero.h1.end")
 
   return (
     <div className="relative z-10 mx-auto flex w-full max-w-[860px] flex-col items-center justify-center px-6 text-center sm:px-8">
@@ -21,7 +22,7 @@ export default function HeroContent() {
         <span className="font-serif text-[clamp(28px,6vw,40px)] tracking-[-0.03em] text-gold">
           {t("hero.brand")}
         </span>
-        <div className="flex max-w-full items-center justify-center gap-3 font-mono text-[9px] uppercase tracking-[0.22em] text-muted sm:text-[10px]">
+        <div className="flex max-w-full items-center justify-center gap-3 font-mono text-[9px] uppercase tracking-[0.18em] text-muted sm:text-[10px]">
           <span className="hidden h-px w-6 bg-gold opacity-40 sm:block" />
           <span className="leading-relaxed">{t("hero.tag")}</span>
           <span className="hidden h-px w-6 bg-gold opacity-40 sm:block" />
@@ -29,7 +30,7 @@ export default function HeroContent() {
       </motion.div>
 
       <motion.h1
-        className="mb-7 max-w-[12ch] font-serif text-[clamp(46px,13vw,88px)] font-normal leading-[0.97] tracking-[-0.045em] text-foreground sm:max-w-[13ch] sm:leading-[0.96]"
+        className="mb-7 max-w-[18ch] font-serif text-[clamp(36px,9vw,64px)] font-normal leading-[1.12] tracking-[-0.035em] text-foreground sm:max-w-[20ch]"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.1 }}
@@ -37,8 +38,12 @@ export default function HeroContent() {
         {t("hero.h1")}
         <br />
         <em className="italic text-gold">{t("hero.h1.em")}</em>
-        <br />
-        {t("hero.h1.end")}
+        {h1End ? (
+          <>
+            <br />
+            {h1End}
+          </>
+        ) : null}
       </motion.h1>
 
       <motion.p

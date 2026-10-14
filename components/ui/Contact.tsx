@@ -117,7 +117,7 @@ export default function Contact() {
                   <MailIcon />
                 </div>
                 <a
-                  href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("OpsBrain System Audit")}`}
+                  href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("OpsBrain — conversation request")}`}
                   className="break-all text-[14px] text-gold no-underline hover:text-gold-light"
                 >
                   {CONTACT_EMAIL}

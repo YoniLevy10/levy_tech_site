@@ -4,38 +4,37 @@ import { useI18n } from "@/lib/i18n"
 import type { TranslationKey } from "@/lib/translations"
 import { motion } from "framer-motion"
 
-/** Featured marketing cases only — keep the landing sparse. */
 type ProjectId = "BINO" | "Milo"
 
 const meta: Record<
   ProjectId,
   {
     title: string
-    status: string
-    stack: string[]
-    result: string
     tagKey: TranslationKey
     subKey: TranslationKey
     descKey: TranslationKey
+    statusKey: TranslationKey
+    focusKey: TranslationKey
+    stack: string[]
   }
 > = {
   BINO: {
     title: "BINO",
-    status: "Client system",
-    stack: ["Operations", "Workflows", "Dashboard"],
-    result: "Unified day-to-day ops",
     tagKey: "proj.bino.tag",
     subKey: "proj.bino.sub",
     descKey: "proj.bino.desc",
+    statusKey: "proj.bino.status",
+    focusKey: "proj.bino.focus",
+    stack: ["Operations", "Workflows", "Dashboard"],
   },
   Milo: {
     title: "Milo",
-    status: "Client system",
-    stack: ["Retail", "Multi-location", "Ops"],
-    result: "Cross-location coordination",
     tagKey: "proj.milo.tag",
     subKey: "proj.milo.sub",
     descKey: "proj.milo.desc",
+    statusKey: "proj.milo.status",
+    focusKey: "proj.milo.focus",
+    stack: ["Retail", "Multi-location", "Ops"],
   },
 }
 
@@ -74,9 +73,11 @@ export default function Projects() {
                 tag={t(item.tagKey)}
                 sub={t(item.subKey)}
                 desc={t(item.descKey)}
-                status={item.status}
+                statusLabel={t("proj.status")}
+                status={t(item.statusKey)}
+                focusLabel={t("proj.focus")}
+                focus={t(item.focusKey)}
                 stack={item.stack}
-                result={item.result}
                 number={String(index + 1).padStart(2, "0")}
               />
             )
@@ -92,18 +93,22 @@ function ProjectCard({
   tag,
   sub,
   desc,
+  statusLabel,
   status,
+  focusLabel,
+  focus,
   stack,
-  result,
   number,
 }: {
   title: string
   tag: string
   sub: string
   desc: string
+  statusLabel: string
   status: string
+  focusLabel: string
+  focus: string
   stack: string[]
-  result: string
   number: string
 }) {
   return (
@@ -123,12 +128,12 @@ function ProjectCard({
         </div>
 
         <div className="rounded-xl border border-line bg-surface-1/35 p-5">
-          <div className="mb-4 font-mono text-[9px] uppercase tracking-[0.18em] text-muted">Status</div>
+          <div className="mb-4 font-mono text-[9px] uppercase tracking-[0.18em] text-muted">{statusLabel}</div>
           <div className="mb-5 rounded-full border border-gold-border bg-gold-bg px-3 py-1.5 text-center font-mono text-[9px] uppercase tracking-[0.14em] text-gold">
             {status}
           </div>
-          <div className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-muted">Focus</div>
-          <p className="mb-5 text-[13px] font-light leading-[1.75] text-foreground">{result}</p>
+          <div className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-muted">{focusLabel}</div>
+          <p className="mb-5 text-[13px] font-light leading-[1.75] text-foreground">{focus}</p>
           <div className="flex flex-wrap gap-2">
             {stack.map((s) => (
               <span key={s} className="rounded-full border border-line px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.14em] text-muted">
