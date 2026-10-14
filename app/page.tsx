@@ -5,15 +5,14 @@ import Navigation from "@/components/ui/Navigation"
 import HeroContent from "@/components/ui/HeroContent"
 import Manifesto from "@/components/ui/Manifesto"
 import BeforeAfter from "@/components/ui/BeforeAfter"
+import VideoSection from "@/components/ui/VideoSection"
 import Services from "@/components/ui/Services"
 import Projects from "@/components/ui/Projects"
-import Testimonial from "@/components/ui/Testimonial"
 import Process from "@/components/ui/Process"
 import FAQ from "@/components/ui/FAQ"
-import WhyLevyTech from "@/components/ui/WhyLevyTech"
+import WhyOpsBrain from "@/components/ui/WhyOpsBrain"
 import Infrastructure from "@/components/ui/Infrastructure"
 import Contact from "@/components/ui/Contact"
-import CTA from "@/components/ui/CTA"
 import Footer from "@/components/ui/Footer"
 
 function HeroAtmosphere() {
@@ -34,27 +33,26 @@ export default function Home() {
     <I18nProvider>
       <Navigation />
       <main>
-        <section className="relative min-h-svh flex flex-col items-center justify-center overflow-hidden">
+        <section className="relative flex min-h-svh flex-col items-center justify-center overflow-hidden">
           <HeroAtmosphere />
           <HeroContent />
 
-          <div className="absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 z-10 opacity-40">
-            <div className="w-px h-8 bg-gradient-to-b from-gold to-transparent animate-pulse" />
-            <span className="text-[9px] font-mono tracking-widest text-gold">SCROLL</span>
+          <div className="absolute bottom-7 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-1.5 opacity-40">
+            <div className="h-8 w-px animate-pulse bg-gradient-to-b from-gold to-transparent" />
+            <span className="font-mono text-[9px] tracking-widest text-gold">SCROLL</span>
           </div>
         </section>
 
         <Manifesto />
         <BeforeAfter />
+        <VideoSection />
         <Services />
-        <WhyLevyTech />
+        <WhyOpsBrain />
         <Projects />
-        <Testimonial />
         <Process />
         <Infrastructure />
         <FAQ />
         <Contact />
-        <CTA />
       </main>
       <Footer />
     </I18nProvider>

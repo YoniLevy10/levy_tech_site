@@ -8,7 +8,8 @@ export async function GET() {
     const projects = await fetchAllProjects()
     return NextResponse.json(projects)
   } catch (error) {
-    console.error("[api/projects]", error)
-    return NextResponse.json({ error: "Failed to fetch projects" }, { status: 500 })
+    // Missing/invalid GITHUB_TOKEN must not break prerender — return empty list
+    console.warn("[api/projects] GitHub unavailable:", error)
+    return NextResponse.json([])
   }
 }

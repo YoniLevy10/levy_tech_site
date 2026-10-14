@@ -36,7 +36,7 @@ export default function Process() {
             </h2>
           </div>
           <p className="max-w-[42rem] text-[16px] font-light leading-[1.9] text-muted md:pt-8">
-            A structured workflow for turning operational pain into a working internal system — diagnosis, architecture, build, integrations and launch.
+            {t("proc.sub")}
           </p>
         </motion.div>
 
@@ -88,7 +88,7 @@ export default function Process() {
             href="#contact"
             className="inline-flex items-center gap-2 rounded border border-gold-border bg-gold-bg px-6 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-gold no-underline transition-all hover:bg-gold/10"
           >
-            Start with a free System Audit <span>→</span>
+            {t("proc.cta")} <span>→</span>
           </a>
         </motion.div>
       </div>

@@ -25,8 +25,7 @@ export default function BeforeAfter() {
             <span className="h-px w-8 bg-gold-border" />
           </div>
           <h2 className="font-serif text-[clamp(32px,7vw,48px)] font-normal leading-[1.06] tracking-[-0.03em] text-foreground">
-            The same business.{" "}
-            <em className="italic text-gold">A different operating layer.</em>
+            {t("ba.h2")} <em className="italic text-gold">{t("ba.h2.em")}</em>
           </h2>
         </motion.div>
 
@@ -93,7 +92,6 @@ export default function BeforeAfter() {
           </motion.div>
         </div>
 
-        {/* Bridge line */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -102,8 +100,8 @@ export default function BeforeAfter() {
           className="mt-8 flex items-center justify-center gap-4 text-center"
         >
           <span className="h-px w-12 bg-line" />
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
-            Built in under 3 weeks · Live with real clients
+          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
+            {t("ba.note")}
           </p>
           <span className="h-px w-12 bg-line" />
         </motion.div>

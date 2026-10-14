@@ -8,7 +8,13 @@ export async function GET() {
     const stats = await fetchGitHubStats()
     return NextResponse.json(stats)
   } catch (error) {
-    console.error("[api/stats]", error)
-    return NextResponse.json({ error: "Failed to fetch stats" }, { status: 500 })
+    console.warn("[api/stats] GitHub unavailable:", error)
+    return NextResponse.json({
+      totalProjects: 0,
+      activeProjects: 0,
+      productionSystems: 0,
+      commits30Days: 0,
+      languagesUsed: 0,
+    })
   }
 }
