@@ -15,11 +15,21 @@ export const metadata: Metadata = {
 }
 
 export default async function ProjectsPage() {
-  // Both calls share the in-memory cache — only one GitHub round-trip
-  const [projects, stats] = await Promise.all([
-    fetchAllProjects(),
-    fetchGitHubStats(),
-  ])
+  // GitHub failures (missing/invalid token) fall back to empty data — never crash the build
+  let projects: Awaited<ReturnType<typeof fetchAllProjects>> = []
+  let stats = {
+    totalProjects: 0,
+    activeProjects: 0,
+    productionSystems: 0,
+    commits30Days: 0,
+    languagesUsed: 0,
+  }
+
+  try {
+    ;[projects, stats] = await Promise.all([fetchAllProjects(), fetchGitHubStats()])
+  } catch (error) {
+    console.warn("[projects] GitHub unavailable during render:", error)
+  }
 
   const statItems = [
     { label: "Products", value: stats.totalProjects },
@@ -68,7 +78,9 @@ export default async function ProjectsPage() {
           from GitHub
         </h1>
         <p className="mt-4 text-[15px] font-light leading-relaxed" style={{ color: "var(--dim)" }}>
-          {projects.length} {projects.length === 1 ? "product" : "products"} · updates every 6 hours
+          {projects.length > 0
+            ? `${projects.length} ${projects.length === 1 ? "product" : "products"} · updates every 6 hours`
+            : "Portfolio sync is temporarily unavailable — check back soon, or browse systems on the home page."}
         </p>
       </section>
 

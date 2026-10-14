@@ -69,7 +69,9 @@ const REPOS_QUERY = `
 `
 
 async function graphqlFetch(query: string, variables: Record<string, unknown>) {
-  if (!GITHUB_TOKEN) throw new Error("GITHUB_TOKEN not set")
+  if (!GITHUB_TOKEN) {
+    throw new Error("GITHUB_TOKEN not set")
+  }
   const res = await fetch("https://api.github.com/graphql", {
     method: "POST",
     headers: {
@@ -79,9 +81,14 @@ async function graphqlFetch(query: string, variables: Record<string, unknown>) {
     body: JSON.stringify({ query, variables }),
     next: { revalidate: 21600 },
   })
-  if (!res.ok) throw new Error(`GitHub GraphQL error: ${res.status}`)
+  if (!res.ok) {
+    // 401/403 (missing/invalid token) must not crash builds — caller catches and falls back
+    throw new Error(`GitHub GraphQL error: ${res.status}`)
+  }
   const json = await res.json()
-  if (json.errors) throw new Error(json.errors[0].message)
+  if (json.errors?.length) {
+    throw new Error(json.errors[0].message ?? "GitHub GraphQL errors")
+  }
   return json.data
 }
 
@@ -131,88 +138,111 @@ function parsePortfolioJson(raw: string | null | undefined): PortfolioMeta | nul
 let _cache: { data: ProjectData[]; ts: number } | null = null
 const CACHE_TTL = 21600 * 1000
 
+const EMPTY_STATS: GitHubStats = {
+  totalProjects: 0,
+  activeProjects: 0,
+  productionSystems: 0,
+  commits30Days: 0,
+  languagesUsed: 0,
+}
+
 export async function fetchAllProjects(): Promise<ProjectData[]> {
   // In-memory cache to avoid duplicate calls within the same request lifecycle
   if (_cache && Date.now() - _cache.ts < CACHE_TTL) return _cache.data
 
   if (!GITHUB_TOKEN) {
-    console.warn("[github] GITHUB_TOKEN not set")
+    console.warn("[github] GITHUB_TOKEN not set — returning empty portfolio")
     return []
   }
 
-  // 1. Paginate through all repos
-  const allNodes: unknown[] = []
-  let after: string | null = null
-  while (true) {
-    const data = await graphqlFetch(REPOS_QUERY, { login: GITHUB_USERNAME, after })
-    const repos = (data as any).user.repositories
-    allNodes.push(...repos.nodes)
-    if (!repos.pageInfo.hasNextPage) break
-    after = repos.pageInfo.endCursor
-  }
-
-  // 2. Filter to repos with valid portfolio.json + visibility: true
-  const relevant = (allNodes as any[]).filter((node) => {
-    const meta = parsePortfolioJson(node.portfolioJson?.text)
-    return meta !== null && meta.visibility === true
-  })
-
-  if (relevant.length === 0) return []
-
-  // 3. Batch commit counts (all repos in parallel, one call each)
-  const commitCounts = await getCommitCounts(relevant.map((n: any) => n.name))
-
-  // 4. Build project objects
-  const projects: ProjectData[] = relevant.map((node: any) => {
-    const meta = parsePortfolioJson(node.portfolioJson?.text)!
-    const readme = node.readmeMain?.text ?? node.readmeAlt?.text ?? null
-    const branch = node.defaultBranchRef?.name ?? "main"
-
-    return {
-      slug: node.name.toLowerCase().replace(/_/g, "-"),
-      repoName: node.name,
-      meta,
-      readme,
-      stars: node.stargazerCount,
-      forks: node.forkCount,
-      topics: node.repositoryTopics?.nodes?.map((n: any) => n.topic.name) ?? [],
-      language: node.primaryLanguage?.name ?? null,
-      updatedAt: node.updatedAt,
-      createdAt: node.createdAt,
-      homepage: node.homepageUrl || meta.website || null,
-      commitCount30Days: commitCounts[node.name] ?? 0,
+  try {
+    // 1. Paginate through all repos
+    const allNodes: unknown[] = []
+    let after: string | null = null
+    while (true) {
+      const data = await graphqlFetch(REPOS_QUERY, { login: GITHUB_USERNAME, after })
+      const repos = (data as { user?: { repositories?: { nodes?: unknown[]; pageInfo?: { hasNextPage?: boolean; endCursor?: string } } } })
+        ?.user?.repositories
+      if (!repos?.nodes) break
+      allNodes.push(...repos.nodes)
+      if (!repos.pageInfo?.hasNextPage) break
+      after = repos.pageInfo.endCursor ?? null
     }
-  })
 
-  // 5. Sort: featured first, then by updatedAt
-  projects.sort((a, b) => {
-    if (a.meta.featured && !b.meta.featured) return -1
-    if (!a.meta.featured && b.meta.featured) return 1
-    return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-  })
+    // 2. Filter to repos with valid portfolio.json + visibility: true
+    const relevant = (allNodes as any[]).filter((node) => {
+      const meta = parsePortfolioJson(node.portfolioJson?.text)
+      return meta !== null && meta.visibility === true
+    })
 
-  _cache = { data: projects, ts: Date.now() }
-  return projects
+    if (relevant.length === 0) {
+      _cache = { data: [], ts: Date.now() }
+      return []
+    }
+
+    // 3. Batch commit counts (all repos in parallel, one call each)
+    const commitCounts = await getCommitCounts(relevant.map((n: any) => n.name))
+
+    // 4. Build project objects
+    const projects: ProjectData[] = relevant.map((node: any) => {
+      const meta = parsePortfolioJson(node.portfolioJson?.text)!
+      const readme = node.readmeMain?.text ?? node.readmeAlt?.text ?? null
+
+      return {
+        slug: node.name.toLowerCase().replace(/_/g, "-"),
+        repoName: node.name,
+        meta,
+        readme,
+        stars: node.stargazerCount,
+        forks: node.forkCount,
+        topics: node.repositoryTopics?.nodes?.map((n: any) => n.topic.name) ?? [],
+        language: node.primaryLanguage?.name ?? null,
+        updatedAt: node.updatedAt,
+        createdAt: node.createdAt,
+        homepage: node.homepageUrl || meta.website || null,
+        commitCount30Days: commitCounts[node.name] ?? 0,
+      }
+    })
+
+    // 5. Sort: featured first, then by updatedAt
+    projects.sort((a, b) => {
+      if (a.meta.featured && !b.meta.featured) return -1
+      if (!a.meta.featured && b.meta.featured) return 1
+      return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+    })
+
+    _cache = { data: projects, ts: Date.now() }
+    return projects
+  } catch (error) {
+    // Invalid/expired token (401), rate limits, network — never fail the build
+    console.warn("[github] fetchAllProjects failed — returning empty portfolio:", error)
+    return []
+  }
 }
 
 // ─── Stats — derived from projects, no extra API call ─────────────────────────
 
 export async function fetchGitHubStats(): Promise<GitHubStats> {
-  const projects = await fetchAllProjects() // hits cache if called after fetchAllProjects
-  const languages = new Set<string>()
-  let totalCommits = 0
-  for (const p of projects) {
-    if (p.language) languages.add(p.language)
-    totalCommits += p.commitCount30Days
-  }
-  return {
-    totalProjects: projects.length,
-    activeProjects: projects.filter(
-      (p) => p.meta.status === "Production" || p.meta.status === "Pilot"
-    ).length,
-    productionSystems: projects.filter((p) => p.meta.status === "Production").length,
-    commits30Days: totalCommits,
-    languagesUsed: languages.size,
+  try {
+    const projects = await fetchAllProjects() // hits cache if called after fetchAllProjects
+    const languages = new Set<string>()
+    let totalCommits = 0
+    for (const p of projects) {
+      if (p.language) languages.add(p.language)
+      totalCommits += p.commitCount30Days
+    }
+    return {
+      totalProjects: projects.length,
+      activeProjects: projects.filter(
+        (p) => p.meta.status === "Production" || p.meta.status === "Pilot"
+      ).length,
+      productionSystems: projects.filter((p) => p.meta.status === "Production").length,
+      commits30Days: totalCommits,
+      languagesUsed: languages.size,
+    }
+  } catch (error) {
+    console.warn("[github] fetchGitHubStats failed — returning zeros:", error)
+    return EMPTY_STATS
   }
 }
 
