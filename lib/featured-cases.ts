@@ -25,7 +25,7 @@ export const FEATURED_CASES: FeaturedCase[] = [
   },
   {
     id: "Milo",
-    title: "Milo",
+    title: "OPC",
     tag: "Retail",
     // Client anonymized as global retail chain (never publish the real brand name)
     sub: "Global retail chain · רשת חנויות גלובלית",

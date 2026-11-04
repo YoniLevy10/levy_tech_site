@@ -7,16 +7,18 @@ export const revalidate = 21600
 
 export const metadata: Metadata = {
   title: "Work",
-  description: "Selected OpsBrain systems — BINO, Milo, Fixly, Moked, and Bamakor.",
+  description: "Selected OpsBrain systems — BINO, OPC, Fixly, Moked, and Bamakor.",
   openGraph: {
     title: "Work — OpsBrain",
-    description: "Selected OpsBrain systems — BINO, Milo, Fixly, Moked, and Bamakor.",
+    description: "Selected OpsBrain systems — BINO, OPC, Fixly, Moked, and Bamakor.",
   },
 }
 
 export default async function ProjectsPage() {
   const projects = (await fetchAllProjects()).map((project) =>
-    project.repoName === "OpticalCenter" ? { ...project, readme: null } : project
+    project.repoName === "OPC" || project.repoName === "OpticalCenter"
+      ? { ...project, readme: null }
+      : project
   )
 
   return (

@@ -53,7 +53,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   if (!project) notFound()
 
   const { meta: m, repoName, readme, stars, forks, language, createdAt, updatedAt, topics, homepage } = project
-  const showSourceReadme = repoName !== "OpticalCenter"
+  const showSourceReadme = repoName !== "OPC" && repoName !== "OpticalCenter"
   const s = STATUS_STYLE[m.status] ?? STATUS_STYLE.Development
   const rawBase = `https://raw.githubusercontent.com/${GITHUB_USER}/${repoName}/main`
 

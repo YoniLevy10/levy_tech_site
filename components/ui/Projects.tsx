@@ -29,7 +29,7 @@ const meta: Record<
     stack: ["Operations", "Workflows", "Dashboard"],
   },
   Milo: {
-    title: "Milo",
+    title: "OPC",
     tagKey: "proj.milo.tag",
     subKey: "proj.milo.sub",
     descKey: "proj.milo.desc",
