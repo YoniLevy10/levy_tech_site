@@ -1,14 +1,13 @@
 "use client"
 
-import { useState } from "react"
 import Link from "next/link"
-import Image from "next/image"
-import { ChevronLeft, Play } from "lucide-react"
+import { ChevronLeft } from "lucide-react"
 import { I18nProvider, useI18n } from "@/lib/i18n"
 import { PUBLIC_WORK, findPublicWork, type PublicWork } from "@/lib/public-work"
 import Navigation from "@/components/ui/Navigation"
 import Footer from "@/components/ui/Footer"
 import { ArrowOut } from "@/components/ui/icons"
+import { CyclingMedia } from "@/components/ui/cycling-media"
 
 export function WorkIndex() {
   return (
@@ -162,43 +161,15 @@ function WorkCard({ item }: { item: PublicWork }) {
 }
 
 function WorkMedia({ item, playLabel }: { item: PublicWork; playLabel: string }) {
-  const [imageOk, setImageOk] = useState(Boolean(item.image))
-  const [playing, setPlaying] = useState(false)
-  const videoFit = item.portrait ? "object-contain" : "object-cover object-top"
-
-  if (!imageOk && !item.video) return <div className="h-px w-full bg-gold/70" />
-
   return (
-    <div className="relative aspect-[16/10] bg-surface-2">
-      {playing && item.video ? (
-        <video
-          className={`h-full w-full ${videoFit}`}
-          src={item.video}
-          poster={item.image ?? undefined}
-          controls
-          autoPlay
-          playsInline
-        />
-      ) : item.image && imageOk ? (
-        <Image
-          src={item.image}
-          alt={item.title}
-          fill
-          sizes="(min-width: 768px) 50vw, 100vw"
-          className="object-cover object-top"
-          onError={() => setImageOk(false)}
-        />
-      ) : null}
-      {item.video && !playing ? (
-        <button
-          type="button"
-          onClick={() => setPlaying(true)}
-          className="absolute bottom-3 end-3 grid size-10 place-items-center rounded-full bg-gold text-background"
-          aria-label={playLabel}
-        >
-          <Play aria-hidden className="size-4 translate-x-px fill-current rtl:-translate-x-px rtl:-scale-x-100" />
-        </button>
-      ) : null}
-    </div>
+    <CyclingMedia
+      title={item.title}
+      image={item.image}
+      images={item.images}
+      video={item.video}
+      portrait={item.portrait}
+      contain={item.contain}
+      playLabel={playLabel}
+    />
   )
 }

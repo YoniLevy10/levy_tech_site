@@ -2,12 +2,12 @@
 
 import Link from "next/link"
 import { useCallback, useEffect, useState, type ReactNode } from "react"
-import Image from "next/image"
 import useEmblaCarousel from "embla-carousel-react"
-import { ChevronLeft, ChevronRight, Play } from "lucide-react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
 import { PUBLIC_WORK } from "@/lib/public-work"
 import { ArrowOut } from "@/components/ui/icons"
+import { CyclingMedia } from "@/components/ui/cycling-media"
 
 export default function Projects() {
   const { t, isRTL } = useI18n()
@@ -78,8 +78,10 @@ export default function Projects() {
                     visitLabel={t("proj.visit")}
                     stack={item.stack}
                     image={item.image}
+                    images={item.images}
                     video={item.video}
                     portrait={item.portrait}
+                    contain={item.contain}
                     playLabel={t("video.play")}
                   />
                 </div>
@@ -135,8 +137,10 @@ function ProjectCard({
   visitLabel,
   stack,
   image,
+  images,
   video,
   portrait,
+  contain,
   playLabel,
 }: {
   title: string
@@ -149,13 +153,23 @@ function ProjectCard({
   visitLabel: string
   stack: string[]
   image: string | null
+  images?: string[]
   video: string | null
   portrait?: boolean
+  contain?: boolean
   playLabel: string
 }) {
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface-1">
-      <ProjectMedia title={title} image={image} video={video} portrait={portrait} playLabel={playLabel} />
+      <CyclingMedia
+        title={title}
+        image={image}
+        images={images}
+        video={video}
+        portrait={portrait}
+        contain={contain}
+        playLabel={playLabel}
+      />
       <div className="flex flex-1 flex-col p-6 sm:p-7">
         <div className="mb-3 font-mono text-[9px] uppercase tracking-[0.22em] text-gold sm:text-[10px]">
           {tag}
@@ -194,61 +208,3 @@ function ProjectCard({
   )
 }
 
-function ProjectMedia({
-  title,
-  image,
-  video,
-  portrait,
-  playLabel,
-}: {
-  title: string
-  image: string | null
-  video: string | null
-  portrait?: boolean
-  playLabel: string
-}) {
-  const [imageOk, setImageOk] = useState(Boolean(image))
-  const [videoOk, setVideoOk] = useState(Boolean(video))
-  const [playing, setPlaying] = useState(false)
-  const videoFit = portrait ? "object-contain" : "object-cover object-top"
-
-  if (!imageOk && !videoOk) return <div className="h-px w-full bg-gold/70" />
-
-  return (
-    <div className="relative aspect-[16/10] bg-surface-2">
-      {playing && videoOk && video ? (
-        <video
-          className={`h-full w-full ${videoFit}`}
-          src={video}
-          poster={image ?? undefined}
-          controls
-          autoPlay
-          playsInline
-          onError={() => {
-            setVideoOk(false)
-            setPlaying(false)
-          }}
-        />
-      ) : image && imageOk ? (
-        <Image
-          src={image}
-          alt={title}
-          fill
-          sizes="(min-width: 768px) 50vw, 100vw"
-          className="object-cover object-top"
-          onError={() => setImageOk(false)}
-        />
-      ) : null}
-      {video && videoOk && !playing ? (
-        <button
-          type="button"
-          onClick={() => setPlaying(true)}
-          className="absolute bottom-3 end-3 grid size-10 place-items-center rounded-full bg-gold text-background"
-          aria-label={playLabel}
-        >
-          <Play aria-hidden className="size-4 translate-x-px fill-current rtl:-translate-x-px rtl:-scale-x-100" />
-        </button>
-      ) : null}
-    </div>
-  )
-}

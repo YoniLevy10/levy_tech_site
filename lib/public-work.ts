@@ -5,8 +5,11 @@ export type PublicWork = {
   title: string
   href: string | null
   image: string | null
+  images?: string[]
   video: string | null
   portrait?: boolean
+  /** Show the full still. Used when a marketing screenshot must not be cropped. */
+  contain?: boolean
   stack: string[]
   tagKey: TranslationKey
   subKey: TranslationKey
@@ -20,9 +23,9 @@ export const PUBLIC_WORK: PublicWork[] = [
     slug: "bino",
     title: "BINO",
     href: "https://bino.casa",
-    image: "/videos/opsbrain-promo-poster.jpg",
-    video: "/videos/opsbrain-promo.mp4",
-    portrait: true,
+    image: "/work/bino/home.png",
+    video: null,
+    contain: true,
     stack: ["Next.js", "Supabase", "WhatsApp"],
     tagKey: "proj.bino.tag",
     subKey: "proj.bino.sub",
@@ -47,7 +50,7 @@ export const PUBLIC_WORK: PublicWork[] = [
     slug: "fixly",
     title: "Fixly",
     href: "https://fixly.tech",
-    image: "/work/fixly.jpg",
+    image: "/work/fixly-home.jpg",
     video: "/work/videos/fixly.mp4",
     portrait: true,
     stack: ["Next.js", "Supabase", "Stripe"],
@@ -61,7 +64,7 @@ export const PUBLIC_WORK: PublicWork[] = [
     slug: "moked",
     title: "Moked",
     href: "https://moked-ten.vercel.app",
-    image: "/work/moked.jpg",
+    image: "/work/moked-home.jpg",
     video: null,
     stack: ["Next.js", "Supabase", "WhatsApp"],
     tagKey: "proj.moked.tag",
