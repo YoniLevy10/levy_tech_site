@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect } from "react"
 import { I18nProvider } from "@/lib/i18n"
 import Navigation from "@/components/ui/Navigation"
 import HeroContent from "@/components/ui/HeroContent"
@@ -18,17 +19,38 @@ import Footer from "@/components/ui/Footer"
 function HeroAtmosphere() {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(200,169,109,0.18),transparent_34%),radial-gradient(circle_at_20%_80%,rgba(200,169,109,0.08),transparent_28%),radial-gradient(circle_at_80%_70%,rgba(255,255,255,0.045),transparent_24%)]" />
-      <div className="absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-gold-border/40 bg-gold/5 blur-[1px]" />
-      <div className="absolute left-1/2 top-1/2 h-[340px] w-[340px] -translate-x-1/2 -translate-y-1/2 rotate-[18deg] rounded-full border border-gold-border/30" />
-      <div className="absolute inset-0 opacity-[0.08] [background-image:linear-gradient(rgba(200,169,109,0.8)_1px,transparent_1px),linear-gradient(90deg,rgba(200,169,109,0.8)_1px,transparent_1px)] [background-size:72px_72px]" />
-      <div className="absolute inset-x-[10%] top-1/2 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
-      <div className="absolute inset-y-[18%] left-1/2 w-px bg-gradient-to-b from-transparent via-gold/20 to-transparent" />
+      <div className="hero-glow absolute inset-0" />
+      <div className="absolute left-1/2 top-[46%] h-[440px] w-[440px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-gold-border/50" />
+      <div className="absolute left-1/2 top-[46%] h-[280px] w-[280px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-gold-border/30" />
+      <div className="absolute inset-x-[14%] top-[62%] h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
     </div>
   )
 }
 
 export default function Home() {
+  useEffect(() => {
+    const id = window.location.hash.slice(1)
+    if (!id) return
+
+    let tries = 0
+    const timer = window.setInterval(() => {
+      const el = document.getElementById(id)
+      tries += 1
+      if (!el || tries > 20) {
+        window.clearInterval(timer)
+        return
+      }
+      const top = el.getBoundingClientRect().top
+      if (top > 120) {
+        window.scrollTo({ top: top + window.scrollY - 88, behavior: "instant" })
+        return
+      }
+      window.clearInterval(timer)
+    }, 50)
+
+    return () => window.clearInterval(timer)
+  }, [])
+
   return (
     <I18nProvider>
       <Navigation />

@@ -3,6 +3,8 @@
 import { useI18n } from "@/lib/i18n"
 import { whatsappUrl, WHATSAPP_PREFILL_EN, WHATSAPP_PREFILL_HE, WHATSAPP_PREFILL_FR } from "@/lib/site"
 import { motion } from "framer-motion"
+import { TextRise } from "@/components/motion/text-rise"
+import { ArrowForward } from "@/components/ui/icons"
 
 export default function HeroContent() {
   const { t, lang } = useI18n()
@@ -37,7 +39,9 @@ export default function HeroContent() {
       >
         {t("hero.h1")}
         <br />
-        <em className="italic text-gold">{t("hero.h1.em")}</em>
+        <em className="italic text-gold">
+          <TextRise text={t("hero.h1.em")} />
+        </em>
         {h1End ? (
           <>
             <br />
@@ -65,7 +69,7 @@ export default function HeroContent() {
           href="#contact"
           className="inline-flex w-full items-center justify-center gap-2 rounded bg-gold px-7 py-4 text-[13px] font-medium tracking-wide text-background no-underline transition-all hover:-translate-y-0.5 hover:bg-gold-light sm:w-auto"
         >
-          {t("hero.cta1")} <span aria-hidden="true">→</span>
+          {t("hero.cta1")} <ArrowForward />
         </a>
         <a
           href={whatsappUrl(waMessage)}

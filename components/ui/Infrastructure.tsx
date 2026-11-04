@@ -18,7 +18,7 @@ export default function Infrastructure() {
 
   return (
     <section className="border-t border-line px-6 py-20 sm:px-[5vw]">
-      <div className="mx-auto max-w-7xl rounded-2xl border border-line bg-surface-1/30 p-7 sm:p-10 md:p-12">
+      <div className="mx-auto max-w-7xl rounded-2xl border border-line bg-surface-1 p-7 sm:p-10 md:p-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

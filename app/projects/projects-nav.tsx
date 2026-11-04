@@ -11,14 +11,14 @@ export function ProjectsNav({ back }: ProjectsNavProps) {
   return (
     <nav
       className="sticky top-0 z-50 flex items-center justify-between gap-3 border-b px-5 py-3 backdrop-blur-xl sm:px-[5vw] sm:py-4"
-      style={{ borderColor: "var(--line)", background: "rgba(6,6,6,0.92)" }}
+      style={{ borderColor: "var(--line)", background: "color-mix(in srgb, var(--bg) 92%, transparent)" }}
     >
       <Link href="/" className="flex items-center gap-3 no-underline">
         <div
           className="grid h-8 w-8 shrink-0 place-items-center rounded-md border font-serif text-sm"
           style={{
             borderColor: "var(--gold-bd)",
-            background: "rgba(200,169,109,0.08)",
+            background: "var(--gold-bg)",
             color: "var(--gold)",
           }}
         >

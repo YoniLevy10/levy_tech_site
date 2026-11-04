@@ -1,95 +1,98 @@
 "use client"
 
 import Link from "next/link"
+import { useCallback, useEffect, useState, type ReactNode } from "react"
+import Image from "next/image"
+import useEmblaCarousel from "embla-carousel-react"
+import { ChevronLeft, ChevronRight, Play } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
-import type { TranslationKey } from "@/lib/translations"
-import { motion } from "framer-motion"
-
-type ProjectId = "BINO" | "Milo"
-
-const meta: Record<
-  ProjectId,
-  {
-    title: string
-    tagKey: TranslationKey
-    subKey: TranslationKey
-    descKey: TranslationKey
-    statusKey: TranslationKey
-    focusKey: TranslationKey
-    stack: string[]
-  }
-> = {
-  BINO: {
-    title: "BINO",
-    tagKey: "proj.bino.tag",
-    subKey: "proj.bino.sub",
-    descKey: "proj.bino.desc",
-    statusKey: "proj.bino.status",
-    focusKey: "proj.bino.focus",
-    stack: ["Operations", "Workflows", "Dashboard"],
-  },
-  Milo: {
-    title: "OPC",
-    tagKey: "proj.milo.tag",
-    subKey: "proj.milo.sub",
-    descKey: "proj.milo.desc",
-    statusKey: "proj.milo.status",
-    focusKey: "proj.milo.focus",
-    stack: ["Retail", "Multi-location", "Ops"],
-  },
-}
-
-const order: ProjectId[] = ["BINO", "Milo"]
+import { PUBLIC_WORK } from "@/lib/public-work"
+import { ArrowOut } from "@/components/ui/icons"
 
 export default function Projects() {
-  const { t } = useI18n()
+  const { t, isRTL } = useI18n()
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    direction: isRTL ? "rtl" : "ltr",
+    align: "start",
+    containScroll: "trimSnaps",
+  })
+  const [canPrev, setCanPrev] = useState(false)
+  const [canNext, setCanNext] = useState(false)
+
+  const sync = useCallback(() => {
+    if (!emblaApi) return
+    setCanPrev(emblaApi.canScrollPrev())
+    setCanNext(emblaApi.canScrollNext())
+  }, [emblaApi])
+
+  useEffect(() => {
+    if (!emblaApi) return
+    emblaApi.reInit({ direction: isRTL ? "rtl" : "ltr", align: "start", containScroll: "trimSnaps" })
+    sync()
+    emblaApi.on("select", sync)
+    emblaApi.on("reInit", sync)
+    return () => {
+      emblaApi.off("select", sync)
+      emblaApi.off("reInit", sync)
+    }
+  }, [emblaApi, isRTL, sync])
 
   return (
     <section id="projects" className="px-6 py-24 sm:px-[5vw]">
       <div className="mx-auto max-w-7xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true, amount: 0.1 }}
-          className="mb-12"
-        >
-          <div className="mb-5 flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.22em] text-gold sm:text-[10px]">
-            <span>{t("proj.label")}</span>
-            <span className="h-px w-8 bg-gold-border" />
+        <div className="mb-12 flex items-end justify-between gap-6">
+          <div>
+            <div className="mb-5 flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.22em] text-gold sm:text-[10px]">
+              <span>{t("proj.label")}</span>
+              <span className="h-px w-8 bg-gold-border" />
+            </div>
+            <h2 className="max-w-[16ch] font-serif text-[clamp(38px,11vw,56px)] font-normal leading-[1.05] tracking-[-0.035em] text-foreground sm:max-w-none">
+              {t("proj.h2")} <em className="italic text-gold">{t("proj.h2.em")}</em>
+              {t("proj.h2.end") ? ` ${t("proj.h2.end")}` : null}
+            </h2>
+            <p className="mt-5 max-w-2xl text-[16px] font-light leading-[1.85] text-muted">{t("proj.intro")}</p>
           </div>
-          <h2 className="max-w-[16ch] font-serif text-[clamp(38px,11vw,56px)] font-normal leading-[1.05] tracking-[-0.035em] text-foreground sm:max-w-none">
-            {t("proj.h2")} <em className="italic text-gold">{t("proj.h2.em")}</em>
-            {t("proj.h2.end") ? ` ${t("proj.h2.end")}` : null}
-          </h2>
-        </motion.div>
+          <div className="mb-1 flex shrink-0 gap-2">
+            <CarouselButton label={t("proj.prev")} disabled={!canPrev} onClick={() => emblaApi?.scrollPrev()}>
+              <ChevronLeft aria-hidden className="size-4 rtl:-scale-x-100" />
+            </CarouselButton>
+            <CarouselButton label={t("proj.next")} disabled={!canNext} onClick={() => emblaApi?.scrollNext()}>
+              <ChevronRight aria-hidden className="size-4 rtl:-scale-x-100" />
+            </CarouselButton>
+          </div>
+        </div>
 
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-          {order.map((id, index) => {
-            const item = meta[id]
-            return (
-              <ProjectCard
-                key={id}
-                title={item.title}
-                tag={t(item.tagKey)}
-                sub={t(item.subKey)}
-                desc={t(item.descKey)}
-                statusLabel={t("proj.status")}
-                status={t(item.statusKey)}
-                focusLabel={t("proj.focus")}
-                focus={t(item.focusKey)}
-                stack={item.stack}
-                number={String(index + 1).padStart(2, "0")}
-              />
-            )
-          })}
+        <div ref={emblaRef} className="overflow-hidden">
+          <div className="flex items-stretch gap-4">
+            {PUBLIC_WORK.map((item) => {
+              return (
+                <div key={item.slug} className="min-w-0 flex-[0_0_100%] md:flex-[0_0_calc(50%-8px)]">
+                  <ProjectCard
+                    title={item.title}
+                    href={item.href}
+                    tag={t(item.tagKey)}
+                    sub={t(item.subKey)}
+                    desc={t(item.descKey)}
+                    status={t(item.statusKey)}
+                    focus={t(item.focusKey)}
+                    visitLabel={t("proj.visit")}
+                    stack={item.stack}
+                    image={item.image}
+                    video={item.video}
+                    portrait={item.portrait}
+                    playLabel={t("video.play")}
+                  />
+                </div>
+              )
+            })}
+          </div>
         </div>
         <div className="mt-10">
           <Link
             href="/projects"
-            className="font-mono text-[10px] uppercase tracking-[0.18em] text-gold transition-opacity hover:opacity-75"
+            className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-gold no-underline transition-opacity hover:opacity-75"
           >
-            {t("proj.all")} →
+            {t("proj.all")} <ArrowOut />
           </Link>
         </div>
       </div>
@@ -97,64 +100,155 @@ export default function Projects() {
   )
 }
 
+function CarouselButton({
+  label,
+  disabled,
+  onClick,
+  children,
+}: {
+  label: string
+  disabled: boolean
+  onClick: () => void
+  children: ReactNode
+}) {
+  return (
+    <button
+      type="button"
+      aria-label={label}
+      disabled={disabled}
+      onClick={onClick}
+      className="grid size-9 place-items-center rounded-full border border-line text-foreground transition-colors hover:border-gold-border hover:text-gold disabled:opacity-30"
+    >
+      {children}
+    </button>
+  )
+}
+
 function ProjectCard({
   title,
+  href,
   tag,
   sub,
   desc,
-  statusLabel,
   status,
-  focusLabel,
   focus,
+  visitLabel,
   stack,
-  number,
+  image,
+  video,
+  portrait,
+  playLabel,
 }: {
   title: string
+  href: string | null
   tag: string
   sub: string
   desc: string
-  statusLabel: string
   status: string
-  focusLabel: string
   focus: string
+  visitLabel: string
   stack: string[]
-  number: string
+  image: string | null
+  video: string | null
+  portrait?: boolean
+  playLabel: string
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      viewport={{ once: true, amount: 0.1 }}
-      className="group relative overflow-hidden rounded-2xl border border-line bg-background p-7 transition-colors hover:border-gold-border hover:bg-surface-1 sm:p-10"
-    >
-      <div className="relative z-10 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_240px]">
-        <div className="max-w-[560px]">
-          <div className="mb-4 font-mono text-[9px] uppercase tracking-[0.22em] text-gold opacity-80 sm:text-[10px]">{tag}</div>
-          <div className="mb-2 font-serif text-[34px] leading-none text-foreground">{title}</div>
-          <div className="mb-5 text-[11px] uppercase tracking-[0.14em] text-gold">{sub}</div>
-          <p className="text-[15px] font-light leading-[1.9] text-muted">{desc}</p>
+    <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface-1">
+      <ProjectMedia title={title} image={image} video={video} portrait={portrait} playLabel={playLabel} />
+      <div className="flex flex-1 flex-col p-6 sm:p-7">
+        <div className="mb-3 font-mono text-[9px] uppercase tracking-[0.22em] text-gold sm:text-[10px]">
+          {tag}
         </div>
-
-        <div className="rounded-xl border border-line bg-surface-1/35 p-5">
-          <div className="mb-4 font-mono text-[9px] uppercase tracking-[0.18em] text-muted">{statusLabel}</div>
-          <div className="mb-5 rounded-full border border-gold-border bg-gold-bg px-3 py-1.5 text-center font-mono text-[9px] uppercase tracking-[0.14em] text-gold">
+        <h3 className="font-serif text-[32px] leading-none text-foreground">{title}</h3>
+        <div className="mt-2 text-[12px] uppercase tracking-[0.12em] text-muted">{sub}</div>
+        <p className="mt-4 flex-1 text-[15px] font-light leading-[1.85] text-muted">{desc}</p>
+        <div className="mt-5 flex flex-wrap items-center gap-2">
+          <span className="rounded-full border border-gold-border bg-gold-bg px-3 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-gold">
             {status}
-          </div>
-          <div className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-muted">{focusLabel}</div>
-          <p className="mb-5 text-[13px] font-light leading-[1.75] text-foreground">{focus}</p>
-          <div className="flex flex-wrap gap-2">
-            {stack.map((s) => (
-              <span key={s} className="rounded-full border border-line px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.14em] text-muted">
-                {s}
-              </span>
-            ))}
-          </div>
+          </span>
+          <span className="text-[13px] font-light text-foreground">{focus}</span>
         </div>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {stack.map((item) => (
+            <span
+              key={item}
+              className="rounded-full border border-line bg-surface-2 px-3 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-muted"
+            >
+              {item}
+            </span>
+          ))}
+        </div>
+        {href ? (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 inline-flex w-fit items-center gap-1.5 text-[13px] text-gold no-underline hover:text-gold-light"
+          >
+            {visitLabel} <ArrowOut />
+          </a>
+        ) : null}
       </div>
-      <div className="pointer-events-none absolute bottom-4 right-5 font-serif text-[72px] italic leading-none text-faint opacity-15 sm:text-[88px]">
-        {number}
-      </div>
-    </motion.div>
+    </article>
+  )
+}
+
+function ProjectMedia({
+  title,
+  image,
+  video,
+  portrait,
+  playLabel,
+}: {
+  title: string
+  image: string | null
+  video: string | null
+  portrait?: boolean
+  playLabel: string
+}) {
+  const [imageOk, setImageOk] = useState(Boolean(image))
+  const [videoOk, setVideoOk] = useState(Boolean(video))
+  const [playing, setPlaying] = useState(false)
+  const videoFit = portrait ? "object-contain" : "object-cover object-top"
+
+  if (!imageOk && !videoOk) return <div className="h-px w-full bg-gold/70" />
+
+  return (
+    <div className="relative aspect-[16/10] bg-surface-2">
+      {playing && videoOk && video ? (
+        <video
+          className={`h-full w-full ${videoFit}`}
+          src={video}
+          poster={image ?? undefined}
+          controls
+          autoPlay
+          playsInline
+          onError={() => {
+            setVideoOk(false)
+            setPlaying(false)
+          }}
+        />
+      ) : image && imageOk ? (
+        <Image
+          src={image}
+          alt={title}
+          fill
+          sizes="(min-width: 768px) 50vw, 100vw"
+          className="object-cover object-top"
+          onError={() => setImageOk(false)}
+        />
+      ) : null}
+      {video && videoOk && !playing ? (
+        <button
+          type="button"
+          onClick={() => setPlaying(true)}
+          className="absolute bottom-3 end-3 grid size-10 place-items-center rounded-full bg-gold text-background"
+          aria-label={playLabel}
+        >
+          <Play aria-hidden className="size-4 translate-x-px fill-current rtl:-translate-x-px rtl:-scale-x-100" />
+        </button>
+      ) : null}
+    </div>
   )
 }

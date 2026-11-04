@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next"
+import Script from "next/script"
 import { Playfair_Display, Outfit, DM_Mono, Heebo } from "next/font/google"
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics"
 import { SITE_URL } from "@/lib/site"
@@ -74,8 +75,13 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#060606",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#efe8dc" },
+    { media: "(prefers-color-scheme: dark)", color: "#2a2622" },
+  ],
 }
+
+const themeBoot = `(function(){try{var t=localStorage.getItem("opsbrain-theme");if(t!=="light"&&t!=="dark"){t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.dataset.theme=t;var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",t==="dark"?"#2a2622":"#efe8dc")}catch(e){document.documentElement.dataset.theme="light"}})();`
 
 export default function RootLayout({
   children,
@@ -86,9 +92,13 @@ export default function RootLayout({
     <html
       lang="he"
       dir="rtl"
+      suppressHydrationWarning
       className={`${playfair.variable} ${outfit.variable} ${heebo.variable} ${dmMono.variable} bg-background`}
     >
       <body className="rtl">
+        <Script id="opsbrain-theme" strategy="beforeInteractive">
+          {themeBoot}
+        </Script>
         <GoogleAnalytics />
         {children}
       </body>

@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next"
+import { PUBLIC_WORK } from "@/lib/public-work"
 import { SITE_URL } from "@/lib/site"
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -15,5 +16,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.7,
     },
+    ...PUBLIC_WORK.map((item) => ({
+      url: `${SITE_URL}/projects/${item.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })),
   ]
 }

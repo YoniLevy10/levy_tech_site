@@ -2,6 +2,7 @@
 
 import { useI18n } from "@/lib/i18n"
 import { motion } from "framer-motion"
+import { ArrowForward } from "@/components/ui/icons"
 
 export default function Process() {
   const { t } = useI18n()
@@ -49,7 +50,7 @@ export default function Process() {
             {steps.map((step, index) => (
               <motion.div
                 key={index}
-                className="group relative rounded-2xl border border-line/70 bg-surface-1/30 p-6 transition-all hover:border-gold-border hover:bg-surface-1"
+                className="group relative rounded-2xl border border-line/70 bg-surface-1 p-6 transition-all hover:border-gold-border"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.07 * index }}
@@ -88,7 +89,7 @@ export default function Process() {
             href="#contact"
             className="inline-flex items-center gap-2 rounded border border-gold-border bg-gold-bg px-6 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-gold no-underline transition-all hover:bg-gold/10"
           >
-            {t("proc.cta")} <span>→</span>
+            {t("proc.cta")} <ArrowForward />
           </a>
         </motion.div>
       </div>

@@ -2,11 +2,11 @@ import Link from "next/link"
 import type { ProjectData } from "@/lib/github"
 
 const STATUS_STYLE: Record<string, { border: string; bg: string; text: string }> = {
-  Production: { border: "rgba(52,211,153,0.3)", bg: "rgba(52,211,153,0.08)", text: "#6ee7b7" },
-  Pilot: { border: "rgba(200,169,109,0.3)", bg: "rgba(200,169,109,0.09)", text: "#c8a96d" },
-  Development: { border: "rgba(167,139,250,0.3)", bg: "rgba(167,139,250,0.08)", text: "#c4b5fd" },
-  Paused: { border: "rgba(255,255,255,0.08)", bg: "rgba(255,255,255,0.03)", text: "#6b7280" },
-  Archived: { border: "rgba(239,68,68,0.2)", bg: "rgba(239,68,68,0.06)", text: "#f87171" },
+  Production: { border: "var(--gold-bd)", bg: "var(--gold-bg)", text: "var(--gold)" },
+  Pilot: { border: "var(--gold-bd)", bg: "var(--gold-bg)", text: "var(--gold)" },
+  Development: { border: "var(--line)", bg: "transparent", text: "var(--dim)" },
+  Paused: { border: "var(--line)", bg: "transparent", text: "var(--dim)" },
+  Archived: { border: "var(--line)", bg: "transparent", text: "var(--dim)" },
 }
 
 const GITHUB_USER = process.env.NEXT_PUBLIC_GITHUB_USERNAME ?? "YoniLevy10"

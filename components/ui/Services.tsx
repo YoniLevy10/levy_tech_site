@@ -2,6 +2,9 @@
 
 import { useI18n } from "@/lib/i18n"
 import { motion } from "framer-motion"
+import { Building2, Cpu, ChartColumn, PanelsTopLeft, Workflow, type LucideIcon } from "lucide-react"
+
+const serviceIcons: LucideIcon[] = [Building2, Cpu, ChartColumn, PanelsTopLeft, Workflow]
 
 export default function Services() {
   const { t } = useI18n()
@@ -50,17 +53,20 @@ export default function Services() {
           viewport={{ once: true, amount: 0.1 }}
           className="grid grid-cols-1 gap-4 md:grid-cols-6 md:gap-6"
         >
-          {services.map((service, index) => (
+          {services.map((service, index) => {
+            const Icon = serviceIcons[index]
+            return (
             <motion.div
-              key={index}
-              className={`group rounded-2xl border border-line/70 bg-surface-1/35 p-6 transition-all hover:border-gold-border hover:bg-surface-1 sm:p-8 ${
+              key={service.num}
+              className={`group rounded-2xl border border-line/70 bg-surface-1 p-6 transition-all hover:border-gold-border sm:p-8 ${
                 index < 3 ? "md:col-span-2" : "md:col-span-3"
               }`}
               whileHover={{ y: -4 }}
               transition={{ duration: 0.2 }}
             >
-              <div className="mb-7 font-mono text-[10px] tracking-[0.22em] text-gold opacity-70">
-                {service.num}
+              <div className="mb-7 flex items-center gap-3 text-gold">
+                <Icon aria-hidden className="size-4" strokeWidth={1.5} />
+                <span className="font-mono text-[10px] tracking-[0.22em]">{service.num}</span>
               </div>
               <div className="mb-4 font-serif text-[24px] leading-[1.12] text-foreground transition-colors group-hover:text-gold md:text-2xl">
                 {service.title}
@@ -69,7 +75,8 @@ export default function Services() {
                 {service.desc}
               </div>
             </motion.div>
-          ))}
+            )
+          })}
         </motion.div>
       </div>
     </section>

@@ -10,6 +10,8 @@ import {
   WHATSAPP_PREFILL_FR,
 } from "@/lib/site"
 import { motion } from "framer-motion"
+import { Mail, MessageCircle } from "lucide-react"
+import { ArrowForward } from "@/components/ui/icons"
 
 type SubmitState = "idle" | "sending" | "sent" | "error" | "config"
 
@@ -101,9 +103,7 @@ export default function Contact() {
               <ul className="space-y-3">
                 {[t("contact.audit.1"), t("contact.audit.2"), t("contact.audit.3")].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-[14px] font-light text-foreground">
-                    <span className="mt-0.5 text-gold" aria-hidden="true">
-                      →
-                    </span>
+                    <ArrowForward className="mt-0.5 size-3.5 shrink-0 text-gold rtl:-scale-x-100" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -114,7 +114,7 @@ export default function Contact() {
             <div className="space-y-5">
               <div className="flex items-center gap-4">
                 <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-gold-border bg-gold-bg text-[13px]">
-                  <MailIcon />
+                  <Mail aria-hidden className="size-4 text-gold" strokeWidth={1.5} />
                 </div>
                 <a
                   href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("OpsBrain — conversation request")}`}
@@ -126,7 +126,7 @@ export default function Contact() {
 
               <div className="flex items-center gap-4">
                 <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-gold-border bg-gold-bg text-[13px]">
-                  <ChatIcon />
+                  <MessageCircle aria-hidden className="size-4 text-gold" strokeWidth={1.5} />
                 </div>
                 <a
                   href={whatsappUrl(waMessage)}
@@ -146,7 +146,7 @@ export default function Contact() {
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true, amount: 0.1 }}
             onSubmit={handleSubmit}
-            className="flex flex-col gap-4 rounded-2xl border border-line bg-surface-1/30 p-5 sm:p-7"
+            className="flex flex-col gap-4 rounded-2xl border border-line bg-surface-1 p-5 sm:p-7"
           >
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Field
@@ -197,7 +197,7 @@ export default function Contact() {
               }`}
             >
               {status === "sending" ? t("form.sending") : status === "sent" ? `✓ ${t("form.sent")}` : t("form.submit")}
-              {status === "idle" || status === "error" || status === "config" ? <span>→</span> : null}
+              {status === "idle" || status === "error" || status === "config" ? <ArrowForward /> : null}
             </button>
 
             {statusMessage && status !== "sent" && (
@@ -245,19 +245,3 @@ function Field({
   )
 }
 
-function MailIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-gold">
-      <rect x="2" y="4" width="20" height="16" rx="2" />
-      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-    </svg>
-  )
-}
-
-function ChatIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-gold">
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-    </svg>
-  )
-}

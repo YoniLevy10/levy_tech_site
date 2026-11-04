@@ -23,7 +23,7 @@ export default function HeroScene({ mousePosition }: HeroSceneProps) {
       >
         <Suspense fallback={null}>
           <ambientLight intensity={0.2} />
-          <pointLight position={[10, 10, 10]} intensity={0.5} color="#c8a96d" />
+          <pointLight position={[10, 10, 10]} intensity={0.5} color="#c6a56a" />
           <pointLight position={[-10, -10, -10]} intensity={0.3} color="#6b5b95" />
 
           <group position={[mousePosition.x * 0.15, mousePosition.y * 0.1, 0]}>

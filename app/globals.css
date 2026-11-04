@@ -1,20 +1,41 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #060606;
-  --s1: #0d0d0d;
-  --s2: #111111;
-  --s3: #171717;
-  --text: #ede8df;
-  --dim: #9b9489;
-  --faint: #232220;
-  --gold: #c8a96d;
-  --gold2: #e8d5a3;
-  --gold-bg: rgba(200, 169, 109, 0.09);
-  --gold-bd: rgba(200, 169, 109, 0.22);
-  --line: rgba(255, 255, 255, 0.07);
-  --line2: rgba(255, 255, 255, 0.04);
-  --purple: #6b5b95;
+  --bg: #efe8dc;
+  --s1: #f7f3eb;
+  --s2: #e7dfd2;
+  --s3: #ddd3c4;
+  --text: #1c1914;
+  --dim: #5c564e;
+  --faint: #8a7d70;
+  --gold: #6e4b2a;
+  --gold2: #5a3d22;
+  --gold-bg: rgba(110, 75, 42, 0.1);
+  --gold-bd: rgba(110, 75, 42, 0.32);
+  --line: rgba(28, 25, 20, 0.12);
+  --line2: rgba(28, 25, 20, 0.06);
+  --purple: #6e4b2a;
+  --glow: rgba(110, 75, 42, 0.14);
+  --selection: rgba(110, 75, 42, 0.22);
+}
+
+:root[data-theme="dark"] {
+  --bg: #2a2622;
+  --s1: #342f2a;
+  --s2: #3d3731;
+  --s3: #4a433c;
+  --text: #f3ece3;
+  --dim: #c9bdae;
+  --faint: #8d8276;
+  --gold: #e0c48a;
+  --gold2: #edd7a8;
+  --gold-bg: rgba(224, 196, 138, 0.12);
+  --gold-bd: rgba(224, 196, 138, 0.38);
+  --line: rgba(243, 236, 227, 0.12);
+  --line2: rgba(243, 236, 227, 0.06);
+  --purple: #e0c48a;
+  --glow: rgba(224, 196, 138, 0.16);
+  --selection: rgba(224, 196, 138, 0.28);
 }
 
 @theme inline {
@@ -44,12 +65,26 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  color-scheme: light;
+}
+
+#services,
+#projects,
+#process,
+#contact {
+  scroll-margin-top: 5.5rem;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 body {
   margin: 0;
   font-family: var(--font-sans);
-  background: var(--bg);
+  background:
+    radial-gradient(880px 420px at 50% -12%, var(--glow), transparent 62%),
+    var(--bg);
   color: var(--text);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -102,8 +137,12 @@ h1, h2, h3 {
 }
 
 ::selection {
-  background: rgba(200, 169, 109, 0.3);
+  background: var(--selection);
   color: var(--text);
+}
+
+.hero-glow {
+  background: radial-gradient(circle at 50% 30%, var(--glow), transparent 42%);
 }
 
 ::-webkit-scrollbar {
@@ -159,7 +198,8 @@ h1, h2, h3 {
 }
 .project-card:hover article {
   border-color: var(--gold-bd) !important;
-  background: var(--s2) !important;
+  background: var(--s1) !important;
+  box-shadow: none;
 }
 .project-card:hover .project-card-img {
   transform: scale(1.05);

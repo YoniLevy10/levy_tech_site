@@ -44,7 +44,7 @@ export default function WhyOpsBrain() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.07 }}
               viewport={{ once: true, amount: 0.1 }}
-              className="group rounded-2xl border border-line/70 bg-surface-1/35 p-7 transition-all hover:border-gold-border hover:bg-surface-1"
+              className="group rounded-2xl border border-line/70 bg-surface-1 p-7 transition-all hover:border-gold-border"
             >
               <h3 className="mb-3 font-serif text-[22px] leading-[1.15] text-foreground transition-colors group-hover:text-gold">
                 {t(reason.title)}

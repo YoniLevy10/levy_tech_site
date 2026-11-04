@@ -36,10 +36,10 @@ export default function BeforeAfter() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
             viewport={{ once: true, amount: 0.1 }}
-            className="overflow-hidden rounded-2xl border border-line bg-surface-1/30"
+            className="overflow-hidden rounded-2xl border border-line bg-surface-1"
           >
             <div className="flex items-center gap-2.5 border-b border-line bg-surface-1 px-6 py-4">
-              <span className="h-2 w-2 rounded-full bg-red-500/60" />
+              <span className="h-2 w-2 rounded-full bg-muted" />
               <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted sm:text-[10px]">
                 {t("ba.before")}
               </span>
@@ -53,7 +53,7 @@ export default function BeforeAfter() {
                 viewport={{ once: true }}
                 className="flex items-start gap-3.5 border-b border-line-2 px-6 py-4 last:border-b-0"
               >
-                <span className="mt-[3px] shrink-0 text-[12px] text-faint opacity-60">✕</span>
+                <span className="mt-[3px] shrink-0 text-[12px] text-muted">✕</span>
                 <span className="text-[14px] font-light leading-[1.75] text-muted">{item}</span>
               </motion.div>
             ))}
@@ -65,12 +65,10 @@ export default function BeforeAfter() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true, amount: 0.1 }}
-            className="overflow-hidden rounded-2xl border border-gold-border"
-            style={{ background: "rgba(200,169,109,0.04)" }}
+            className="overflow-hidden rounded-2xl border border-gold-border bg-surface-1"
           >
-            <div className="flex items-center gap-2.5 border-b border-gold-border/40 px-6 py-4"
-              style={{ background: "rgba(200,169,109,0.07)" }}>
-              <span className="h-2 w-2 rounded-full bg-emerald-400/70" />
+            <div className="flex items-center gap-2.5 border-b border-gold-border/40 bg-gold-bg px-6 py-4">
+              <span className="h-2 w-2 rounded-full bg-gold" />
               <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-gold sm:text-[10px]">
                 {t("ba.after")}
               </span>
@@ -82,8 +80,7 @@ export default function BeforeAfter() {
                 whileInView={{ opacity: 1 }}
                 transition={{ delay: 0.25 + i * 0.06 }}
                 viewport={{ once: true }}
-                className="flex items-start gap-3.5 border-b border-line-2 px-6 py-4 last:border-b-0"
-                style={{ borderColor: "rgba(200,169,109,0.1)" }}
+                className="flex items-start gap-3.5 border-b border-gold-border/30 px-6 py-4 last:border-b-0"
               >
                 <span className="mt-[3px] shrink-0 text-[13px] text-gold">✓</span>
                 <span className="text-[14px] font-light leading-[1.75] text-foreground">{item}</span>

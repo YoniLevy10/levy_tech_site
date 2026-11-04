@@ -9,6 +9,8 @@ import {
   WHATSAPP_PREFILL_FR,
 } from "@/lib/site"
 import { motion } from "framer-motion"
+import { Play } from "lucide-react"
+import { ArrowForward } from "@/components/ui/icons"
 
 const VIDEO_SRC = "/videos/opsbrain-promo.mp4"
 const POSTER_SRC = "/videos/opsbrain-promo-poster.jpg"
@@ -82,13 +84,13 @@ export default function VideoSection() {
                 <button
                   type="button"
                   onClick={startPlayback}
-                  className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-background/35 transition hover:bg-background/25"
+                  className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-[#2a221b]/28 transition hover:bg-[#2a221b]/20"
                   aria-label={t("video.play")}
                 >
                   <span className="grid h-16 w-16 place-items-center rounded-full border border-gold-border bg-gold text-background shadow-[0_8px_32px_rgba(0,0,0,0.35)]">
-                    <PlayIcon />
+                    <Play aria-hidden className="size-5 translate-x-0.5 rtl:-translate-x-0.5 rtl:-scale-x-100" fill="currentColor" />
                   </span>
-                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-gold">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#fffaf4]">
                     {t("video.play")}
                   </span>
                 </button>
@@ -112,7 +114,7 @@ export default function VideoSection() {
                 href="#contact"
                 className="inline-flex items-center justify-center gap-2 rounded bg-gold px-6 py-3.5 text-[13px] font-medium tracking-wide text-background no-underline transition-all hover:-translate-y-0.5 hover:bg-gold-light"
               >
-                {t("video.cta.contact")} <span aria-hidden="true">→</span>
+                {t("video.cta.contact")} <ArrowForward />
               </a>
               <a
                 href={whatsappUrl(waMessage)}
@@ -130,10 +132,3 @@ export default function VideoSection() {
   )
 }
 
-function PlayIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M8 5.14v13.72L19 12 8 5.14z" />
-    </svg>
-  )
-}
