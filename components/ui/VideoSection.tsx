@@ -44,7 +44,7 @@ export default function VideoSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true, amount: 0.15 }}
-          className="mb-10 max-w-2xl"
+          className="mb-6 max-w-2xl sm:mb-10"
         >
           <div className="mb-5 flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.22em] text-gold sm:text-[10px]">
             <span>{t("video.label")}</span>
@@ -53,7 +53,7 @@ export default function VideoSection() {
           <h2 className="font-serif text-[clamp(32px,7vw,48px)] font-normal leading-[1.08] tracking-[-0.03em] text-foreground">
             {t("video.h2")} <em className="italic text-gold">{t("video.h2.em")}</em>
           </h2>
-          <p className="mt-5 text-[16px] font-light leading-[1.9] text-muted">{t("video.p")}</p>
+          <p className="mt-3 text-[15px] font-light leading-relaxed text-muted sm:mt-5 sm:text-[16px]">{t("video.p")}</p>
         </motion.div>
 
         <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,420px)_1fr] lg:gap-16">
@@ -108,11 +108,11 @@ export default function VideoSection() {
             <h3 className="mb-4 font-serif text-[clamp(24px,4vw,32px)] font-normal leading-[1.15] tracking-[-0.02em] text-foreground">
               {t("video.cta.title")}
             </h3>
-            <p className="mb-8 text-[15px] font-light leading-[1.9] text-muted">{t("video.cta.p")}</p>
-            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <p className="mb-5 text-[15px] font-light leading-relaxed text-muted sm:mb-8">{t("video.cta.p")}</p>
+            <div className="flex flex-row flex-wrap gap-3">
               <a
                 href="#contact"
-                className="inline-flex items-center justify-center gap-2 rounded bg-gold px-6 py-3.5 text-[13px] font-medium tracking-wide text-background no-underline transition-all hover:-translate-y-0.5 hover:bg-gold-light"
+                className="inline-flex items-center justify-center gap-2 rounded bg-gold px-4 py-3 text-[13px] font-medium tracking-wide text-background no-underline transition-all hover:-translate-y-0.5 hover:bg-gold-light sm:px-6 sm:py-3.5"
               >
                 {t("video.cta.contact")} <ArrowForward />
               </a>
@@ -120,7 +120,7 @@ export default function VideoSection() {
                 href={whatsappUrl(waMessage)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded border border-gold-border px-6 py-3.5 text-[13px] tracking-wide text-gold no-underline transition-all hover:bg-gold-bg"
+                className="inline-flex items-center justify-center gap-2 rounded border border-gold-border px-4 py-3 text-[13px] tracking-wide text-gold no-underline transition-all hover:bg-gold-bg sm:px-6 sm:py-3.5"
               >
                 {t("video.cta.wa")}
               </a>

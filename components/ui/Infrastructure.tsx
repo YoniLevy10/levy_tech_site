@@ -38,13 +38,13 @@ export default function Infrastructure() {
           </div>
 
           <div>
-            <p className="mb-7 max-w-[42rem] text-[16px] font-light leading-[1.9] text-muted">{t("infra.p")}</p>
+            <p className="mb-5 max-w-[42rem] text-[15px] font-light leading-relaxed text-muted sm:mb-7 sm:text-[16px]">{t("infra.p")}</p>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {stack.map((item) => (
                 <span
                   key={item}
-                  className="rounded-full border border-line bg-background/60 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-muted"
+                  className="rounded-full border border-line bg-background/60 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-muted sm:px-4 sm:py-2 sm:text-[10px] sm:tracking-[0.16em]"
                 >
                   {item}
                 </span>

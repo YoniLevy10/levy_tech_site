@@ -8,7 +8,7 @@ export default function Manifesto() {
 
   return (
     <section className="border-t border-line px-6 py-20 sm:px-[5vw] sm:py-24">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 items-start gap-10 md:grid-cols-2 md:gap-18">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 items-start gap-6 md:grid-cols-2 md:gap-18">
         <motion.div
           initial={{ opacity: 0, x: -24 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -33,11 +33,11 @@ export default function Manifesto() {
           transition={{ duration: 0.6, delay: 0.1 }}
           viewport={{ once: true, amount: 0.1 }}
         >
-          <div className="mb-7 h-px w-10 bg-gold opacity-40" />
-          <div className="space-y-6">
-            <p className="text-[16px] font-light leading-[1.9] text-muted">{t("manifesto.p1")}</p>
-            <p className="text-[16px] font-light leading-[1.9] text-muted">{t("manifesto.p2")}</p>
-            <p className="text-[16px] font-light leading-[1.9] text-muted">{t("manifesto.p3")}</p>
+          <div className="mb-4 hidden h-px w-10 bg-gold opacity-40 sm:block" />
+          <div className="space-y-3 sm:space-y-4">
+            <p className="text-[15px] font-light leading-relaxed text-muted sm:text-[16px]">{t("manifesto.p1")}</p>
+            <p className="hidden text-[15px] font-light leading-relaxed text-muted sm:block sm:text-[16px]">{t("manifesto.p2")}</p>
+            <p className="hidden text-[15px] font-light leading-relaxed text-muted md:block sm:text-[16px]">{t("manifesto.p3")}</p>
           </div>
         </motion.div>
       </div>

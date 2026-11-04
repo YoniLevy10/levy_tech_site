@@ -14,9 +14,9 @@ export default function HeroContent() {
   const h1End = t("hero.h1.end")
 
   return (
-    <div className="relative z-10 mx-auto flex w-full max-w-[860px] flex-col items-center justify-center px-6 text-center sm:px-8">
+    <div className="relative z-10 mx-auto flex w-full max-w-[860px] flex-col items-center justify-center px-0 text-center sm:px-8">
       <motion.div
-        className="mb-6 flex flex-col items-center gap-3 sm:mb-8"
+        className="mb-4 flex flex-col items-center gap-2 sm:mb-8 sm:gap-3"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -32,7 +32,7 @@ export default function HeroContent() {
       </motion.div>
 
       <motion.h1
-        className="mb-7 max-w-[18ch] font-serif text-[clamp(36px,9vw,64px)] font-normal leading-[1.12] tracking-[-0.035em] text-foreground sm:max-w-[20ch]"
+        className="mb-4 max-w-[16ch] font-serif text-[clamp(36px,9vw,64px)] font-normal leading-[1.16] tracking-[-0.035em] text-foreground sm:mb-7 sm:max-w-[20ch] sm:leading-[1.12]"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.1 }}
@@ -51,7 +51,7 @@ export default function HeroContent() {
       </motion.h1>
 
       <motion.p
-        className="mb-9 max-w-[38rem] text-[15px] font-light leading-[1.9] text-muted sm:mb-10 sm:text-[17px]"
+        className="mb-6 max-w-[28rem] text-[15px] font-light leading-relaxed text-muted sm:mb-10 sm:text-[17px] sm:leading-[1.75]"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
@@ -60,14 +60,14 @@ export default function HeroContent() {
       </motion.p>
 
       <motion.div
-        className="flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row sm:gap-5"
+        className="grid w-full max-w-sm grid-cols-2 items-center gap-3 sm:flex sm:w-auto sm:max-w-none sm:items-center sm:gap-5"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.3 }}
       >
         <a
           href="#contact"
-          className="inline-flex w-full items-center justify-center gap-2 rounded bg-gold px-7 py-4 text-[13px] font-medium tracking-wide text-background no-underline transition-all hover:-translate-y-0.5 hover:bg-gold-light sm:w-auto"
+          className="inline-flex w-full items-center justify-center gap-2 rounded bg-gold px-4 py-3 text-[13px] font-medium tracking-wide text-background no-underline transition-all hover:-translate-y-0.5 hover:bg-gold-light sm:w-auto sm:px-7 sm:py-4"
         >
           {t("hero.cta1")} <ArrowForward />
         </a>
@@ -75,13 +75,13 @@ export default function HeroContent() {
           href={whatsappUrl(waMessage)}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex w-full items-center justify-center gap-2 rounded border border-gold-border px-7 py-4 text-[13px] tracking-wide text-gold no-underline transition-all hover:bg-gold-bg sm:w-auto"
+          className="inline-flex w-full items-center justify-center gap-2 rounded border border-gold-border px-4 py-3 text-[13px] tracking-wide text-gold no-underline transition-all hover:bg-gold-bg sm:w-auto sm:px-7 sm:py-4"
         >
           {t("hero.cta.wa")}
         </a>
         <a
           href="#projects"
-          className="text-[13px] tracking-wide text-muted no-underline transition-all hover:text-foreground sm:border-b sm:border-faint sm:pb-0.5 sm:hover:border-muted"
+          className="col-span-2 self-center text-center text-[13px] leading-none tracking-wide text-muted no-underline transition-all hover:text-foreground sm:col-auto sm:border-b sm:border-faint sm:pb-0.5 sm:text-start sm:hover:border-muted"
         >
           {t("hero.cta2")}
         </a>

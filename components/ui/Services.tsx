@@ -20,7 +20,7 @@ export default function Services() {
   return (
     <section id="services" className="px-6 py-24 sm:px-[5vw] md:py-36">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-12 grid grid-cols-1 items-start gap-7 md:mb-20 md:grid-cols-[0.95fr_0.65fr] md:items-end md:gap-24">
+        <div className="mb-8 grid grid-cols-1 items-start gap-4 md:mb-20 md:grid-cols-[0.95fr_0.65fr] md:items-end md:gap-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -40,7 +40,7 @@ export default function Services() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
             viewport={{ once: true, amount: 0.1 }}
-            className="max-w-xl text-[16px] font-light leading-[1.9] text-muted md:ml-auto md:max-w-md"
+            className="max-w-xl text-[15px] font-light leading-relaxed text-muted md:ml-auto md:max-w-md md:text-[16px]"
           >
             {t("svc.sub")}
           </motion.p>
@@ -51,27 +51,27 @@ export default function Services() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true, amount: 0.1 }}
-          className="grid grid-cols-1 gap-4 md:grid-cols-6 md:gap-6"
+          className="grid grid-cols-1 gap-3 md:grid-cols-6 md:gap-6"
         >
           {services.map((service, index) => {
             const Icon = serviceIcons[index]
             return (
             <motion.div
               key={service.num}
-              className={`group rounded-2xl border border-line/70 bg-surface-1 p-6 transition-all hover:border-gold-border sm:p-8 ${
+              className={`group rounded-2xl border border-line/70 bg-surface-1 p-5 transition-all hover:border-gold-border sm:p-8 ${
                 index < 3 ? "md:col-span-2" : "md:col-span-3"
               }`}
               whileHover={{ y: -4 }}
               transition={{ duration: 0.2 }}
             >
-              <div className="mb-7 flex items-center gap-3 text-gold">
+              <div className="mb-4 flex items-center gap-3 text-gold sm:mb-7">
                 <Icon aria-hidden className="size-4" strokeWidth={1.5} />
                 <span className="font-mono text-[10px] tracking-[0.22em]">{service.num}</span>
               </div>
-              <div className="mb-4 font-serif text-[24px] leading-[1.12] text-foreground transition-colors group-hover:text-gold md:text-2xl">
+              <div className="mb-2 font-serif text-[22px] leading-[1.15] text-foreground transition-colors group-hover:text-gold sm:mb-4 sm:text-[24px]">
                 {service.title}
               </div>
-              <div className="max-w-sm text-[15px] font-light leading-[1.85] text-muted">
+              <div className="max-w-sm text-[14px] font-light leading-snug text-muted sm:text-[15px] sm:leading-relaxed">
                 {service.desc}
               </div>
             </motion.div>

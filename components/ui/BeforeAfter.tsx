@@ -51,10 +51,12 @@ export default function BeforeAfter() {
                 whileInView={{ opacity: 1 }}
                 transition={{ delay: 0.15 + i * 0.06 }}
                 viewport={{ once: true }}
-                className="flex items-start gap-3.5 border-b border-line-2 px-6 py-4 last:border-b-0"
+                className={`flex items-start gap-3 border-b border-line-2 px-5 py-3 last:border-b-0 sm:gap-3.5 sm:px-6 sm:py-4 ${
+                  i > 2 ? "max-md:hidden" : ""
+                } ${i === 2 ? "max-md:border-b-0" : ""}`}
               >
                 <span className="mt-[3px] shrink-0 text-[12px] text-muted">✕</span>
-                <span className="text-[14px] font-light leading-[1.75] text-muted">{item}</span>
+                <span className="text-[14px] font-light leading-snug text-muted">{item}</span>
               </motion.div>
             ))}
           </motion.div>
@@ -80,10 +82,12 @@ export default function BeforeAfter() {
                 whileInView={{ opacity: 1 }}
                 transition={{ delay: 0.25 + i * 0.06 }}
                 viewport={{ once: true }}
-                className="flex items-start gap-3.5 border-b border-gold-border/30 px-6 py-4 last:border-b-0"
+                className={`flex items-start gap-3 border-b border-gold-border/30 px-5 py-3 last:border-b-0 sm:gap-3.5 sm:px-6 sm:py-4 ${
+                  i > 2 ? "max-md:hidden" : ""
+                } ${i === 2 ? "max-md:border-b-0" : ""}`}
               >
                 <span className="mt-[3px] shrink-0 text-[13px] text-gold">✓</span>
-                <span className="text-[14px] font-light leading-[1.75] text-foreground">{item}</span>
+                <span className="text-[14px] font-light leading-snug text-foreground">{item}</span>
               </motion.div>
             ))}
           </motion.div>

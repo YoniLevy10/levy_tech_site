@@ -40,19 +40,19 @@ export default function Projects() {
   return (
     <section id="projects" className="px-6 py-24 sm:px-[5vw]">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-12 flex items-end justify-between gap-6">
+        <div className="mb-8 flex flex-col gap-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
           <div>
-            <div className="mb-5 flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.22em] text-gold sm:text-[10px]">
+            <div className="mb-4 flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.22em] text-gold sm:mb-5 sm:text-[10px]">
               <span>{t("proj.label")}</span>
               <span className="h-px w-8 bg-gold-border" />
             </div>
-            <h2 className="max-w-[16ch] font-serif text-[clamp(38px,11vw,56px)] font-normal leading-[1.05] tracking-[-0.035em] text-foreground sm:max-w-none">
+            <h2 className="max-w-[14ch] font-serif text-[clamp(38px,11vw,56px)] font-normal leading-[1.12] tracking-[-0.035em] text-foreground sm:max-w-none sm:leading-[1.05]">
               {t("proj.h2")} <em className="italic text-gold">{t("proj.h2.em")}</em>
               {t("proj.h2.end") ? ` ${t("proj.h2.end")}` : null}
             </h2>
-            <p className="mt-5 max-w-2xl text-[16px] font-light leading-[1.85] text-muted">{t("proj.intro")}</p>
+            <p className="mt-3 max-w-2xl text-[15px] font-light leading-relaxed text-muted sm:mt-5 sm:text-[16px]">{t("proj.intro")}</p>
           </div>
-          <div className="mb-1 flex shrink-0 gap-2">
+          <div className="flex shrink-0 gap-2 self-end">
             <CarouselButton label={t("proj.prev")} disabled={!canPrev} onClick={() => emblaApi?.scrollPrev()}>
               <ChevronLeft aria-hidden className="size-4 rtl:-scale-x-100" />
             </CarouselButton>
@@ -170,20 +170,22 @@ function ProjectCard({
         contain={contain}
         playLabel={playLabel}
       />
-      <div className="flex flex-1 flex-col p-6 sm:p-7">
-        <div className="mb-3 font-mono text-[9px] uppercase tracking-[0.22em] text-gold sm:text-[10px]">
+      <div className="flex flex-1 flex-col p-4 sm:p-7">
+        <div className="mb-3 hidden font-mono text-[10px] uppercase tracking-[0.22em] text-gold sm:block">
           {tag}
         </div>
-        <h3 className="font-serif text-[32px] leading-none text-foreground">{title}</h3>
-        <div className="mt-2 text-[12px] uppercase tracking-[0.12em] text-muted">{sub}</div>
-        <p className="mt-4 flex-1 text-[15px] font-light leading-[1.85] text-muted">{desc}</p>
-        <div className="mt-5 flex flex-wrap items-center gap-2">
+        <h3 className="font-serif text-[26px] leading-none text-foreground sm:text-[32px]">{title}</h3>
+        <p className="mt-2 text-[14px] font-light leading-snug text-muted sm:text-[12px] sm:uppercase sm:tracking-[0.12em]">
+          {sub}
+        </p>
+        <p className="mt-4 hidden flex-1 text-[15px] font-light leading-relaxed text-muted sm:block">{desc}</p>
+        <div className="mt-5 hidden flex-wrap items-center gap-2 sm:flex">
           <span className="rounded-full border border-gold-border bg-gold-bg px-3 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-gold">
             {status}
           </span>
           <span className="text-[13px] font-light text-foreground">{focus}</span>
         </div>
-        <div className="mt-4 flex flex-wrap gap-2">
+        <div className="mt-4 hidden flex-wrap gap-2 sm:flex">
           {stack.map((item) => (
             <span
               key={item}
@@ -198,7 +200,7 @@ function ProjectCard({
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-5 inline-flex w-fit items-center gap-1.5 text-[13px] text-gold no-underline hover:text-gold-light"
+            className="mt-3 inline-flex w-fit items-center gap-1.5 text-[13px] text-gold no-underline hover:text-gold-light sm:mt-5"
           >
             {visitLabel} <ArrowOut />
           </a>

@@ -21,7 +21,7 @@ export default function WhyOpsBrain() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true, amount: 0.1 }}
-          className="mb-14 grid grid-cols-1 gap-7 md:grid-cols-[0.85fr_1fr] md:gap-20"
+          className="mb-8 grid grid-cols-1 gap-4 md:mb-14 md:grid-cols-[0.85fr_1fr] md:gap-20"
         >
           <div>
             <div className="mb-5 flex items-center gap-3 font-mono text-[9px] uppercase tracking-[0.22em] text-gold sm:text-[10px]">
@@ -33,10 +33,10 @@ export default function WhyOpsBrain() {
             </h2>
           </div>
 
-          <p className="max-w-[42rem] text-[16px] font-light leading-[1.9] text-muted md:pt-8">{t("why.p")}</p>
+          <p className="max-w-[42rem] text-[15px] font-light leading-relaxed text-muted md:pt-8 md:text-[16px]">{t("why.p")}</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4">
           {reasonKeys.map((reason, index) => (
             <motion.div
               key={reason.title}
@@ -44,12 +44,12 @@ export default function WhyOpsBrain() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.07 }}
               viewport={{ once: true, amount: 0.1 }}
-              className="group rounded-2xl border border-line/70 bg-surface-1 p-7 transition-all hover:border-gold-border"
+              className="group rounded-2xl border border-line/70 bg-surface-1 p-5 transition-all hover:border-gold-border sm:p-7"
             >
-              <h3 className="mb-3 font-serif text-[22px] leading-[1.15] text-foreground transition-colors group-hover:text-gold">
+              <h3 className="mb-1.5 font-serif text-[20px] leading-[1.2] text-foreground transition-colors group-hover:text-gold sm:mb-3 sm:text-[22px]">
                 {t(reason.title)}
               </h3>
-              <p className="text-[15px] font-light leading-[1.85] text-muted">{t(reason.body)}</p>
+              <p className="text-[14px] font-light leading-snug text-muted sm:text-[15px]">{t(reason.body)}</p>
             </motion.div>
           ))}
         </div>

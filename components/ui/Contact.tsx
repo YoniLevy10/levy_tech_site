@@ -92,17 +92,17 @@ export default function Contact() {
               {t("contact.h2")} <em className="italic text-gold">{t("contact.h2.em")}</em>
             </h2>
 
-            <p className="mt-5 mb-8 max-w-[36rem] text-[16px] font-light leading-[1.9] text-muted">
+            <p className="mt-4 mb-6 max-w-[36rem] text-[15px] font-light leading-relaxed text-muted sm:mt-5 sm:mb-8 sm:text-[16px]">
               {t("contact.p")}
             </p>
 
-            <div className="mb-8 rounded-2xl border border-gold-border/40 bg-gold-bg/40 p-5 sm:p-6">
-              <div className="mb-4 font-mono text-[9px] uppercase tracking-[0.18em] text-gold">
+            <div className="mb-6 rounded-2xl border border-gold-border/40 bg-gold-bg/40 p-4 sm:mb-8 sm:p-6">
+              <div className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-gold">
                 {t("contact.audit.title")}
               </div>
-              <ul className="space-y-3">
+              <ul className="space-y-2">
                 {[t("contact.audit.1"), t("contact.audit.2"), t("contact.audit.3")].map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-[14px] font-light text-foreground">
+                  <li key={item} className="flex items-start gap-2.5 text-[14px] font-light leading-snug text-foreground">
                     <ArrowForward className="mt-0.5 size-3.5 shrink-0 text-gold rtl:-scale-x-100" />
                     <span>{item}</span>
                   </li>
@@ -151,7 +151,7 @@ export default function Contact() {
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Field
                 label={t("form.name")}
-                placeholder="Your name"
+                placeholder={t("form.ph.name")}
                 required
                 value={name}
                 onChange={setName}
@@ -159,7 +159,7 @@ export default function Contact() {
               />
               <Field
                 label={t("form.company")}
-                placeholder="Your business"
+                placeholder={t("form.ph.company")}
                 value={company}
                 onChange={setCompany}
                 disabled={status === "sending" || status === "sent"}
@@ -168,7 +168,7 @@ export default function Contact() {
 
             <Field
               label={t("form.email")}
-              placeholder="you@company.com"
+              placeholder={t("form.ph.email")}
               type="email"
               required
               value={email}
@@ -182,8 +182,8 @@ export default function Contact() {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 disabled={status === "sending" || status === "sent"}
-                placeholder="Describe your current process..."
-                className="h-32 resize-none rounded-lg border border-line bg-surface-1 px-4 py-4 font-sans text-[15px] text-foreground outline-none transition-colors placeholder:text-faint focus:border-gold-border disabled:opacity-60"
+                placeholder={t("form.ph.msg")}
+                className="h-24 resize-none rounded-lg border border-line bg-surface-1 px-4 py-3 font-sans text-[15px] text-foreground outline-none transition-colors placeholder:text-faint focus:border-gold-border disabled:opacity-60 sm:h-32 sm:py-4"
               />
             </div>
 
@@ -239,7 +239,7 @@ function Field({
         value={value}
         disabled={disabled}
         onChange={(e) => onChange(e.target.value)}
-        className="rounded-lg border border-line bg-surface-1 px-4 py-4 font-sans text-[15px] text-foreground outline-none transition-colors placeholder:text-faint focus:border-gold-border disabled:opacity-60"
+        className="rounded-lg border border-line bg-surface-1 px-4 py-3 font-sans text-[15px] text-foreground outline-none transition-colors placeholder:text-faint focus:border-gold-border disabled:opacity-60 sm:py-4"
       />
     </div>
   )

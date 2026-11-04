@@ -37,7 +37,7 @@ export const PUBLIC_WORK: PublicWork[] = [
     slug: "opc",
     title: "OPC",
     href: "https://opc-jerusalem.vercel.app",
-    image: "/work/opc-login.jpg",
+    image: "/work/opc-home.jpg",
     video: null,
     stack: ["Next.js", "Supabase", "WhatsApp"],
     tagKey: "proj.opc.tag",

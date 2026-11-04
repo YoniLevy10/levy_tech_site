@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion"
 
 export default function FAQ() {
   const { t } = useI18n()
-  const [openIndex, setOpenIndex] = useState<number | null>(0)
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   const faqs = [
     { q: t("faq.q1"), a: t("faq.a1") },
@@ -28,7 +28,7 @@ export default function FAQ() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true, amount: 0.1 }}
-          className="mb-14"
+          className="mb-8"
         >
           <div className="mb-5 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[2.5px] text-gold">
             <span>{t("faq.label")}</span>
@@ -54,7 +54,7 @@ export default function FAQ() {
                 onClick={() => toggleFaq(index)}
                 className="flex w-full items-center justify-between gap-6 py-4 text-left"
               >
-                <span className="max-w-3xl text-[17px] font-light leading-relaxed text-foreground md:text-[19px]">
+                <span className="max-w-3xl text-[16px] font-light leading-snug text-foreground md:text-[19px] md:leading-relaxed">
                   {faq.q}
                 </span>
 
@@ -76,7 +76,7 @@ export default function FAQ() {
                     transition={{ duration: 0.3 }}
                     className="overflow-hidden"
                   >
-                    <div className="max-w-3xl pb-6 pr-8 text-[14px] font-light leading-[1.9] text-muted">{faq.a}</div>
+                    <div className="max-w-3xl pb-4 text-[14px] font-light leading-relaxed text-muted sm:pb-6">{faq.a}</div>
                   </motion.div>
                 )}
               </AnimatePresence>

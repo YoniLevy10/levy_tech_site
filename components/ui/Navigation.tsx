@@ -90,7 +90,7 @@ export default function Navigation() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="rounded-xl px-3 py-3 text-[16px] font-light leading-[1.85] tracking-wide text-foreground no-underline hover:bg-surface-1"
+                className="rounded-xl px-3 py-2.5 text-[16px] font-light leading-normal tracking-wide text-foreground no-underline hover:bg-surface-1"
               >
                 {t(link.key)}
               </a>
