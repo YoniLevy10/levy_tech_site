@@ -15,7 +15,9 @@ export const metadata: Metadata = {
 }
 
 export default async function ProjectsPage() {
-  const projects = await fetchAllProjects()
+  const projects = (await fetchAllProjects()).map((project) =>
+    project.repoName === "OpticalCenter" ? { ...project, readme: null } : project
+  )
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)", color: "var(--text)" }}>

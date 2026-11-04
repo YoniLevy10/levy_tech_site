@@ -27,9 +27,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }): Promise<Metadata> {
-  const project = await fetchProject(params.slug) // uses cache
+  const { slug } = await params
+  const project = await fetchProject(slug)
   if (!project) return {}
   const m = project.meta
   const coverUrl = m.cover
@@ -46,8 +47,9 @@ export async function generateMetadata({
   }
 }
 
-export default async function ProjectPage({ params }: { params: { slug: string } }) {
-  const project = await fetchProject(params.slug) // uses cache — same data, no extra call
+export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const project = await fetchProject(slug)
   if (!project) notFound()
 
   const { meta: m, repoName, readme, stars, forks, language, createdAt, updatedAt, topics, homepage } = project
