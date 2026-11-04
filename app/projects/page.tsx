@@ -1,17 +1,22 @@
 import { ProjectsNav } from "./projects-nav"
-import { FEATURED_CASES } from "@/lib/featured-cases"
+import { ProjectsClient } from "./projects-client"
+import { fetchAllProjects } from "@/lib/github"
 import type { Metadata } from "next"
+
+export const revalidate = 21600
 
 export const metadata: Metadata = {
   title: "Work",
-  description: "Selected OpsBrain client systems — BINO and Milo.",
+  description: "Selected OpsBrain systems — BINO, Milo, Fixly, Moked, and Bamakor.",
   openGraph: {
     title: "Work — OpsBrain",
-    description: "Selected OpsBrain client systems — BINO and Milo.",
+    description: "Selected OpsBrain systems — BINO, Milo, Fixly, Moked, and Bamakor.",
   },
 }
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const projects = await fetchAllProjects()
+
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)", color: "var(--text)" }}>
       <ProjectsNav back={{ href: "/", label: "Back" }} />
@@ -31,87 +36,11 @@ export default function ProjectsPage() {
           </em>
         </h1>
         <p className="mt-4 max-w-xl text-[15px] font-light leading-relaxed" style={{ color: "var(--dim)" }}>
-          BINO and Milo — a global retail chain. Short descriptions only; no invented metrics.
+          Five systems drawn from the public repositories. Short descriptions only; no invented metrics.
         </p>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 pb-24 sm:px-[5vw]">
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-          {FEATURED_CASES.map((item, index) => (
-            <article
-              key={item.id}
-              className="relative overflow-hidden rounded-2xl border p-7 sm:p-10"
-              style={{ borderColor: "var(--line)", background: "var(--bg)" }}
-            >
-              <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_220px]">
-                <div className="max-w-[560px]">
-                  <div
-                    className="mb-4 font-mono text-[9px] uppercase tracking-[0.22em] sm:text-[10px]"
-                    style={{ color: "var(--gold)" }}
-                  >
-                    {item.tag}
-                  </div>
-                  <div className="mb-2 font-serif text-[34px] leading-none">{item.title}</div>
-                  <div
-                    className="mb-5 text-[11px] uppercase tracking-[0.14em]"
-                    style={{ color: "var(--gold)" }}
-                  >
-                    {item.sub}
-                  </div>
-                  <p className="text-[15px] font-light leading-[1.9]" style={{ color: "var(--dim)" }}>
-                    {item.desc}
-                  </p>
-                </div>
-                <div
-                  className="rounded-xl border p-5"
-                  style={{ borderColor: "var(--line)", background: "rgba(13,13,13,0.55)" }}
-                >
-                  <div
-                    className="mb-4 font-mono text-[9px] uppercase tracking-[0.18em]"
-                    style={{ color: "var(--dim)" }}
-                  >
-                    Status
-                  </div>
-                  <div
-                    className="mb-5 rounded-full border px-3 py-1.5 text-center font-mono text-[9px] uppercase tracking-[0.14em]"
-                    style={{
-                      borderColor: "var(--gold-bd)",
-                      background: "rgba(200,169,109,0.09)",
-                      color: "var(--gold)",
-                    }}
-                  >
-                    {item.status}
-                  </div>
-                  <div
-                    className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em]"
-                    style={{ color: "var(--dim)" }}
-                  >
-                    Focus
-                  </div>
-                  <p className="mb-5 text-[13px] font-light leading-[1.75]">{item.focus}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {item.stack.map((s) => (
-                      <span
-                        key={s}
-                        className="rounded-full border px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.14em]"
-                        style={{ borderColor: "var(--line)", color: "var(--dim)" }}
-                      >
-                        {s}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <div
-                className="pointer-events-none absolute bottom-4 right-5 font-serif text-[72px] italic leading-none opacity-15 sm:text-[88px]"
-                style={{ color: "var(--faint)" }}
-              >
-                {String(index + 1).padStart(2, "0")}
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
+      <ProjectsClient projects={projects} />
     </div>
   )
 }

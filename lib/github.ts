@@ -199,7 +199,7 @@ export async function fetchAllProjects(): Promise<ProjectData[]> {
         language: node.primaryLanguage?.name ?? null,
         updatedAt: node.updatedAt,
         createdAt: node.createdAt,
-        homepage: node.homepageUrl || meta.website || null,
+        homepage: meta.website?.trim() || null,
         commitCount30Days: commitCounts[node.name] ?? 0,
       }
     })

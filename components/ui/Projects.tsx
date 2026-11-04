@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useI18n } from "@/lib/i18n"
 import type { TranslationKey } from "@/lib/translations"
 import { motion } from "framer-motion"
@@ -82,6 +83,14 @@ export default function Projects() {
               />
             )
           })}
+        </div>
+        <div className="mt-10">
+          <Link
+            href="/projects"
+            className="font-mono text-[10px] uppercase tracking-[0.18em] text-gold transition-opacity hover:opacity-75"
+          >
+            {t("proj.all")} →
+          </Link>
         </div>
       </div>
     </section>

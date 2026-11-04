@@ -86,6 +86,7 @@ export const translations = {
     "proj.h2.end": "",
     "proj.status": "Status",
     "proj.focus": "Focus",
+    "proj.all": "All work",
     "proj.bino.tag": "Operations",
     "proj.bino.sub": "Internal business system",
     "proj.bino.desc":
@@ -246,6 +247,7 @@ export const translations = {
     "proj.h2.end": "",
     "proj.status": "סטטוס",
     "proj.focus": "מיקוד",
+    "proj.all": "כל העבודות",
     "proj.bino.tag": "תפעול",
     "proj.bino.sub": "מערכת עסקית פנימית",
     "proj.bino.desc":
@@ -406,6 +408,7 @@ export const translations = {
     "proj.h2.end": "",
     "proj.status": "Statut",
     "proj.focus": "Focus",
+    "proj.all": "Toutes les realisations",
     "proj.bino.tag": "Operations",
     "proj.bino.sub": "Systeme metier interne",
     "proj.bino.desc":

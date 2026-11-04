@@ -51,6 +51,7 @@ export default async function ProjectPage({ params }: { params: { slug: string }
   if (!project) notFound()
 
   const { meta: m, repoName, readme, stars, forks, language, createdAt, updatedAt, topics, homepage } = project
+  const showSourceReadme = repoName !== "OpticalCenter"
   const s = STATUS_STYLE[m.status] ?? STATUS_STYLE.Development
   const rawBase = `https://raw.githubusercontent.com/${GITHUB_USER}/${repoName}/main`
 
@@ -138,17 +139,17 @@ export default async function ProjectPage({ params }: { params: { slug: string }
             className="mb-6 font-mono text-[10px] uppercase tracking-[0.2em]"
             style={{ color: "var(--dim)" }}
           >
-            README
+            {showSourceReadme ? "README" : "Summary"}
           </h2>
-          {readme ? (
+          {showSourceReadme && readme ? (
             <div
               className="prose-levy text-[14px] font-light leading-[1.9]"
               style={{ color: "var(--text)" }}
               dangerouslySetInnerHTML={{ __html: renderMarkdown(readme) }}
             />
           ) : (
-            <p className="text-[14px] italic" style={{ color: "var(--dim)" }}>
-              No README available.
+            <p className="text-[14px] font-light leading-[1.9]" style={{ color: "var(--text)" }}>
+              {m.description}
             </p>
           )}
         </div>
